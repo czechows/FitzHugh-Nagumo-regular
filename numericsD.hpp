@@ -141,7 +141,7 @@ public:
 };
 
 
-void GammaQuad_correct( const interval& _theta, IVector& _GammaUL, IVector& _GammaDL, IVector& _GammaUR, IVector& _GammaDR ) // corrects original guesses of Gammas for given theta
+void GammaQuad_correct( const double& _theta, DVector& _GammaUL, DVector& _GammaDL, DVector& _GammaUR, DVector& _GammaDR ) // corrects original guesses of Gammas for given theta
 {
   double theta( _theta.leftBound() );
   double DISP(1e-12);
