@@ -1,5 +1,5 @@
 #a list of all the programs in your project 
-PROGS = POINC_TEST	VECT_TEST	fhn	fhnSnapshot0212	numerics	fhnSnapshot1501	fhnSnapshot1601	fhn_error_cut	braid_matrix	PoincDer	PoincDer2	periodic_orbit_fhn	integration_fhn	DPoincareMapExample
+PROGS = integration_fhn	
 
 # a list of all your units to be linked with your programs (space separated)
 OTHERS = 
