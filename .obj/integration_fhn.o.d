@@ -91,8 +91,15 @@
  /usr/include/c++/4.8.2/bits/locale_facets.tcc \
  /usr/include/c++/4.8.2/bits/basic_ios.tcc \
  /usr/include/c++/4.8.2/bits/ostream.tcc /usr/include/c++/4.8.2/istream \
- /usr/include/c++/4.8.2/bits/istream.tcc \
- /usr/local/include/capd/capdlib.h \
+ /usr/include/c++/4.8.2/bits/istream.tcc /usr/include/c++/4.8.2/vector \
+ /usr/include/c++/4.8.2/bits/stl_construct.h \
+ /usr/include/c++/4.8.2/ext/alloc_traits.h \
+ /usr/include/c++/4.8.2/bits/alloc_traits.h \
+ /usr/include/c++/4.8.2/bits/ptr_traits.h \
+ /usr/include/c++/4.8.2/bits/stl_uninitialized.h \
+ /usr/include/c++/4.8.2/bits/stl_vector.h \
+ /usr/include/c++/4.8.2/bits/stl_bvector.h \
+ /usr/include/c++/4.8.2/bits/vector.tcc /usr/local/include/capd/capdlib.h \
  /usr/local/include/capd/intervals/lib.h /usr/include/c++/4.8.2/cmath \
  /usr/include/math.h /usr/include/bits/huge_val.h \
  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
@@ -110,17 +117,8 @@
  /usr/include/c++/4.8.2/algorithm /usr/include/c++/4.8.2/bits/stl_algo.h \
  /usr/include/c++/4.8.2/bits/algorithmfwd.h \
  /usr/include/c++/4.8.2/bits/stl_heap.h \
- /usr/include/c++/4.8.2/bits/stl_tempbuf.h \
- /usr/include/c++/4.8.2/bits/stl_construct.h \
- /usr/include/c++/4.8.2/ext/alloc_traits.h \
- /usr/include/c++/4.8.2/bits/alloc_traits.h \
- /usr/include/c++/4.8.2/bits/ptr_traits.h /usr/include/c++/4.8.2/random \
+ /usr/include/c++/4.8.2/bits/stl_tempbuf.h /usr/include/c++/4.8.2/random \
  /usr/include/c++/4.8.2/limits /usr/include/c++/4.8.2/bits/random.h \
- /usr/include/c++/4.8.2/vector \
- /usr/include/c++/4.8.2/bits/stl_uninitialized.h \
- /usr/include/c++/4.8.2/bits/stl_vector.h \
- /usr/include/c++/4.8.2/bits/stl_bvector.h \
- /usr/include/c++/4.8.2/bits/vector.tcc \
  /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/opt_random.h \
  /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/x86intrin.h \
  /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/ia32intrin.h \
@@ -412,7 +410,7 @@
  /usr/local/include/capd/alglib/rotations.h \
  /usr/local/include/capd/alglib/hsschur.h \
  /usr/local/include/capd/alglib/hessenberg.h \
- /usr/local/include/capd/matrixAlgorithms/lib.h
+ /usr/local/include/capd/matrixAlgorithms/lib.h numericsD.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -670,6 +668,24 @@
 
 /usr/include/c++/4.8.2/bits/istream.tcc:
 
+/usr/include/c++/4.8.2/vector:
+
+/usr/include/c++/4.8.2/bits/stl_construct.h:
+
+/usr/include/c++/4.8.2/ext/alloc_traits.h:
+
+/usr/include/c++/4.8.2/bits/alloc_traits.h:
+
+/usr/include/c++/4.8.2/bits/ptr_traits.h:
+
+/usr/include/c++/4.8.2/bits/stl_uninitialized.h:
+
+/usr/include/c++/4.8.2/bits/stl_vector.h:
+
+/usr/include/c++/4.8.2/bits/stl_bvector.h:
+
+/usr/include/c++/4.8.2/bits/vector.tcc:
+
 /usr/local/include/capd/capdlib.h:
 
 /usr/local/include/capd/intervals/lib.h:
@@ -726,29 +742,11 @@
 
 /usr/include/c++/4.8.2/bits/stl_tempbuf.h:
 
-/usr/include/c++/4.8.2/bits/stl_construct.h:
-
-/usr/include/c++/4.8.2/ext/alloc_traits.h:
-
-/usr/include/c++/4.8.2/bits/alloc_traits.h:
-
-/usr/include/c++/4.8.2/bits/ptr_traits.h:
-
 /usr/include/c++/4.8.2/random:
 
 /usr/include/c++/4.8.2/limits:
 
 /usr/include/c++/4.8.2/bits/random.h:
-
-/usr/include/c++/4.8.2/vector:
-
-/usr/include/c++/4.8.2/bits/stl_uninitialized.h:
-
-/usr/include/c++/4.8.2/bits/stl_vector.h:
-
-/usr/include/c++/4.8.2/bits/stl_bvector.h:
-
-/usr/include/c++/4.8.2/bits/vector.tcc:
 
 /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/opt_random.h:
 
@@ -1355,3 +1353,5 @@
 /usr/local/include/capd/alglib/hessenberg.h:
 
 /usr/local/include/capd/matrixAlgorithms/lib.h:
+
+numericsD.hpp:

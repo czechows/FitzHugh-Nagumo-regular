@@ -143,26 +143,26 @@ public:
 
 void GammaQuad_correct( const double& _theta, DVector& _GammaUL, DVector& _GammaDL, DVector& _GammaUR, DVector& _GammaDR ) // corrects original guesses of Gammas for given theta
 {
-  double theta( _theta.leftBound() );
+  double theta( _theta );
   double DISP(1e-12);
 
-  double vR( _GammaUR[2].leftBound() );
-  double vL( _GammaUL[2].leftBound() );
+  double vR( _GammaUR[2] );
+  double vL( _GammaUL[2] );
 
   DVector EqUL(2),
           EqUR(2),
           EqDR(2),
           EqDL(2);      // equilibria are first two coordinates of each Gamma, they will be corrected by Newton inside the program
 
-  EqUL[0] = _GammaUL[0].leftBound();
-  EqUL[1] = _GammaUL[1].leftBound();
-  EqUR[0] = _GammaUR[0].leftBound();
-  EqUR[1] = _GammaUR[1].leftBound();
+  EqUL[0] = _GammaUL[0];
+  EqUL[1] = _GammaUL[1];
+  EqUR[0] = _GammaUR[0];
+  EqUR[1] = _GammaUR[1];
 
-  EqDR[0] = _GammaDR[0].leftBound();
-  EqDR[1] = _GammaDR[1].leftBound();
-  EqDL[0] = _GammaDL[0].leftBound();
-  EqDL[1] = _GammaDL[1].leftBound();
+  EqDR[0] = _GammaDR[0];
+  EqDR[1] = _GammaDR[1];
+  EqDL[0] = _GammaDL[0];
+  EqDL[1] = _GammaDL[1];
 
 
   FhnBifurcation BifR(order, theta, EqUR, EqDR, DISP);
@@ -191,4 +191,40 @@ void GammaQuad_correct( const double& _theta, DVector& _GammaUL, DVector& _Gamma
   _GammaUL[2] = _GammaDL[2] = vL_c;
   _GammaUR[2] = _GammaDR[2] = vR_c;
 }
+
+
+/* ------------------------------------------------------------------------------------ */
+/* ---------------------------- COORDINATE CHANGE ------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+
+DMatrix coordChange( DMap vectorField, const DVector& Gamma ) // matrix of coordinate change on slow manifold 
+                                                              // from straightened stable/unstable (i.e. (1,0,0), (0,1,0)) coordinates to real ones; third "neutral" variable unchanged
+                                                              // doesn't need to be rigorous (and isn't) 
+{
+  int vdim( Gamma.dimension() );
+  DMatrix JacobianD( vdim, vdim );
+ 
+  for(int i=0; i<vdim; i++)              // we have to convert to doubles to use computeEigenvaluesAndEigenvectors function
+  {
+    for(int j=0; j<vdim; j++)
+      JacobianD[i][j] = ( vectorField[Gamma] )[i][j];
+  }
+
+  // temporary vectors and matrices to hold eigenvalues & imaginary parts of eigenvectors
+  DVector tempvect( vdim );   
+  DMatrix tempmatrix( vdim, vdim );
+  
+  DMatrix P( vdim, vdim );
+
+  computeEigenvaluesAndEigenvectors(JacobianD, tempvect, tempvect, P, tempmatrix);
+
+  // next two lines depend on dimension and mean that we are only changing coordinates for the fast variables (2x2 matrix), slow remain unchanged (are treated as a parameter)
+  // here we explicitly assume vdim = 3 and last variable is slow!
+  P[0][2] = P[1][2] = P[2][0] = P[2][1] = 0.;
+  P[2][2] = -1.;      // -1 because we add a minus in return
+
+  return -DMatrix(P); // minus eigenvectors are also eigenvectors and such transformed matrix suits better our computations - one could also put minuses
+                      // into displacements of sections and sets to integrate from slow manifolds
+};
+
 
