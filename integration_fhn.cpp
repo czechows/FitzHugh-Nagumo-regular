@@ -22,6 +22,7 @@ const int pm_count_up(75); // number of points on the upper branch
 const double accuracy = 1e-12;           // accuracy for nonrigorous numerics (i.e. approximation of the slow manifold)
 const int order = 6;
 
+#include "matcontPrecomputedOrbit.hpp"
 #include "numericsD.hpp"   // Warning! When changing the vector field, one needs to make manual changes in this header file (class FhnBifurcation)!
 
 
