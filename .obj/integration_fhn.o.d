@@ -276,15 +276,19 @@
  /usr/local/include/capd/map/Parser.h \
  /usr/local/include/capd/autodiff/NodeType.h \
  /usr/local/include/capd/autodiff/eval.hpp \
+ /usr/local/include/capd/autodiff/EvalAcos.h \
  /usr/local/include/capd/autodiff/EvalAdd.h \
+ /usr/local/include/capd/autodiff/EvalAsin.h \
+ /usr/local/include/capd/autodiff/EvalAtan.h \
  /usr/local/include/capd/autodiff/EvalDiv.h \
  /usr/local/include/capd/autodiff/EvalExp.h \
  /usr/local/include/capd/autodiff/EvalLog.h \
  /usr/local/include/capd/autodiff/EvalMul.h \
  /usr/local/include/capd/autodiff/EvalNaturalPow.h \
  /usr/local/include/capd/autodiff/EvalPow.h \
- /usr/local/include/capd/autodiff/EvalSinCos.h \
+ /usr/local/include/capd/autodiff/EvalOneMinusSqr.h \
  /usr/local/include/capd/autodiff/EvalSqr.h \
+ /usr/local/include/capd/autodiff/EvalSinCos.h \
  /usr/local/include/capd/autodiff/EvalSqrt.h \
  /usr/local/include/capd/autodiff/EvalSub.h \
  /usr/local/include/capd/autodiff/EvalUnaryMinus.h \
@@ -293,12 +297,12 @@
  /usr/local/include/capd/diffAlgebra/Jet.h \
  /usr/local/include/capd/diffAlgebra/CnContainer.h \
  /usr/local/include/capd/diffAlgebra/lib.h \
- /usr/local/include/capd/diffAlgebra/C0Coeff.h \
+ /usr/local/include/capd/diffAlgebra/C0TimeJet.h \
  /usr/local/include/capd/diffAlgebra/TimeRange.h \
  /usr/local/include/capd/diffAlgebra/CoeffTraits.h \
- /usr/local/include/capd/diffAlgebra/C1Coeff.h \
- /usr/local/include/capd/diffAlgebra/C2Coeff.h \
- /usr/local/include/capd/diffAlgebra/CnCoeff.h \
+ /usr/local/include/capd/diffAlgebra/C1TimeJet.h \
+ /usr/local/include/capd/diffAlgebra/C2TimeJet.h \
+ /usr/local/include/capd/diffAlgebra/CnTimeJet.h \
  /usr/local/include/capd/dynset/lib.h \
  /usr/local/include/capd/dynset/reorganization/InvBByCFactorReorganization.h \
  /usr/local/include/capd/dynset/reorganization/FactorPolicy.h \
@@ -383,15 +387,12 @@
  /usr/local/include/capd/diffAlgebra/SolutionCurve.h \
  /usr/local/include/capd/poincare/SaveStepControl.h \
  /usr/local/include/capd/poincare/AbstractSection.h \
- /usr/local/include/capd/poincare/AbstractSection_template.h \
  /usr/local/include/capd/poincare/BasicPoincareMap_inline.h \
  /usr/local/include/capd/poincare/BasicPoincareMap_template.h \
  /usr/local/include/capd/poincare/PoincareMap_templateMembers.h \
  /usr/include/c++/4.8.2/cassert /usr/include/assert.h \
  /usr/local/include/capd/poincare/BasicPoincareMap.hpp \
  /usr/local/include/capd/poincare/BasicPoincareMap_operator.hpp \
- /usr/local/include/capd/diffAlgebra/CnCoeff.hpp \
- /usr/local/include/capd/diffAlgebra/Jet.hpp \
  /usr/local/include/capd/poincare/PoincareMap_templateOperator.h \
  /usr/local/include/capd/poincare/TimeMap.h \
  /usr/local/include/capd/poincare/TimeMap_inline.h \
@@ -410,7 +411,8 @@
  /usr/local/include/capd/alglib/rotations.h \
  /usr/local/include/capd/alglib/hsschur.h \
  /usr/local/include/capd/alglib/hessenberg.h \
- /usr/local/include/capd/matrixAlgorithms/lib.h numericsD.hpp
+ /usr/local/include/capd/matrixAlgorithms/lib.h \
+ matcontPrecomputedOrbit.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -1078,7 +1080,13 @@
 
 /usr/local/include/capd/autodiff/eval.hpp:
 
+/usr/local/include/capd/autodiff/EvalAcos.h:
+
 /usr/local/include/capd/autodiff/EvalAdd.h:
+
+/usr/local/include/capd/autodiff/EvalAsin.h:
+
+/usr/local/include/capd/autodiff/EvalAtan.h:
 
 /usr/local/include/capd/autodiff/EvalDiv.h:
 
@@ -1092,9 +1100,11 @@
 
 /usr/local/include/capd/autodiff/EvalPow.h:
 
-/usr/local/include/capd/autodiff/EvalSinCos.h:
+/usr/local/include/capd/autodiff/EvalOneMinusSqr.h:
 
 /usr/local/include/capd/autodiff/EvalSqr.h:
+
+/usr/local/include/capd/autodiff/EvalSinCos.h:
 
 /usr/local/include/capd/autodiff/EvalSqrt.h:
 
@@ -1112,17 +1122,17 @@
 
 /usr/local/include/capd/diffAlgebra/lib.h:
 
-/usr/local/include/capd/diffAlgebra/C0Coeff.h:
+/usr/local/include/capd/diffAlgebra/C0TimeJet.h:
 
 /usr/local/include/capd/diffAlgebra/TimeRange.h:
 
 /usr/local/include/capd/diffAlgebra/CoeffTraits.h:
 
-/usr/local/include/capd/diffAlgebra/C1Coeff.h:
+/usr/local/include/capd/diffAlgebra/C1TimeJet.h:
 
-/usr/local/include/capd/diffAlgebra/C2Coeff.h:
+/usr/local/include/capd/diffAlgebra/C2TimeJet.h:
 
-/usr/local/include/capd/diffAlgebra/CnCoeff.h:
+/usr/local/include/capd/diffAlgebra/CnTimeJet.h:
 
 /usr/local/include/capd/dynset/lib.h:
 
@@ -1296,8 +1306,6 @@
 
 /usr/local/include/capd/poincare/AbstractSection.h:
 
-/usr/local/include/capd/poincare/AbstractSection_template.h:
-
 /usr/local/include/capd/poincare/BasicPoincareMap_inline.h:
 
 /usr/local/include/capd/poincare/BasicPoincareMap_template.h:
@@ -1311,10 +1319,6 @@
 /usr/local/include/capd/poincare/BasicPoincareMap.hpp:
 
 /usr/local/include/capd/poincare/BasicPoincareMap_operator.hpp:
-
-/usr/local/include/capd/diffAlgebra/CnCoeff.hpp:
-
-/usr/local/include/capd/diffAlgebra/Jet.hpp:
 
 /usr/local/include/capd/poincare/PoincareMap_templateOperator.h:
 
@@ -1354,4 +1358,4 @@
 
 /usr/local/include/capd/matrixAlgorithms/lib.h:
 
-numericsD.hpp:
+matcontPrecomputedOrbit.hpp:
