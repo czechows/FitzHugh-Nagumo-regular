@@ -412,7 +412,8 @@
  /usr/local/include/capd/alglib/hsschur.h \
  /usr/local/include/capd/alglib/hessenberg.h \
  /usr/local/include/capd/matrixAlgorithms/lib.h \
- matcontPrecomputedOrbit.hpp
+ matcontPrecomputedOrbit.hpp auxiliaries.hpp nonrigorousNewton.hpp \
+ rigorousNewton.hpp ZgliczNewton.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -1359,3 +1360,11 @@
 /usr/local/include/capd/matrixAlgorithms/lib.h:
 
 matcontPrecomputedOrbit.hpp:
+
+auxiliaries.hpp:
+
+nonrigorousNewton.hpp:
+
+rigorousNewton.hpp:
+
+ZgliczNewton.hpp:
