@@ -412,8 +412,42 @@
  /usr/local/include/capd/alglib/hsschur.h \
  /usr/local/include/capd/alglib/hessenberg.h \
  /usr/local/include/capd/matrixAlgorithms/lib.h \
- matcontPrecomputedOrbit.hpp auxiliaries.hpp nonrigorousNewton.hpp \
- rigorousNewton.hpp ZgliczNewton.hpp
+ /usr/local/include/capd/mpcapdlib.h \
+ /usr/local/include/capd/multiPrec/mplib.h \
+ /usr/local/include/capd/multiPrec/MpReal.h \
+ /usr/include/c++/4.8.2/cstddef /usr/include/gmp.h /usr/include/mpfr.h \
+ /usr/local/include/capd/multiPrec/MpReal_FriendInternal.hpp \
+ /usr/local/include/capd/multiPrec/MpReal_Base.hpp \
+ /usr/local/include/capd/multiPrec/MpReal_Op.hpp \
+ /usr/local/include/capd/multiPrec/MpReal_Fun.hpp \
+ /usr/local/include/capd/multiPrec/MpInt.h /usr/include/gmpxx.h \
+ /usr/include/c++/4.8.2/cstring /usr/include/string.h \
+ /usr/include/c++/4.8.2/cfloat \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/float.h \
+ /usr/local/include/capd/intervals/mplib.h \
+ /usr/local/include/capd/intervals/MpInterval.h \
+ /usr/local/include/capd/intervals/Interval.hpp \
+ /usr/local/include/capd/intervals/Interval.h \
+ /usr/local/include/capd/rounding/RoundingTraits.h \
+ /usr/local/include/capd/rounding/IntRounding.h \
+ /usr/local/include/capd/intervals/IntervalTraits.h \
+ /usr/local/include/capd/basicalg/ieeePrimitive.h \
+ /usr/local/include/capd/intervals/Interval_Friend.h \
+ /usr/local/include/capd/intervals/Interval_FriendInternal.h \
+ /usr/local/include/capd/intervals/Interval_Base.h \
+ /usr/local/include/capd/intervals/Interval_Deprecated.h \
+ /usr/local/include/capd/intervals/Interval_Op.hpp \
+ /usr/local/include/capd/intervals/Interval_Fun.hpp \
+ /usr/local/include/capd/intervals/MpInterval_Fun.hpp \
+ /usr/local/include/capd/intervals/MpIntervalSettings.h \
+ /usr/local/include/capd/vectalg/mplib.h \
+ /usr/local/include/capd/diffAlgebra/mplib.h \
+ /usr/local/include/capd/map/mplib.h \
+ /usr/local/include/capd/dynset/mplib.h \
+ /usr/local/include/capd/dynsys/mplib.h \
+ /usr/local/include/capd/poincare/mplib.h matcontPrecomputedOrbit.hpp \
+ auxiliaries.hpp nonrigorousNewton.hpp rigorousNewton.hpp \
+ ZgliczNewton.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -1358,6 +1392,82 @@
 /usr/local/include/capd/alglib/hessenberg.h:
 
 /usr/local/include/capd/matrixAlgorithms/lib.h:
+
+/usr/local/include/capd/mpcapdlib.h:
+
+/usr/local/include/capd/multiPrec/mplib.h:
+
+/usr/local/include/capd/multiPrec/MpReal.h:
+
+/usr/include/c++/4.8.2/cstddef:
+
+/usr/include/gmp.h:
+
+/usr/include/mpfr.h:
+
+/usr/local/include/capd/multiPrec/MpReal_FriendInternal.hpp:
+
+/usr/local/include/capd/multiPrec/MpReal_Base.hpp:
+
+/usr/local/include/capd/multiPrec/MpReal_Op.hpp:
+
+/usr/local/include/capd/multiPrec/MpReal_Fun.hpp:
+
+/usr/local/include/capd/multiPrec/MpInt.h:
+
+/usr/include/gmpxx.h:
+
+/usr/include/c++/4.8.2/cstring:
+
+/usr/include/string.h:
+
+/usr/include/c++/4.8.2/cfloat:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/float.h:
+
+/usr/local/include/capd/intervals/mplib.h:
+
+/usr/local/include/capd/intervals/MpInterval.h:
+
+/usr/local/include/capd/intervals/Interval.hpp:
+
+/usr/local/include/capd/intervals/Interval.h:
+
+/usr/local/include/capd/rounding/RoundingTraits.h:
+
+/usr/local/include/capd/rounding/IntRounding.h:
+
+/usr/local/include/capd/intervals/IntervalTraits.h:
+
+/usr/local/include/capd/basicalg/ieeePrimitive.h:
+
+/usr/local/include/capd/intervals/Interval_Friend.h:
+
+/usr/local/include/capd/intervals/Interval_FriendInternal.h:
+
+/usr/local/include/capd/intervals/Interval_Base.h:
+
+/usr/local/include/capd/intervals/Interval_Deprecated.h:
+
+/usr/local/include/capd/intervals/Interval_Op.hpp:
+
+/usr/local/include/capd/intervals/Interval_Fun.hpp:
+
+/usr/local/include/capd/intervals/MpInterval_Fun.hpp:
+
+/usr/local/include/capd/intervals/MpIntervalSettings.h:
+
+/usr/local/include/capd/vectalg/mplib.h:
+
+/usr/local/include/capd/diffAlgebra/mplib.h:
+
+/usr/local/include/capd/map/mplib.h:
+
+/usr/local/include/capd/dynset/mplib.h:
+
+/usr/local/include/capd/dynsys/mplib.h:
+
+/usr/local/include/capd/poincare/mplib.h:
 
 matcontPrecomputedOrbit.hpp:
 

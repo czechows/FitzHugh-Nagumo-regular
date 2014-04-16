@@ -9,6 +9,19 @@
 
 
 
+MpIVector convertToMp( IVector x )
+{
+  MpIVector result( x.dimension() );
+
+  for( unsigned int i = 0; i < x.dimension(); i++ )
+    result[i] = MpInterval( (x[i]).leftBound(), (x[i]).rightBound() );
+
+  return result;
+}
+
+
+
+
 
 void xPrecomputedFill()
 {
@@ -55,7 +68,7 @@ void xPrecomputedFill()
 
 void IxPrecomputedFill()
 {
-  IxPrecomputed.resize( xPrecomputed.size(), IVector({ 0.,0.,0. }) );
+  IxPrecomputed.resize( xPrecomputed.size(), convertToMp( IVector({ 0.,0.,0. }) ) );
   for( unsigned int i = 0; i < xPrecomputed.size(); i++ )
   {
     for( unsigned int j = 1; j <= ( xPrecomputed[i] ).dimension(); j++ )
@@ -87,15 +100,15 @@ void orthogonalizeRelativeColumn( DMatrix& matrixToOrthogonalize, unsigned int c
   }
 }
 
-void IOrthogonalizeRelativeColumn( IMatrix& matrixToOrthogonalize, unsigned int columnNo )
+void IOrthogonalizeRelativeColumn( MpIMatrix& matrixToOrthogonalize, unsigned int columnNo )
 {
   for( unsigned int i = 0; i <= matrixToOrthogonalize.numberOfColumns() - 1; i++ ) 
   { 
-    IVector vectorInvariant( matrixToOrthogonalize.column( columnNo ) );
+    MpIVector vectorInvariant( matrixToOrthogonalize.column( columnNo ) );
     if( i != columnNo )
     {
-      IVector vectorToOrthogonalize( matrixToOrthogonalize.column(i) );
-      IVector projection = ( scalarProduct( vectorToOrthogonalize, vectorInvariant )/scalarProduct( vectorInvariant, vectorInvariant ) ) * vectorInvariant;
+      MpIVector vectorToOrthogonalize( matrixToOrthogonalize.column(i) );
+      MpIVector projection = ( scalarProduct( vectorToOrthogonalize, vectorInvariant )/scalarProduct( vectorInvariant, vectorInvariant ) ) * vectorInvariant;
 
       for( unsigned int j = 1; j <= matrixToOrthogonalize.numberOfRows(); j++ )
       {

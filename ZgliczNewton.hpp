@@ -20,25 +20,30 @@ void Xx0init( double _tolerance, double _radius )
   }
 
   for( int i = 0; i < pm_count; i++ )
-    X[i] = (x0[i])*interval( 1. - _radius, 1. + _radius );
+    X[i] = (x0[i])*MpInterval( 1. - _radius, 1. + _radius );
 }
 
-IMatrix Ai( int i ) 
+MpIMatrix Ai( int i ) 
 {
-  IVector pm_result(3);
-  interval time(0.);
+  MpIVector pm_result(3);
+  MpInterval time(0.);
 
-  IMatrix monodromyMatrix(3,3);
-  IMatrix poincareDer(3,3);
+  MpIMatrix monodromyMatrix(3,3);
+  MpIMatrix poincareDer(3,3);
 
   time = 0.;
   monodromyMatrix.setToIdentity(); // probably obsolete since it is done automatically (?) in the solver code
 
   if( i == 0 )
   {
-    C1Rect2Set setToIntegrate( (ISection[pm_count-1]).getOrigin(), IP_list[pm_count-1], IVector({ (X[pm_count-1])(1), (X[pm_count-1])(2), 0. }) );
+    MpIVector tempvector(3);
+    tempvector[0] = (X[pm_count-1])(1);
+    tempvector[1] = (X[pm_count-1])(2);
+    tempvector[2] = MpInterval( 0., 0. );
 
-    IPoincareMap pm( ISolver, ISection[0], poincare::MinusPlus );
+    MpC1Rect2Set setToIntegrate( (ISection[pm_count-1]).getOrigin(), IP_list[pm_count-1], tempvector );
+
+    MpIPoincareMap pm( ISolver, ISection[0], poincare::MinusPlus );
 
     pm_result = pm( setToIntegrate, monodromyMatrix, time );
     poincareDer = pm.computeDP( pm_result, monodromyMatrix, time );
@@ -47,9 +52,14 @@ IMatrix Ai( int i )
   }
   else if( i > 0 )
   {
-    C1Rect2Set setToIntegrate( (ISection[i-1]).getOrigin(), IP_list[i-1], IVector({ (X[i-1])(1), (X[i-1])(2), 0. }) );
+    MpIVector tempvector(3);
+    tempvector[0] = (X[i-1])(1);
+    tempvector[1] = (X[i-1])(2);
+    tempvector[2] = MpInterval( 0., 0. );
 
-    IPoincareMap pm( ISolver, ISection[i], poincare::MinusPlus );
+    MpC1Rect2Set setToIntegrate( (ISection[i-1]).getOrigin(), IP_list[i-1], tempvector );
+
+    MpIPoincareMap pm( ISolver, ISection[i], poincare::MinusPlus );
 
     pm_result = pm( setToIntegrate, monodromyMatrix, time );
     poincareDer = pm.computeDP( pm_result, monodromyMatrix, time );
@@ -59,7 +69,7 @@ IMatrix Ai( int i )
   else
     throw "DERIVATIVE MATRIX INDEX OUT OF RANGE! \n";
 
-  IMatrix poincareDerRed(2,2);
+  MpIMatrix poincareDerRed(2,2);
 
   poincareDerRed[0][0] = poincareDer[0][0];
   poincareDerRed[0][1] = poincareDer[0][1];
@@ -69,9 +79,9 @@ IMatrix Ai( int i )
   return poincareDerRed;
 }
 
-IMatrix Akl( int k, int l )
+MpIMatrix Akl( int k, int l )
 {
-  IMatrix result(2,2);
+  MpIMatrix result(2,2);
   result.setToIdentity();
 
   if( l < k )
@@ -81,15 +91,16 @@ IMatrix Akl( int k, int l )
   {
 
     result = Ai( i % pm_count )*result;
- //   if( vectalg::containsZero( IVector( {matrixAlgorithms::det( result )} )) )
-  //    cout << i << " " << matrixAlgorithms::det( IMatrix::Identity( fast_dim ) - result ) << " " << matrixAlgorithms::det( result ) << " " << (ISection[i]).getOrigin() << "\n";
+    cout << i << "\n";
+ //   if( vectalg::containsZero( MpIVector( {matrixAlgorithms::det( result )} )) )
+  //    cout << i << " " << matrixAlgorithms::det( MpIMatrix::Identity( fast_dim ) - result ) << " " << matrixAlgorithms::det( result ) << " " << (ISection[i]).getOrigin() << "\n";
 /*
     if( i % pm_count == 107 )
       cout << result << " " << matrixAlgorithms::det( result ) << "\n";
 
 
     if( i % pm_count == 107 )
-      cout << Ai( i % pm_count ) << " " <<  matrixAlgorithms::det( Ai( i % pm_count ) )<< "\n" << result << " " << matrixAlgorithms::det( result ) << "\n ";// << matrixAlgorithms::det( IMatrix::Identity(fast_dim) - result )  << "\n";
+      cout << Ai( i % pm_count ) << " " <<  matrixAlgorithms::det( Ai( i % pm_count ) )<< "\n" << result << " " << matrixAlgorithms::det( result ) << "\n ";// << matrixAlgorithms::det( MpIMatrix::Identity(fast_dim) - result )  << "\n";
   //  cout << result << "\n";*/
   }
 
@@ -97,26 +108,31 @@ IMatrix Akl( int k, int l )
 }
 
 
-IVector fi( int i, IVector _x0 )
+MpIVector fi( int i, MpIVector _x0 )
 {
-  IVector pm_result( dim );
-  interval time(0.);
+  MpIVector pm_result( dim );
+  MpInterval time(0.);
 
-  IVector fi_eval( fast_dim ); 
- 
+  MpIVector fi_eval( fast_dim ); 
+  
+  MpIVector tempvector(3);
+  tempvector[0] = _x0(1);
+  tempvector[1] = _x0(2);
+  tempvector[2] = MpInterval( 0., 0. );
+
   if( i == pm_count - 1 )
   {
-    C0Rect2Set setToIntegrate( (ISection[pm_count-1]).getOrigin(), IP_list[pm_count-1], IVector({ _x0(1), _x0(2), 0. }) );
+    MpC0Rect2Set setToIntegrate( (ISection[pm_count-1]).getOrigin(), IP_list[pm_count-1], tempvector );
 
-    IPoincareMap pm( ISolver, ISection[0], poincare::MinusPlus );
+    MpIPoincareMap pm( ISolver, ISection[0], poincare::MinusPlus );
 
     pm_result = pm( setToIntegrate, (ISection[0]).getOrigin(), inverseMatrix(IP_list[0]), time );
   }
   else if( i < pm_count - 1 )
   {
-    C0Rect2Set setToIntegrate( (ISection[i]).getOrigin(), IP_list[i], IVector({ _x0(1), _x0(2), 0. }) );
+    MpC0Rect2Set setToIntegrate( (ISection[i]).getOrigin(), IP_list[i], tempvector );
 
-    IPoincareMap pm( ISolver, ISection[i+1], poincare::MinusPlus );
+    MpIPoincareMap pm( ISolver, ISection[i+1], poincare::MinusPlus );
 
     pm_result = pm( setToIntegrate, (ISection[i+1]).getOrigin(), inverseMatrix(IP_list[i+1]), time ); 
   }
@@ -130,15 +146,16 @@ IVector fi( int i, IVector _x0 )
 }
 
 
-IVector computeInvDFXtimesFx0( int i )   
+MpIVector computeInvDFXtimesFx0( int i )   
 { 
-  IVector sum( fast_dim );
+  MpIVector sum( fast_dim );
   sum.clear();
+  sum = MpIVector({ MpInterval(1., 1.), MpInterval(1., 1.) });
 
-  for( int j = 1; j <= pm_count; j++ )
-    sum = sum + (Akl( i + j, i + pm_count ))*( x0[ (i + j)%pm_count ] - fi( (i + j - 1)%pm_count , x0[ (i + j - 1)%pm_count ] ) ); 
+ // for( int j = 1; j <= pm_count; j++ )
+  //  sum = sum + (Akl( i + j, i + pm_count ))*( x0[ (i + j)%pm_count ] - fi( (i + j - 1)%pm_count , x0[ (i + j - 1)%pm_count ] ) ); 
 
-  IMatrix setToCout(  IMatrix::Identity( fast_dim ) - Akl( i, i + pm_count )  );
+  MpIMatrix setToCout(  MpIMatrix::Identity( fast_dim ) - Akl( i, i + pm_count )  );
   /*
   for( int i = 1; i <= 2; i++ )
   {
@@ -151,7 +168,7 @@ IVector computeInvDFXtimesFx0( int i )
 */
   cout << setToCout << "  " << matrixAlgorithms::det(setToCout) << "\n";
 
-  IVector result( matrixAlgorithms::gauss( IMatrix::Identity( fast_dim ) - Akl( i, i + pm_count ), sum ) );
+  MpIVector result( matrixAlgorithms::gauss( MpIMatrix::Identity( fast_dim ) - Akl( i, i + pm_count ), sum ) );
   return result;
 }
 
@@ -161,9 +178,9 @@ void proveExistenceOfOrbit( double _tolerance, double _radius )
   
   Xx0init( _tolerance, _radius );
 
-  for( int i = 0; i < pm_count; i++ )
+  for( int i = 0; i < 1; i++ )
   {
-    IVector N_i( x0[i] - computeInvDFXtimesFx0(i) ); 
+    MpIVector N_i( x0[i] - computeInvDFXtimesFx0(i) ); 
 
     if( subsetInterior( x0[i], N_i ) )
      cout << "Warning! x0[" << i << "] is not contained in N[" << i << "]! \n";

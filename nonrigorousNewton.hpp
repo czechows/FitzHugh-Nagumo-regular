@@ -210,8 +210,8 @@ public:
     double temp_time = 0.;
 
     DVector x = pm( vect, temp_time );
-    //   cout << x  -  ( returnCorrectedOrbit( _tolerance ) )[i+1]  << "\n";
-    //   cout << temp_time << "\n";
+       cout <<  returnCorrectedOrbit( _tolerance )[i+1]  << "  ";
+       cout << temp_time << "\n";
     }
   }
 

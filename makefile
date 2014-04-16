@@ -8,8 +8,8 @@ OTHERS =
 CAPDBINDIR =/usr/local/bin/
 
 # setting compiler and linker flags
-CAPDFLAGS = `${CAPDBINDIR}capd-config --cflags`
-CAPDLIBS = `${CAPDBINDIR}capd-config --libs`
+CAPDFLAGS = `${CAPDBINDIR}mpcapd-config --cflags`
+CAPDLIBS = `${CAPDBINDIR}mpcapd-config --libs`
 CXXFLAGS += ${CAPDFLAGS} -O2 -Wall --std=c++11
 
 # directory where object and dependancy files will be created
