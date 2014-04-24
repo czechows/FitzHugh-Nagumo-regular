@@ -95,6 +95,7 @@ void IOrthogonalizeRelativeColumn( IMatrix& matrixToOrthogonalize, unsigned int 
     if( i != columnNo )
     {
       IVector vectorToOrthogonalize( matrixToOrthogonalize.column(i) );
+      vectorToOrthogonalize = leftVector( midVector( vectorToOrthogonalize ) );
       IVector projection = ( scalarProduct( vectorToOrthogonalize, vectorInvariant )/scalarProduct( vectorInvariant, vectorInvariant ) ) * vectorInvariant;
 
       for( unsigned int j = 1; j <= matrixToOrthogonalize.numberOfRows(); j++ )
@@ -102,6 +103,15 @@ void IOrthogonalizeRelativeColumn( IMatrix& matrixToOrthogonalize, unsigned int 
         matrixToOrthogonalize(j,i+1) = vectorToOrthogonalize(j) - projection(j);
       }
     }
+  }
+
+  for( unsigned int i = 0; i <= matrixToOrthogonalize.numberOfColumns() - 1; i++ )
+  {
+    interval columnNorm = scalarProduct( matrixToOrthogonalize.column( i ), matrixToOrthogonalize.column( i ) );
+   // cout << columnNorm << "\n";
+
+    for( unsigned int j = 1; j <= matrixToOrthogonalize.numberOfRows(); j++ )
+      matrixToOrthogonalize(j,i+1) = matrixToOrthogonalize(j,i+1) / columnNorm;
   }
 }
 

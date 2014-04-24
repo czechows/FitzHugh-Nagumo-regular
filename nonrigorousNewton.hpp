@@ -201,17 +201,16 @@ public:
 
   void integrateOneTime( double _tolerance ) // TO CORRECT OR REMOVE! (SAVE COMPUTATION TIME)
   {
+    std::vector<DVector> vect( returnCorrectedOrbit( _tolerance ) );
     for( int i = 0; i < pm_count-1; i++ )
     {
 
-    DVector vect = ( returnCorrectedOrbit( _tolerance ) )[i];
-    
     DPoincareMap pm( solver, section[i+1], poincare::MinusPlus );
     double temp_time = 0.;
 
-    DVector x = pm( vect, temp_time );
-    //   cout << x  -  ( returnCorrectedOrbit( _tolerance ) )[i+1]  << "\n";
-    //   cout << temp_time << "\n";
+    DVector x = pm( vect[i], temp_time );
+    cout << x  - vect[i+1]  << "\n";
+    cout << temp_time << "\n";
     }
   }
 
