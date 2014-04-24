@@ -46,9 +46,13 @@ void xPrecomputedFill()
     }
   }
 
+  double crit_eps2 = -0.001;
+  double crit_temp1 = 0.0250442158334208 + 0.0003;
+  double crit_temp2 = 0.0988076360184288 + 0.001;
+
   for( unsigned int i = 0; i < xPrecomputedTemp.size(); i++ )
   {
-    if( xPrecomputedTemp[i] != DVector({ 0., 0., 0. }) )
+    if( ( xPrecomputedTemp[i] != DVector({ 0., 0., 0. }) ) && ( (xPrecomputedTemp[i])[2] > crit_temp1 ) &&  ( (xPrecomputedTemp[i])[2] < crit_temp2 ) )
         xPrecomputed.push_back( xPrecomputedTemp[i] );
   }
 }
@@ -105,14 +109,14 @@ void IOrthogonalizeRelativeColumn( IMatrix& matrixToOrthogonalize, unsigned int 
     }
   }
 
-  for( unsigned int i = 0; i <= matrixToOrthogonalize.numberOfColumns() - 1; i++ )
+ /* for( unsigned int i = 0; i <= matrixToOrthogonalize.numberOfColumns() - 1; i++ )
   {
     interval columnNorm = scalarProduct( matrixToOrthogonalize.column( i ), matrixToOrthogonalize.column( i ) );
    // cout << columnNorm << "\n";
 
     for( unsigned int j = 1; j <= matrixToOrthogonalize.numberOfRows(); j++ )
       matrixToOrthogonalize(j,i+1) = matrixToOrthogonalize(j,i+1) / columnNorm;
-  }
+  }*/
 }
 
 
