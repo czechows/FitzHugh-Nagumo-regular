@@ -1,106 +1,107 @@
 .obj/integration_fhn.o: integration_fhn.cpp /usr/include/stdc-predef.h \
- /usr/include/c++/4.8.2/iostream \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++config.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/os_defines.h \
+ /usr/include/c++/4.9.0/iostream \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++config.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/os_defines.h \
  /usr/include/features.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-64.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/cpu_defines.h \
- /usr/include/c++/4.8.2/ostream /usr/include/c++/4.8.2/ios \
- /usr/include/c++/4.8.2/iosfwd /usr/include/c++/4.8.2/bits/stringfwd.h \
- /usr/include/c++/4.8.2/bits/memoryfwd.h \
- /usr/include/c++/4.8.2/bits/postypes.h /usr/include/c++/4.8.2/cwchar \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/cpu_defines.h \
+ /usr/include/c++/4.9.0/ostream /usr/include/c++/4.9.0/ios \
+ /usr/include/c++/4.9.0/iosfwd /usr/include/c++/4.9.0/bits/stringfwd.h \
+ /usr/include/c++/4.9.0/bits/memoryfwd.h \
+ /usr/include/c++/4.9.0/bits/postypes.h /usr/include/c++/4.9.0/cwchar \
  /usr/include/wchar.h /usr/include/stdio.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/stdarg.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/stdarg.h \
  /usr/include/bits/wchar.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/stddef.h \
- /usr/include/xlocale.h /usr/include/c++/4.8.2/exception \
- /usr/include/c++/4.8.2/bits/atomic_lockfree_defines.h \
- /usr/include/c++/4.8.2/bits/exception_ptr.h \
- /usr/include/c++/4.8.2/bits/exception_defines.h \
- /usr/include/c++/4.8.2/bits/nested_exception.h \
- /usr/include/c++/4.8.2/bits/char_traits.h \
- /usr/include/c++/4.8.2/bits/stl_algobase.h \
- /usr/include/c++/4.8.2/bits/functexcept.h \
- /usr/include/c++/4.8.2/bits/cpp_type_traits.h \
- /usr/include/c++/4.8.2/ext/type_traits.h \
- /usr/include/c++/4.8.2/ext/numeric_traits.h \
- /usr/include/c++/4.8.2/bits/stl_pair.h \
- /usr/include/c++/4.8.2/bits/move.h \
- /usr/include/c++/4.8.2/bits/concept_check.h \
- /usr/include/c++/4.8.2/type_traits \
- /usr/include/c++/4.8.2/bits/stl_iterator_base_types.h \
- /usr/include/c++/4.8.2/bits/stl_iterator_base_funcs.h \
- /usr/include/c++/4.8.2/debug/debug.h \
- /usr/include/c++/4.8.2/bits/stl_iterator.h \
- /usr/include/c++/4.8.2/cstdint \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/stdint.h \
- /usr/include/stdint.h /usr/include/c++/4.8.2/bits/localefwd.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++locale.h \
- /usr/include/c++/4.8.2/clocale /usr/include/locale.h \
- /usr/include/bits/locale.h /usr/include/c++/4.8.2/cctype \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/stddef.h \
+ /usr/include/xlocale.h /usr/include/c++/4.9.0/exception \
+ /usr/include/c++/4.9.0/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/4.9.0/bits/exception_ptr.h \
+ /usr/include/c++/4.9.0/bits/exception_defines.h \
+ /usr/include/c++/4.9.0/bits/nested_exception.h \
+ /usr/include/c++/4.9.0/bits/char_traits.h \
+ /usr/include/c++/4.9.0/bits/stl_algobase.h \
+ /usr/include/c++/4.9.0/bits/functexcept.h \
+ /usr/include/c++/4.9.0/bits/cpp_type_traits.h \
+ /usr/include/c++/4.9.0/ext/type_traits.h \
+ /usr/include/c++/4.9.0/ext/numeric_traits.h \
+ /usr/include/c++/4.9.0/bits/stl_pair.h \
+ /usr/include/c++/4.9.0/bits/move.h \
+ /usr/include/c++/4.9.0/bits/concept_check.h \
+ /usr/include/c++/4.9.0/type_traits \
+ /usr/include/c++/4.9.0/bits/stl_iterator_base_types.h \
+ /usr/include/c++/4.9.0/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/4.9.0/debug/debug.h \
+ /usr/include/c++/4.9.0/bits/stl_iterator.h \
+ /usr/include/c++/4.9.0/bits/ptr_traits.h \
+ /usr/include/c++/4.9.0/bits/predefined_ops.h \
+ /usr/include/c++/4.9.0/cstdint \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/stdint.h \
+ /usr/include/stdint.h /usr/include/c++/4.9.0/bits/localefwd.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++locale.h \
+ /usr/include/c++/4.9.0/clocale /usr/include/locale.h \
+ /usr/include/bits/locale.h /usr/include/c++/4.9.0/cctype \
  /usr/include/ctype.h /usr/include/bits/types.h \
  /usr/include/bits/typesizes.h /usr/include/endian.h \
  /usr/include/bits/endian.h /usr/include/bits/byteswap.h \
- /usr/include/bits/byteswap-16.h /usr/include/c++/4.8.2/bits/ios_base.h \
- /usr/include/c++/4.8.2/ext/atomicity.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/gthr.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/gthr-default.h \
+ /usr/include/bits/byteswap-16.h /usr/include/c++/4.9.0/bits/ios_base.h \
+ /usr/include/c++/4.9.0/ext/atomicity.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/gthr.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/gthr-default.h \
  /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
  /usr/include/bits/sched.h /usr/include/bits/time.h \
  /usr/include/bits/timex.h /usr/include/bits/pthreadtypes.h \
  /usr/include/bits/setjmp.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/atomic_word.h \
- /usr/include/c++/4.8.2/bits/locale_classes.h \
- /usr/include/c++/4.8.2/string /usr/include/c++/4.8.2/bits/allocator.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++allocator.h \
- /usr/include/c++/4.8.2/ext/new_allocator.h /usr/include/c++/4.8.2/new \
- /usr/include/c++/4.8.2/bits/ostream_insert.h \
- /usr/include/c++/4.8.2/bits/cxxabi_forced.h \
- /usr/include/c++/4.8.2/bits/stl_function.h \
- /usr/include/c++/4.8.2/backward/binders.h \
- /usr/include/c++/4.8.2/bits/range_access.h \
- /usr/include/c++/4.8.2/bits/basic_string.h \
- /usr/include/c++/4.8.2/initializer_list \
- /usr/include/c++/4.8.2/ext/string_conversions.h \
- /usr/include/c++/4.8.2/cstdlib /usr/include/stdlib.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/atomic_word.h \
+ /usr/include/c++/4.9.0/bits/locale_classes.h \
+ /usr/include/c++/4.9.0/string /usr/include/c++/4.9.0/bits/allocator.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++allocator.h \
+ /usr/include/c++/4.9.0/ext/new_allocator.h /usr/include/c++/4.9.0/new \
+ /usr/include/c++/4.9.0/bits/ostream_insert.h \
+ /usr/include/c++/4.9.0/bits/cxxabi_forced.h \
+ /usr/include/c++/4.9.0/bits/stl_function.h \
+ /usr/include/c++/4.9.0/backward/binders.h \
+ /usr/include/c++/4.9.0/bits/range_access.h \
+ /usr/include/c++/4.9.0/bits/basic_string.h \
+ /usr/include/c++/4.9.0/initializer_list \
+ /usr/include/c++/4.9.0/ext/string_conversions.h \
+ /usr/include/c++/4.9.0/cstdlib /usr/include/stdlib.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/sys/types.h /usr/include/sys/select.h \
  /usr/include/bits/select.h /usr/include/bits/sigset.h \
  /usr/include/sys/sysmacros.h /usr/include/alloca.h \
  /usr/include/bits/stdlib-bsearch.h /usr/include/bits/stdlib-float.h \
- /usr/include/c++/4.8.2/cstdio /usr/include/libio.h \
+ /usr/include/c++/4.9.0/cstdio /usr/include/libio.h \
  /usr/include/_G_config.h /usr/include/bits/stdio_lim.h \
  /usr/include/bits/sys_errlist.h /usr/include/bits/stdio.h \
- /usr/include/c++/4.8.2/cerrno /usr/include/errno.h \
+ /usr/include/c++/4.9.0/cerrno /usr/include/errno.h \
  /usr/include/bits/errno.h /usr/include/linux/errno.h \
  /usr/include/asm/errno.h /usr/include/asm-generic/errno.h \
  /usr/include/asm-generic/errno-base.h \
- /usr/include/c++/4.8.2/bits/functional_hash.h \
- /usr/include/c++/4.8.2/bits/hash_bytes.h \
- /usr/include/c++/4.8.2/bits/basic_string.tcc \
- /usr/include/c++/4.8.2/bits/locale_classes.tcc \
- /usr/include/c++/4.8.2/streambuf \
- /usr/include/c++/4.8.2/bits/streambuf.tcc \
- /usr/include/c++/4.8.2/bits/basic_ios.h \
- /usr/include/c++/4.8.2/bits/locale_facets.h \
- /usr/include/c++/4.8.2/cwctype /usr/include/wctype.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/ctype_base.h \
- /usr/include/c++/4.8.2/bits/streambuf_iterator.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/ctype_inline.h \
- /usr/include/c++/4.8.2/bits/locale_facets.tcc \
- /usr/include/c++/4.8.2/bits/basic_ios.tcc \
- /usr/include/c++/4.8.2/bits/ostream.tcc /usr/include/c++/4.8.2/istream \
- /usr/include/c++/4.8.2/bits/istream.tcc /usr/include/c++/4.8.2/vector \
- /usr/include/c++/4.8.2/bits/stl_construct.h \
- /usr/include/c++/4.8.2/ext/alloc_traits.h \
- /usr/include/c++/4.8.2/bits/alloc_traits.h \
- /usr/include/c++/4.8.2/bits/ptr_traits.h \
- /usr/include/c++/4.8.2/bits/stl_uninitialized.h \
- /usr/include/c++/4.8.2/bits/stl_vector.h \
- /usr/include/c++/4.8.2/bits/stl_bvector.h \
- /usr/include/c++/4.8.2/bits/vector.tcc /usr/local/include/capd/capdlib.h \
- /usr/local/include/capd/intervals/lib.h /usr/include/c++/4.8.2/cmath \
+ /usr/include/c++/4.9.0/bits/functional_hash.h \
+ /usr/include/c++/4.9.0/bits/hash_bytes.h \
+ /usr/include/c++/4.9.0/bits/basic_string.tcc \
+ /usr/include/c++/4.9.0/bits/locale_classes.tcc \
+ /usr/include/c++/4.9.0/streambuf \
+ /usr/include/c++/4.9.0/bits/streambuf.tcc \
+ /usr/include/c++/4.9.0/bits/basic_ios.h \
+ /usr/include/c++/4.9.0/bits/locale_facets.h \
+ /usr/include/c++/4.9.0/cwctype /usr/include/wctype.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/ctype_base.h \
+ /usr/include/c++/4.9.0/bits/streambuf_iterator.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/ctype_inline.h \
+ /usr/include/c++/4.9.0/bits/locale_facets.tcc \
+ /usr/include/c++/4.9.0/bits/basic_ios.tcc \
+ /usr/include/c++/4.9.0/bits/ostream.tcc /usr/include/c++/4.9.0/istream \
+ /usr/include/c++/4.9.0/bits/istream.tcc /usr/include/c++/4.9.0/vector \
+ /usr/include/c++/4.9.0/bits/stl_construct.h \
+ /usr/include/c++/4.9.0/ext/alloc_traits.h \
+ /usr/include/c++/4.9.0/bits/alloc_traits.h \
+ /usr/include/c++/4.9.0/bits/stl_uninitialized.h \
+ /usr/include/c++/4.9.0/bits/stl_vector.h \
+ /usr/include/c++/4.9.0/bits/stl_bvector.h \
+ /usr/include/c++/4.9.0/bits/vector.tcc /usr/local/include/capd/capdlib.h \
+ /usr/local/include/capd/intervals/lib.h /usr/include/c++/4.9.0/cmath \
  /usr/include/math.h /usr/include/bits/huge_val.h \
  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
  /usr/include/bits/inf.h /usr/include/bits/nan.h \
@@ -109,34 +110,63 @@
  /usr/local/include/capd/basicalg/doubleFun.h \
  /usr/local/include/capd/filib/Interval.h \
  /usr/local/include/interval/interval.hpp \
- /usr/include/c++/4.8.2/stdexcept /usr/include/c++/4.8.2/functional \
- /usr/include/c++/4.8.2/typeinfo /usr/include/c++/4.8.2/tuple \
- /usr/include/c++/4.8.2/utility /usr/include/c++/4.8.2/bits/stl_relops.h \
- /usr/include/c++/4.8.2/array \
- /usr/include/c++/4.8.2/bits/uses_allocator.h \
- /usr/include/c++/4.8.2/algorithm /usr/include/c++/4.8.2/bits/stl_algo.h \
- /usr/include/c++/4.8.2/bits/algorithmfwd.h \
- /usr/include/c++/4.8.2/bits/stl_heap.h \
- /usr/include/c++/4.8.2/bits/stl_tempbuf.h /usr/include/c++/4.8.2/random \
- /usr/include/c++/4.8.2/limits /usr/include/c++/4.8.2/bits/random.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/opt_random.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/x86intrin.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/ia32intrin.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/mmintrin.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/xmmintrin.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/mm_malloc.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/emmintrin.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/immintrin.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/fxsrintrin.h \
- /usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/adxintrin.h \
- /usr/include/c++/4.8.2/bits/random.tcc /usr/include/c++/4.8.2/numeric \
- /usr/include/c++/4.8.2/bits/stl_numeric.h \
+ /usr/include/c++/4.9.0/stdexcept /usr/include/c++/4.9.0/functional \
+ /usr/include/c++/4.9.0/typeinfo /usr/include/c++/4.9.0/tuple \
+ /usr/include/c++/4.9.0/utility /usr/include/c++/4.9.0/bits/stl_relops.h \
+ /usr/include/c++/4.9.0/array \
+ /usr/include/c++/4.9.0/bits/uses_allocator.h \
+ /usr/include/c++/4.9.0/algorithm /usr/include/c++/4.9.0/bits/stl_algo.h \
+ /usr/include/c++/4.9.0/bits/algorithmfwd.h \
+ /usr/include/c++/4.9.0/bits/stl_heap.h \
+ /usr/include/c++/4.9.0/bits/stl_tempbuf.h /usr/include/c++/4.9.0/random \
+ /usr/include/c++/4.9.0/limits /usr/include/c++/4.9.0/bits/random.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/opt_random.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/x86intrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/ia32intrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/mmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xmmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/mm_malloc.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/emmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/pmmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/tmmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/ammintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/smmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/popcntintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/wmmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/immintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avxintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx2intrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512fintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512erintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512pfintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512cdintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/shaintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/lzcntintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/bmiintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/bmi2intrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/fmaintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/f16cintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/rtmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xtestintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/mm3dnow.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/prfchwintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/fma4intrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xopintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/lwpintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/tbmintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/rdseedintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/fxsrintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xsaveintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xsaveoptintrin.h \
+ /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/adxintrin.h \
+ /usr/include/c++/4.9.0/bits/random.tcc /usr/include/c++/4.9.0/numeric \
+ /usr/include/c++/4.9.0/bits/stl_numeric.h \
  /usr/local/include/fp_traits/fp_traits.hpp \
  /usr/local/include/rounding_control/rounding_control.hpp \
  /usr/local/include/rounding_control/rounding_control_config.hpp \
  /usr/local/include/rounding_control/rounding_control_double.hpp \
  /usr/local/include/rounding_control/rounding_control_double_iso9x.icc \
- /usr/include/c++/4.8.2/fenv.h /usr/include/fenv.h \
+ /usr/include/c++/4.9.0/fenv.h /usr/include/fenv.h \
  /usr/include/bits/fenv.h /usr/include/bits/fenvinline.h \
  /usr/local/include/rounding_control/rounding_control_float.hpp \
  /usr/local/include/rounding_control/rounding_control_float_iso9x.icc \
@@ -225,7 +255,7 @@
  /usr/local/include/interval/stdfun/point/q_cth1.icc \
  /usr/local/include/interval/interval_fo.hpp \
  /usr/local/include/capd/intervals/IntervalError.h \
- /usr/include/c++/4.8.2/sstream /usr/include/c++/4.8.2/bits/sstream.tcc \
+ /usr/include/c++/4.9.0/sstream /usr/include/c++/4.9.0/bits/sstream.tcc \
  /usr/local/include/capd/intervals/IntervalSettings.h \
  /usr/local/include/capd/auxil/minmax.h \
  /usr/local/include/capd/basicalg/TypeTraits.h \
@@ -249,10 +279,10 @@
  /usr/local/include/capd/matrixAlgorithms/floatMatrixAlgorithms.h \
  /usr/local/include/capd/matrixAlgorithms/intMatrixAlgorithms.hpp \
  /usr/local/include/capd/auxil/debuger.h \
- /usr/local/include/capd/vectalg/Matrix.hpp /usr/include/c++/4.8.2/stack \
- /usr/include/c++/4.8.2/deque /usr/include/c++/4.8.2/bits/stl_deque.h \
- /usr/include/c++/4.8.2/bits/deque.tcc \
- /usr/include/c++/4.8.2/bits/stl_stack.h \
+ /usr/local/include/capd/vectalg/Matrix.hpp /usr/include/c++/4.9.0/stack \
+ /usr/include/c++/4.9.0/deque /usr/include/c++/4.9.0/bits/stl_deque.h \
+ /usr/include/c++/4.9.0/bits/deque.tcc \
+ /usr/include/c++/4.9.0/bits/stl_stack.h \
  /usr/local/include/capd/vectalg/Matrix_Interval.hpp \
  /usr/local/include/capd/vectalg/iobject.hpp \
  /usr/local/include/capd/vectalg/RowVector.hpp \
@@ -268,10 +298,11 @@
  /usr/local/include/capd/basicalg/factrial.h \
  /usr/local/include/capd/vectalg/typedefs.h \
  /usr/local/include/capd/map/lib.h /usr/local/include/capd/map/Function.h \
- /usr/local/include/capd/map/BasicFunction.h /usr/include/c++/4.8.2/map \
- /usr/include/c++/4.8.2/bits/stl_tree.h \
- /usr/include/c++/4.8.2/bits/stl_map.h \
- /usr/include/c++/4.8.2/bits/stl_multimap.h \
+ /usr/local/include/capd/map/BasicFunction.h /usr/include/c++/4.9.0/map \
+ /usr/include/c++/4.9.0/bits/stl_tree.h \
+ /usr/include/c++/4.9.0/ext/aligned_buffer.h \
+ /usr/include/c++/4.9.0/bits/stl_map.h \
+ /usr/include/c++/4.9.0/bits/stl_multimap.h \
  /usr/local/include/capd/autodiff/DagIndexer.h \
  /usr/local/include/capd/map/Parser.h \
  /usr/local/include/capd/autodiff/NodeType.h \
@@ -323,13 +354,14 @@
  /usr/local/include/capd/geomset/CenteredAffineSet.h \
  /usr/local/include/capd/geomset/AffineSet.h \
  /usr/local/include/capd/geomset/AffineSet.hpp \
- /usr/local/include/capd/dynset/C0HOSet.h \
  /usr/local/include/capd/dynset/C0DoubletonSet.h \
  /usr/local/include/capd/geomset/CenteredDoubletonSet.h \
  /usr/local/include/capd/geomset/DoubletonSet.h \
+ /usr/local/include/capd/dynset/DoubletonData.h \
  /usr/local/include/capd/dynset/C0TripletonSet.h \
- /usr/local/include/capd/dynset/C0HODoubletonSet.h \
- /usr/local/include/capd/dynset/C0HOTripletonSet.h \
+ /usr/local/include/capd/geomset/CenteredTripletonSet.h \
+ /usr/local/include/capd/dynset/C0HOSet.h \
+ /usr/local/include/capd/dynset/HOData.h \
  /usr/local/include/capd/dynset/C1AffineSet.h \
  /usr/local/include/capd/dynset/C1Set.h \
  /usr/local/include/capd/dynsys/C1DynSys.h \
@@ -337,22 +369,23 @@
  /usr/local/include/capd/dynset/C1DoubletonSet.h \
  /usr/local/include/capd/geomset/MatrixDoubletonSet.h \
  /usr/local/include/capd/dynset/C11Rect2Set.h \
+ /usr/local/include/capd/dynset/C1HOSet.h \
  /usr/local/include/capd/dynset/C2DoubletonSet.h \
  /usr/local/include/capd/dynset/C2Set.h \
  /usr/local/include/capd/dynsys/C2DynSys.h \
  /usr/local/include/capd/dynset/CnDoubletonSet.h \
- /usr/include/c++/4.8.2/list /usr/include/c++/4.8.2/bits/stl_list.h \
- /usr/include/c++/4.8.2/bits/list.tcc \
+ /usr/include/c++/4.9.0/list /usr/include/c++/4.9.0/bits/stl_list.h \
+ /usr/include/c++/4.9.0/bits/list.tcc \
  /usr/local/include/capd/dynset/CnSet.h \
  /usr/local/include/capd/dynset/CnRect2Set.h \
  /usr/local/include/capd/dynset/typedefs.h \
  /usr/local/include/capd/dynset/QRPolicy.h \
  /usr/local/include/capd/dynsys/lib.h \
  /usr/local/include/capd/dynsys/TaylorException.h \
- /usr/include/c++/4.8.2/fstream /usr/include/c++/4.8.2/bits/codecvt.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/basic_file.h \
- /usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++io.h \
- /usr/include/c++/4.8.2/bits/fstream.tcc \
+ /usr/include/c++/4.9.0/fstream /usr/include/c++/4.9.0/bits/codecvt.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/basic_file.h \
+ /usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++io.h \
+ /usr/include/c++/4.9.0/bits/fstream.tcc \
  /usr/local/include/capd/dynsys/TaylorHOE.h \
  /usr/local/include/capd/dynsys/Taylor.h \
  /usr/local/include/capd/dynsys/BasicTaylor.h \
@@ -390,7 +423,7 @@
  /usr/local/include/capd/poincare/BasicPoincareMap_inline.h \
  /usr/local/include/capd/poincare/BasicPoincareMap_template.h \
  /usr/local/include/capd/poincare/PoincareMap_templateMembers.h \
- /usr/include/c++/4.8.2/cassert /usr/include/assert.h \
+ /usr/include/c++/4.9.0/cassert /usr/include/assert.h \
  /usr/local/include/capd/poincare/BasicPoincareMap.hpp \
  /usr/local/include/capd/poincare/BasicPoincareMap_operator.hpp \
  /usr/local/include/capd/poincare/PoincareMap_templateOperator.h \
@@ -417,11 +450,11 @@
 
 /usr/include/stdc-predef.h:
 
-/usr/include/c++/4.8.2/iostream:
+/usr/include/c++/4.9.0/iostream:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++config.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++config.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/os_defines.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/os_defines.h:
 
 /usr/include/features.h:
 
@@ -433,89 +466,93 @@
 
 /usr/include/gnu/stubs-64.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/cpu_defines.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/cpu_defines.h:
 
-/usr/include/c++/4.8.2/ostream:
+/usr/include/c++/4.9.0/ostream:
 
-/usr/include/c++/4.8.2/ios:
+/usr/include/c++/4.9.0/ios:
 
-/usr/include/c++/4.8.2/iosfwd:
+/usr/include/c++/4.9.0/iosfwd:
 
-/usr/include/c++/4.8.2/bits/stringfwd.h:
+/usr/include/c++/4.9.0/bits/stringfwd.h:
 
-/usr/include/c++/4.8.2/bits/memoryfwd.h:
+/usr/include/c++/4.9.0/bits/memoryfwd.h:
 
-/usr/include/c++/4.8.2/bits/postypes.h:
+/usr/include/c++/4.9.0/bits/postypes.h:
 
-/usr/include/c++/4.8.2/cwchar:
+/usr/include/c++/4.9.0/cwchar:
 
 /usr/include/wchar.h:
 
 /usr/include/stdio.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/stdarg.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/stdarg.h:
 
 /usr/include/bits/wchar.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/stddef.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/stddef.h:
 
 /usr/include/xlocale.h:
 
-/usr/include/c++/4.8.2/exception:
+/usr/include/c++/4.9.0/exception:
 
-/usr/include/c++/4.8.2/bits/atomic_lockfree_defines.h:
+/usr/include/c++/4.9.0/bits/atomic_lockfree_defines.h:
 
-/usr/include/c++/4.8.2/bits/exception_ptr.h:
+/usr/include/c++/4.9.0/bits/exception_ptr.h:
 
-/usr/include/c++/4.8.2/bits/exception_defines.h:
+/usr/include/c++/4.9.0/bits/exception_defines.h:
 
-/usr/include/c++/4.8.2/bits/nested_exception.h:
+/usr/include/c++/4.9.0/bits/nested_exception.h:
 
-/usr/include/c++/4.8.2/bits/char_traits.h:
+/usr/include/c++/4.9.0/bits/char_traits.h:
 
-/usr/include/c++/4.8.2/bits/stl_algobase.h:
+/usr/include/c++/4.9.0/bits/stl_algobase.h:
 
-/usr/include/c++/4.8.2/bits/functexcept.h:
+/usr/include/c++/4.9.0/bits/functexcept.h:
 
-/usr/include/c++/4.8.2/bits/cpp_type_traits.h:
+/usr/include/c++/4.9.0/bits/cpp_type_traits.h:
 
-/usr/include/c++/4.8.2/ext/type_traits.h:
+/usr/include/c++/4.9.0/ext/type_traits.h:
 
-/usr/include/c++/4.8.2/ext/numeric_traits.h:
+/usr/include/c++/4.9.0/ext/numeric_traits.h:
 
-/usr/include/c++/4.8.2/bits/stl_pair.h:
+/usr/include/c++/4.9.0/bits/stl_pair.h:
 
-/usr/include/c++/4.8.2/bits/move.h:
+/usr/include/c++/4.9.0/bits/move.h:
 
-/usr/include/c++/4.8.2/bits/concept_check.h:
+/usr/include/c++/4.9.0/bits/concept_check.h:
 
-/usr/include/c++/4.8.2/type_traits:
+/usr/include/c++/4.9.0/type_traits:
 
-/usr/include/c++/4.8.2/bits/stl_iterator_base_types.h:
+/usr/include/c++/4.9.0/bits/stl_iterator_base_types.h:
 
-/usr/include/c++/4.8.2/bits/stl_iterator_base_funcs.h:
+/usr/include/c++/4.9.0/bits/stl_iterator_base_funcs.h:
 
-/usr/include/c++/4.8.2/debug/debug.h:
+/usr/include/c++/4.9.0/debug/debug.h:
 
-/usr/include/c++/4.8.2/bits/stl_iterator.h:
+/usr/include/c++/4.9.0/bits/stl_iterator.h:
 
-/usr/include/c++/4.8.2/cstdint:
+/usr/include/c++/4.9.0/bits/ptr_traits.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/stdint.h:
+/usr/include/c++/4.9.0/bits/predefined_ops.h:
+
+/usr/include/c++/4.9.0/cstdint:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/stdint.h:
 
 /usr/include/stdint.h:
 
-/usr/include/c++/4.8.2/bits/localefwd.h:
+/usr/include/c++/4.9.0/bits/localefwd.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++locale.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++locale.h:
 
-/usr/include/c++/4.8.2/clocale:
+/usr/include/c++/4.9.0/clocale:
 
 /usr/include/locale.h:
 
 /usr/include/bits/locale.h:
 
-/usr/include/c++/4.8.2/cctype:
+/usr/include/c++/4.9.0/cctype:
 
 /usr/include/ctype.h:
 
@@ -531,13 +568,13 @@
 
 /usr/include/bits/byteswap-16.h:
 
-/usr/include/c++/4.8.2/bits/ios_base.h:
+/usr/include/c++/4.9.0/bits/ios_base.h:
 
-/usr/include/c++/4.8.2/ext/atomicity.h:
+/usr/include/c++/4.9.0/ext/atomicity.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/gthr.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/gthr.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/gthr-default.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/gthr-default.h:
 
 /usr/include/pthread.h:
 
@@ -555,37 +592,37 @@
 
 /usr/include/bits/setjmp.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/atomic_word.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/atomic_word.h:
 
-/usr/include/c++/4.8.2/bits/locale_classes.h:
+/usr/include/c++/4.9.0/bits/locale_classes.h:
 
-/usr/include/c++/4.8.2/string:
+/usr/include/c++/4.9.0/string:
 
-/usr/include/c++/4.8.2/bits/allocator.h:
+/usr/include/c++/4.9.0/bits/allocator.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++allocator.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++allocator.h:
 
-/usr/include/c++/4.8.2/ext/new_allocator.h:
+/usr/include/c++/4.9.0/ext/new_allocator.h:
 
-/usr/include/c++/4.8.2/new:
+/usr/include/c++/4.9.0/new:
 
-/usr/include/c++/4.8.2/bits/ostream_insert.h:
+/usr/include/c++/4.9.0/bits/ostream_insert.h:
 
-/usr/include/c++/4.8.2/bits/cxxabi_forced.h:
+/usr/include/c++/4.9.0/bits/cxxabi_forced.h:
 
-/usr/include/c++/4.8.2/bits/stl_function.h:
+/usr/include/c++/4.9.0/bits/stl_function.h:
 
-/usr/include/c++/4.8.2/backward/binders.h:
+/usr/include/c++/4.9.0/backward/binders.h:
 
-/usr/include/c++/4.8.2/bits/range_access.h:
+/usr/include/c++/4.9.0/bits/range_access.h:
 
-/usr/include/c++/4.8.2/bits/basic_string.h:
+/usr/include/c++/4.9.0/bits/basic_string.h:
 
-/usr/include/c++/4.8.2/initializer_list:
+/usr/include/c++/4.9.0/initializer_list:
 
-/usr/include/c++/4.8.2/ext/string_conversions.h:
+/usr/include/c++/4.9.0/ext/string_conversions.h:
 
-/usr/include/c++/4.8.2/cstdlib:
+/usr/include/c++/4.9.0/cstdlib:
 
 /usr/include/stdlib.h:
 
@@ -609,7 +646,7 @@
 
 /usr/include/bits/stdlib-float.h:
 
-/usr/include/c++/4.8.2/cstdio:
+/usr/include/c++/4.9.0/cstdio:
 
 /usr/include/libio.h:
 
@@ -621,7 +658,7 @@
 
 /usr/include/bits/stdio.h:
 
-/usr/include/c++/4.8.2/cerrno:
+/usr/include/c++/4.9.0/cerrno:
 
 /usr/include/errno.h:
 
@@ -635,65 +672,63 @@
 
 /usr/include/asm-generic/errno-base.h:
 
-/usr/include/c++/4.8.2/bits/functional_hash.h:
+/usr/include/c++/4.9.0/bits/functional_hash.h:
 
-/usr/include/c++/4.8.2/bits/hash_bytes.h:
+/usr/include/c++/4.9.0/bits/hash_bytes.h:
 
-/usr/include/c++/4.8.2/bits/basic_string.tcc:
+/usr/include/c++/4.9.0/bits/basic_string.tcc:
 
-/usr/include/c++/4.8.2/bits/locale_classes.tcc:
+/usr/include/c++/4.9.0/bits/locale_classes.tcc:
 
-/usr/include/c++/4.8.2/streambuf:
+/usr/include/c++/4.9.0/streambuf:
 
-/usr/include/c++/4.8.2/bits/streambuf.tcc:
+/usr/include/c++/4.9.0/bits/streambuf.tcc:
 
-/usr/include/c++/4.8.2/bits/basic_ios.h:
+/usr/include/c++/4.9.0/bits/basic_ios.h:
 
-/usr/include/c++/4.8.2/bits/locale_facets.h:
+/usr/include/c++/4.9.0/bits/locale_facets.h:
 
-/usr/include/c++/4.8.2/cwctype:
+/usr/include/c++/4.9.0/cwctype:
 
 /usr/include/wctype.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/ctype_base.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/ctype_base.h:
 
-/usr/include/c++/4.8.2/bits/streambuf_iterator.h:
+/usr/include/c++/4.9.0/bits/streambuf_iterator.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/ctype_inline.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/ctype_inline.h:
 
-/usr/include/c++/4.8.2/bits/locale_facets.tcc:
+/usr/include/c++/4.9.0/bits/locale_facets.tcc:
 
-/usr/include/c++/4.8.2/bits/basic_ios.tcc:
+/usr/include/c++/4.9.0/bits/basic_ios.tcc:
 
-/usr/include/c++/4.8.2/bits/ostream.tcc:
+/usr/include/c++/4.9.0/bits/ostream.tcc:
 
-/usr/include/c++/4.8.2/istream:
+/usr/include/c++/4.9.0/istream:
 
-/usr/include/c++/4.8.2/bits/istream.tcc:
+/usr/include/c++/4.9.0/bits/istream.tcc:
 
-/usr/include/c++/4.8.2/vector:
+/usr/include/c++/4.9.0/vector:
 
-/usr/include/c++/4.8.2/bits/stl_construct.h:
+/usr/include/c++/4.9.0/bits/stl_construct.h:
 
-/usr/include/c++/4.8.2/ext/alloc_traits.h:
+/usr/include/c++/4.9.0/ext/alloc_traits.h:
 
-/usr/include/c++/4.8.2/bits/alloc_traits.h:
+/usr/include/c++/4.9.0/bits/alloc_traits.h:
 
-/usr/include/c++/4.8.2/bits/ptr_traits.h:
+/usr/include/c++/4.9.0/bits/stl_uninitialized.h:
 
-/usr/include/c++/4.8.2/bits/stl_uninitialized.h:
+/usr/include/c++/4.9.0/bits/stl_vector.h:
 
-/usr/include/c++/4.8.2/bits/stl_vector.h:
+/usr/include/c++/4.9.0/bits/stl_bvector.h:
 
-/usr/include/c++/4.8.2/bits/stl_bvector.h:
-
-/usr/include/c++/4.8.2/bits/vector.tcc:
+/usr/include/c++/4.9.0/bits/vector.tcc:
 
 /usr/local/include/capd/capdlib.h:
 
 /usr/local/include/capd/intervals/lib.h:
 
-/usr/include/c++/4.8.2/cmath:
+/usr/include/c++/4.9.0/cmath:
 
 /usr/include/math.h:
 
@@ -719,63 +754,121 @@
 
 /usr/local/include/interval/interval.hpp:
 
-/usr/include/c++/4.8.2/stdexcept:
+/usr/include/c++/4.9.0/stdexcept:
 
-/usr/include/c++/4.8.2/functional:
+/usr/include/c++/4.9.0/functional:
 
-/usr/include/c++/4.8.2/typeinfo:
+/usr/include/c++/4.9.0/typeinfo:
 
-/usr/include/c++/4.8.2/tuple:
+/usr/include/c++/4.9.0/tuple:
 
-/usr/include/c++/4.8.2/utility:
+/usr/include/c++/4.9.0/utility:
 
-/usr/include/c++/4.8.2/bits/stl_relops.h:
+/usr/include/c++/4.9.0/bits/stl_relops.h:
 
-/usr/include/c++/4.8.2/array:
+/usr/include/c++/4.9.0/array:
 
-/usr/include/c++/4.8.2/bits/uses_allocator.h:
+/usr/include/c++/4.9.0/bits/uses_allocator.h:
 
-/usr/include/c++/4.8.2/algorithm:
+/usr/include/c++/4.9.0/algorithm:
 
-/usr/include/c++/4.8.2/bits/stl_algo.h:
+/usr/include/c++/4.9.0/bits/stl_algo.h:
 
-/usr/include/c++/4.8.2/bits/algorithmfwd.h:
+/usr/include/c++/4.9.0/bits/algorithmfwd.h:
 
-/usr/include/c++/4.8.2/bits/stl_heap.h:
+/usr/include/c++/4.9.0/bits/stl_heap.h:
 
-/usr/include/c++/4.8.2/bits/stl_tempbuf.h:
+/usr/include/c++/4.9.0/bits/stl_tempbuf.h:
 
-/usr/include/c++/4.8.2/random:
+/usr/include/c++/4.9.0/random:
 
-/usr/include/c++/4.8.2/limits:
+/usr/include/c++/4.9.0/limits:
 
-/usr/include/c++/4.8.2/bits/random.h:
+/usr/include/c++/4.9.0/bits/random.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/opt_random.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/opt_random.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/x86intrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/x86intrin.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/ia32intrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/ia32intrin.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/mmintrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/mmintrin.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/xmmintrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xmmintrin.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/mm_malloc.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/mm_malloc.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/emmintrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/emmintrin.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/immintrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/pmmintrin.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/fxsrintrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/tmmintrin.h:
 
-/usr/lib/gcc/x86_64-unknown-linux-gnu/4.8.2/include/adxintrin.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/ammintrin.h:
 
-/usr/include/c++/4.8.2/bits/random.tcc:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/smmintrin.h:
 
-/usr/include/c++/4.8.2/numeric:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/popcntintrin.h:
 
-/usr/include/c++/4.8.2/bits/stl_numeric.h:
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/wmmintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/immintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avxintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx2intrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512fintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512erintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512pfintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/avx512cdintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/shaintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/lzcntintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/bmiintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/bmi2intrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/fmaintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/f16cintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/rtmintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xtestintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/mm3dnow.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/prfchwintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/fma4intrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xopintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/lwpintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/tbmintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/rdseedintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/fxsrintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xsaveintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/xsaveoptintrin.h:
+
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.0/include/adxintrin.h:
+
+/usr/include/c++/4.9.0/bits/random.tcc:
+
+/usr/include/c++/4.9.0/numeric:
+
+/usr/include/c++/4.9.0/bits/stl_numeric.h:
 
 /usr/local/include/fp_traits/fp_traits.hpp:
 
@@ -787,7 +880,7 @@
 
 /usr/local/include/rounding_control/rounding_control_double_iso9x.icc:
 
-/usr/include/c++/4.8.2/fenv.h:
+/usr/include/c++/4.9.0/fenv.h:
 
 /usr/include/fenv.h:
 
@@ -969,9 +1062,9 @@
 
 /usr/local/include/capd/intervals/IntervalError.h:
 
-/usr/include/c++/4.8.2/sstream:
+/usr/include/c++/4.9.0/sstream:
 
-/usr/include/c++/4.8.2/bits/sstream.tcc:
+/usr/include/c++/4.9.0/bits/sstream.tcc:
 
 /usr/local/include/capd/intervals/IntervalSettings.h:
 
@@ -1021,15 +1114,15 @@
 
 /usr/local/include/capd/vectalg/Matrix.hpp:
 
-/usr/include/c++/4.8.2/stack:
+/usr/include/c++/4.9.0/stack:
 
-/usr/include/c++/4.8.2/deque:
+/usr/include/c++/4.9.0/deque:
 
-/usr/include/c++/4.8.2/bits/stl_deque.h:
+/usr/include/c++/4.9.0/bits/stl_deque.h:
 
-/usr/include/c++/4.8.2/bits/deque.tcc:
+/usr/include/c++/4.9.0/bits/deque.tcc:
 
-/usr/include/c++/4.8.2/bits/stl_stack.h:
+/usr/include/c++/4.9.0/bits/stl_stack.h:
 
 /usr/local/include/capd/vectalg/Matrix_Interval.hpp:
 
@@ -1065,13 +1158,15 @@
 
 /usr/local/include/capd/map/BasicFunction.h:
 
-/usr/include/c++/4.8.2/map:
+/usr/include/c++/4.9.0/map:
 
-/usr/include/c++/4.8.2/bits/stl_tree.h:
+/usr/include/c++/4.9.0/bits/stl_tree.h:
 
-/usr/include/c++/4.8.2/bits/stl_map.h:
+/usr/include/c++/4.9.0/ext/aligned_buffer.h:
 
-/usr/include/c++/4.8.2/bits/stl_multimap.h:
+/usr/include/c++/4.9.0/bits/stl_map.h:
+
+/usr/include/c++/4.9.0/bits/stl_multimap.h:
 
 /usr/local/include/capd/autodiff/DagIndexer.h:
 
@@ -1175,19 +1270,21 @@
 
 /usr/local/include/capd/geomset/AffineSet.hpp:
 
-/usr/local/include/capd/dynset/C0HOSet.h:
-
 /usr/local/include/capd/dynset/C0DoubletonSet.h:
 
 /usr/local/include/capd/geomset/CenteredDoubletonSet.h:
 
 /usr/local/include/capd/geomset/DoubletonSet.h:
 
+/usr/local/include/capd/dynset/DoubletonData.h:
+
 /usr/local/include/capd/dynset/C0TripletonSet.h:
 
-/usr/local/include/capd/dynset/C0HODoubletonSet.h:
+/usr/local/include/capd/geomset/CenteredTripletonSet.h:
 
-/usr/local/include/capd/dynset/C0HOTripletonSet.h:
+/usr/local/include/capd/dynset/C0HOSet.h:
+
+/usr/local/include/capd/dynset/HOData.h:
 
 /usr/local/include/capd/dynset/C1AffineSet.h:
 
@@ -1203,6 +1300,8 @@
 
 /usr/local/include/capd/dynset/C11Rect2Set.h:
 
+/usr/local/include/capd/dynset/C1HOSet.h:
+
 /usr/local/include/capd/dynset/C2DoubletonSet.h:
 
 /usr/local/include/capd/dynset/C2Set.h:
@@ -1211,11 +1310,11 @@
 
 /usr/local/include/capd/dynset/CnDoubletonSet.h:
 
-/usr/include/c++/4.8.2/list:
+/usr/include/c++/4.9.0/list:
 
-/usr/include/c++/4.8.2/bits/stl_list.h:
+/usr/include/c++/4.9.0/bits/stl_list.h:
 
-/usr/include/c++/4.8.2/bits/list.tcc:
+/usr/include/c++/4.9.0/bits/list.tcc:
 
 /usr/local/include/capd/dynset/CnSet.h:
 
@@ -1229,15 +1328,15 @@
 
 /usr/local/include/capd/dynsys/TaylorException.h:
 
-/usr/include/c++/4.8.2/fstream:
+/usr/include/c++/4.9.0/fstream:
 
-/usr/include/c++/4.8.2/bits/codecvt.h:
+/usr/include/c++/4.9.0/bits/codecvt.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/basic_file.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/basic_file.h:
 
-/usr/include/c++/4.8.2/x86_64-unknown-linux-gnu/bits/c++io.h:
+/usr/include/c++/4.9.0/x86_64-unknown-linux-gnu/bits/c++io.h:
 
-/usr/include/c++/4.8.2/bits/fstream.tcc:
+/usr/include/c++/4.9.0/bits/fstream.tcc:
 
 /usr/local/include/capd/dynsys/TaylorHOE.h:
 
@@ -1313,7 +1412,7 @@
 
 /usr/local/include/capd/poincare/PoincareMap_templateMembers.h:
 
-/usr/include/c++/4.8.2/cassert:
+/usr/include/c++/4.9.0/cassert:
 
 /usr/include/assert.h:
 

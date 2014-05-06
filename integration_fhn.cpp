@@ -8,6 +8,9 @@ using matrixAlgorithms::inverseMatrix;
 
 DMap Fhn_vf("par:theta,eps;var:u,w,v;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v);"); 
 IMap IFhn_vf("par:theta,eps;var:u,w,v;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v);"); 
+
+DMap Fhn_vf_rev("par:theta,eps;var:u,w,v;fun:-w,(-2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(-eps/theta)*(u-v);"); 
+IMap IFhn_vf_rev("par:theta,eps;var:u,w,v;fun:-w,(-2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(-eps/theta)*(u-v);"); 
 // FitzHugh-Nagumo vector field is u'=w, w'=0.2*(theta*w +u*(u-1)*(u-0.1)+v, v'= eps/theta * (u-v)
 
 
@@ -31,10 +34,14 @@ int main(){
 
   double theta = double(61.)/100.;
   double tolerance = 1e-14;
-  double radius = double(0.);
+  double radius = double(1e-6);
 
   Fhn_vf.setParameter( "theta", theta );
   Fhn_vf.setParameter( "eps", eps );
+ 
+  Fhn_vf_rev.setParameter( "theta", theta );
+  Fhn_vf_rev.setParameter( "eps", eps );
+
 
   IFhn_vf.setParameter( "theta", theta );
   IFhn_vf.setParameter( "eps", eps );
@@ -43,7 +50,7 @@ int main(){
   IxPrecomputedFill();
 
   const int pm_count = xPrecomputed.size();
- // FhnFindPeriodicOrbit FindPeriodicOrbit( pm_count );
+  // FhnFindPeriodicOrbit FindPeriodicOrbit( pm_count );
   
   FhnCovering cov( pm_count );
   cov.proveExistenceOfOrbit( tolerance, radius );

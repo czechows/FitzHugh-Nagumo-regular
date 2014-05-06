@@ -16,7 +16,9 @@ class FhnFindPeriodicOrbit
 public:
   int pm_count;
   DMap vectorField;
+  DMap vectorFieldRev;
   DTaylor solver;
+  DTaylor solverRev;
   std::vector<DVector> xStartlist;
   std::vector<DMatrix> P_list;
   std::vector<DAffineSection> section;
@@ -26,7 +28,9 @@ public:
   FhnFindPeriodicOrbit( const int _pm_count )
     : pm_count ( _pm_count ),
       vectorField( Fhn_vf ),
+      vectorFieldRev( Fhn_vf_rev ),
       solver(vectorField, order),
+      solverRev(vectorFieldRev, order),
       xStartlist( pm_count ),
       P_list( pm_count ),
       section( pm_count, DAffineSection( xPrecomputed[0], xPrecomputed[1]-xPrecomputed[0]) ),

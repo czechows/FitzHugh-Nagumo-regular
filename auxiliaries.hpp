@@ -16,7 +16,7 @@ void xPrecomputedFill()
 
   for( unsigned int i = 0; i < xPrecomputedBeforeCor.size(); i++ )
   {
-    double crit_eps = 0.01;
+    double crit_eps = 0.005;
     double crit1 = 0.0250442158334208 + crit_eps;
     double crit2 = 0.0988076360184288 - crit_eps;
 
@@ -107,8 +107,7 @@ void IOrthogonalizeRelativeColumn( IMatrix& matrixToOrthogonalize, unsigned int 
 
   for( unsigned int i = 0; i <= matrixToOrthogonalize.numberOfColumns() - 1; i++ )
   {
-    interval columnNorm = scalarProduct( matrixToOrthogonalize.column( i ), matrixToOrthogonalize.column( i ) );
-   // cout << columnNorm << "\n";
+    interval columnNorm = sqrt( scalarProduct( matrixToOrthogonalize.column( i ), matrixToOrthogonalize.column( i ) ) );
 
     for( unsigned int j = 1; j <= matrixToOrthogonalize.numberOfRows(); j++ )
       matrixToOrthogonalize(j,i+1) = matrixToOrthogonalize(j,i+1) / columnNorm;
