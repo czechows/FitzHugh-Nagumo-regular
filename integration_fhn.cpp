@@ -34,7 +34,7 @@ int main(){
 
   double theta = double(61.)/100.;
   double tolerance = 1e-14;
-  double radius = double(1e-6);
+  double radius = double(1e-8);
 
   Fhn_vf.setParameter( "theta", theta );
   Fhn_vf.setParameter( "eps", eps );

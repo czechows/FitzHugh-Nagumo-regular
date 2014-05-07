@@ -94,8 +94,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
     std::vector<DVector> x0_double( newtonAlgorithm( _tolerance ) );
 
     for( int i = 0; i < pm_count; i++ )
-      X[i] = interval( -_radius, _radius );
-   
+      X[i] = IVector( { interval( -_radius, _radius ), interval( -_radius, _radius ) } );
+
     int breakPoint( pm_count + 1 );
     DMatrix P_breakPoint( dim, dim );
 
@@ -200,20 +200,81 @@ class FhnCovering : public FhnFindPeriodicOrbit
     return fi_eval;
   }
 
+  IVector leftU(const IVector &N)
+  {
+    IVector _leftU( N.dimension() ); 
+    _leftU = N;
+    _leftU[1] =  N[1].leftBound();
+    return _leftU;
+  }
+
+  IVector rightU(const IVector &N)
+  {
+    IVector _rightU( N.dimension() );
+    _rightU = N;
+    _rightU[1] =  N[1].rightBound();
+    return _rightU;
+  }
+ 
+  IVector shrinkAndExpand(const IVector &N, interval factor )  // shrinks a rectangle in unstable direction and expands it in stable to get a covering (for example by original rectangle)
+  {
+      IVector result(N);
+      result[0] = N[0]*factor;
+      result[1] = N[1]/factor;
+      return result;
+  }
+
+  IVector propagateToCoverByfi( int i, IVector setCovering, IVector unstableDirLimit ) // unstableDirLimit is the limit of how much the set to cover can grow in the unstable direction
+  {
+    const interval EPS = interval(1./1e15);
+ 
+    IVector image = fi( i, setCovering );
+    IVector unstablePart = IVector( { interval( fi( i, leftU( setCovering ) )[1].rightBound(), fi( i, rightU( setCovering ) )[1].leftBound() ) } );
+    cout << image << " " << unstablePart << "\n";
+
+    if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) )// this assumptions are not necessary but useful to check
+      throw "COVERING ERROR!";
+
+    unstablePart = intersection( unstableDirLimit, unstablePart );
+
+    IVector setToCover = IVector( { image[0], unstablePart[0] } );
+
+    return shrinkAndExpand( setToCover, interval( 1. + EPS ) );
+  }
 
 
+  bool isCovering( const IVector& setCovering, const IMatrix& setCoveringCoord, const IVector& setToCover ) 
+                                                        // verifies covering between image of setCovering by a matrix setCoveringCoord over setToCover 
+                                                        // first variable stable second unstable
+  {
+   bool leftCheck( (setCoveringCoord*( leftU(setCovering) ))[1] < setToCover[1].leftBound() );
+   bool rightCheck( (setCoveringCoord*( rightU(setCovering) ))[1] > setToCover[1].rightBound() );
+
+   if( leftCheck && rightCheck && subsetInterior( (setCoveringCoord*setCovering)[0], setToCover[0] ) ) 
+    return 1;
+   else
+     return 0;
+  };
 
 
   void proveExistenceOfOrbit( double _tolerance, double _radius )
   {
     
     init( _tolerance, _radius );
+    
+    IVector vectorToCover( X[0] );
+    IVector vectorCovering( X[0] );
+    IVector unstableLimit( { 10*vectorCovering[1] } );
 
     for( int i = 0; i < pm_count; i++ )
     {
-      cout << "test " << (( ISection[i].getOrigin() )(3)).leftBound() << "\n";
-      cout << fi( i, X[i] ) << "\n";
+      //    cout << "test " << (( ISection[i].getOrigin() )(3)).leftBound() << "\n";
+      vectorCovering = propagateToCoverByfi( i, vectorCovering, unstableLimit );
+      //  cout << isCoveringByfi( i, X[i], X[i+1] ) << "\n"; 
+      //  cout << fi( i, X[i] ) << "\n " << fi( i, leftU(X[i]) ) << " " << fi( i, rightU(X[i]) ) << "\n \n";
     }
+
+    cout << "\n" << isCovering( vectorCovering, IMatrix::Identity(2), vectorToCover ) << "\n";
   }
 
 
