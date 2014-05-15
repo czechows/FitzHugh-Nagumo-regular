@@ -9,19 +9,19 @@
 class FhnCovering : public FhnFindPeriodicOrbit
 {
   public:
-  IMap IVectorField;
+  IMap *IVectorField;
   ITaylor ISolver;
   std::vector<IMatrix> IP_list;
   std::vector<IAffineSection> ISection;
   std::vector<IVector> X;
   DEuclNorm vectorNorm;
  
-  FhnCovering( const int _pm_count )
-    : FhnFindPeriodicOrbit( _pm_count ),
-      IVectorField( IFhn_vf ),
-      ISolver( IVectorField, order),
+  FhnCovering( std::vector<DVector> initialGuess )
+    : FhnFindPeriodicOrbit( initialGuess ),
+      IVectorField( &IFhn_vf ),
+      ISolver( *IVectorField, order),
       IP_list( pm_count ),
-      ISection( pm_count, IAffineSection(  IxPrecomputed[0],  IxPrecomputed[1]-IxPrecomputed[0] ) ),
+      ISection( pm_count, IAffineSection( IVector(dim), IVector(dim) ) ),
       X( pm_count )
   {
     for( int i = 0; i < pm_count; i++ )
@@ -30,7 +30,16 @@ class FhnCovering : public FhnFindPeriodicOrbit
       (IP_list[i % pm_count ]).setToIdentity();
       X[ i % pm_count ].resize( fast_dim );
 
-      ISection[ i % pm_count ] = IAffineSection( IxPrecomputed[ i % pm_count ], IxPrecomputed[ (i+1) % pm_count ]-IxPrecomputed[ i % pm_count ] ); // ? IVectors ?
+      IVector IsectionCenter( dim );
+      IVector IsectionNormal( dim );
+
+      for( int j = 1; j <= dim; j++ )
+      {
+        IsectionCenter(j) = ( initialGuess[ i % pm_count ] )(j);
+        IsectionNormal(j) = ( initialGuess[ (i+1) % pm_count ] - initialGuess[ i % pm_count ] )(j);
+      }
+
+      ISection[ i % pm_count ] = IAffineSection( IsectionCenter, IsectionNormal ); 
     }
   }
 
@@ -43,7 +52,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
     DMatrix JacobianD( vdim, vdim );
 
     // a patch to set eps to 0 for the vector field for computing coordinates around slow manifold
-    DMap vectorFieldZeroEps( Fhn_vf );          
+    DMap vectorFieldZeroEps( *vectorField );          
     vectorFieldZeroEps.setParameter("eps", 0.);
     // WARNING: specific to the (type of) the vector field. Takes care of the problem that proof does not go for subintervals of parameter epsilon away from 0.
    
@@ -135,8 +144,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
         int uSecCount( (breakPoint + i) % pm_count ),
             sSecCount( ( (breakPoint - i) + pm_count ) % pm_count );
 
-        DVector uSetToIntegrate( section[ uSecCount ].getOrigin() + P_list[ uSecCount ] * DVector( (x0_double[ uSecCount ])(1), (x0_double[ uSecCount ])(2), 0. ) ),
-                sSetToIntegrate( section[ sSecCount ].getOrigin() + P_list[ sSecCount ] * DVector( (x0_double[ sSecCount ])(1), (x0_double[ sSecCount ])(2), 0. ) );
+        DVector uSetToIntegrate( correctedGuess[ uSecCount ] ),
+                sSetToIntegrate( correctedGuess[ sSecCount ] );
 
         DPoincareMap uPM( solver, section[ (uSecCount + 1) % pm_count ] ), 
                      sPM( solverRev, section[ ((sSecCount - 1) + pm_count) % pm_count ] );
@@ -230,7 +239,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
  
     IVector image = fi( i, setCovering );
     IVector unstablePart = IVector( { interval( fi( i, leftU( setCovering ) )[1].rightBound(), fi( i, rightU( setCovering ) )[1].leftBound() ) } );
-    cout << image << " " << unstablePart << "\n";
+   // cout << image << " " << unstablePart << "\n";
 
     if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) )// this assumptions are not necessary but useful to check
       throw "COVERING ERROR!";
@@ -257,11 +266,22 @@ class FhnCovering : public FhnFindPeriodicOrbit
   };
 
 
-  void proveExistenceOfOrbit( double _tolerance, double _radius )
+  bool proveExistenceOfOrbit( interval theta, interval eps, double _tolerance, double _radius, bool verbose = 0 )
   {
+    double thetaD = ( theta.leftBound() + theta.rightBound() )/2. ;
+    double epsD = ( eps.leftBound() + eps.rightBound() )/2. ;
+
+    (*vectorField).setParameter( "theta", thetaD );
+    (*vectorField).setParameter( "eps", epsD );
+ 
+    (*vectorFieldRev).setParameter( "theta", thetaD );
+    (*vectorFieldRev).setParameter( "eps", epsD );
+
+    (*IVectorField).setParameter( "theta", theta );
+    (*IVectorField).setParameter( "eps", eps );
     
     init( _tolerance, _radius );
-    
+
     IVector vectorToCover( X[0] );
     IVector vectorCovering( X[0] );
     IVector unstableLimit( { 10*vectorCovering[1] } );
@@ -274,7 +294,20 @@ class FhnCovering : public FhnFindPeriodicOrbit
       //  cout << fi( i, X[i] ) << "\n " << fi( i, leftU(X[i]) ) << " " << fi( i, rightU(X[i]) ) << "\n \n";
     }
 
-    cout << "\n" << isCovering( vectorCovering, IMatrix::Identity(2), vectorToCover ) << "\n";
+    if( isCovering( vectorCovering, IMatrix::Identity(2), vectorToCover ) )
+    {
+      if( verbose )
+        cout << "Existence of periodic solution for parameter values eps = " << eps << " and theta = " << theta << " proven. \n";
+
+      return 1;
+    }
+    else
+    {
+      if( verbose )
+        cout << "EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << eps << " AND THETA = " << theta << "NOT PROVEN. \n";
+
+      return 0;
+    }
   }
 
 
@@ -327,7 +360,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
   std::vector<IVector> IReturnCorrectedOrbit( double _tolerance )
   {
-    std::vector<DVector> DxList( returnCorrectedOrbit( _tolerance ) );
+    newtonAlgorithm( _tolerance );
+    std::vector<DVector> DxList( getCorrectedGuess() );
     std::vector<IVector> xList( pm_count );
 
     for( int i = 0; i < pm_count; i++ )

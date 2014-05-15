@@ -15,59 +15,40 @@ class FhnFindPeriodicOrbit
 {
 public:
   int pm_count;
-  DMap vectorField;
-  DMap vectorFieldRev;
+  DMap *vectorField;
+  DMap *vectorFieldRev;
   DTaylor solver;
   DTaylor solverRev;
-  std::vector<DVector> xStartlist;
   std::vector<DMatrix> P_list;
   std::vector<DAffineSection> section;
   int dim;
   int fast_dim;
+  std::vector<DVector> correctedGuess;
 
-  FhnFindPeriodicOrbit( const int _pm_count )
-    : pm_count ( _pm_count ),
-      vectorField( Fhn_vf ),
-      vectorFieldRev( Fhn_vf_rev ),
-      solver(vectorField, order),
-      solverRev(vectorFieldRev, order),
-      xStartlist( pm_count ),
+  FhnFindPeriodicOrbit( std::vector<DVector> initialGuess )
+    : pm_count ( initialGuess.size() ),
+      vectorField( &Fhn_vf ),
+      vectorFieldRev( &Fhn_vf_rev ),
+      solver(*vectorField, order),
+      solverRev(*vectorFieldRev, order),
       P_list( pm_count ),
-      section( pm_count, DAffineSection( xPrecomputed[0], xPrecomputed[1]-xPrecomputed[0]) ),
+      section( pm_count, DAffineSection( initialGuess[0], initialGuess[1]-initialGuess[0]) ),
       dim(3),
-      fast_dim(dim - 1)
+      fast_dim(dim - 1),
+      correctedGuess( initialGuess )
   {
-    for( unsigned int i = 0; i < xStartlist.size(); i++ )
+    for( int i = 0; i < pm_count; i++ )
     {
-      (xStartlist[i]).resize( fast_dim );
-      
-      for( int j = 1; j <= fast_dim; j++ )
-        (xStartlist[i])(j) = 0.;
-    }
-
-    for( int i = 0; i < pm_count - 1; i++ )
-    {
-      (P_list[i]).resize( dim, dim );
-      (P_list[i]).setToIdentity();
+      (P_list[ i % pm_count ]).resize( dim, dim );
+      (P_list[ i % pm_count ]).setToIdentity();
 
       for( int j = 1; j <= dim; j++ )
-       (P_list[i])( j, dim ) = ( xPrecomputed[i+1]-xPrecomputed[i] )(j);
+       (P_list[ i % pm_count ])( j, dim ) = ( initialGuess[ (i+1) % pm_count ]-initialGuess[ i % pm_count ] )(j);
 
-      orthogonalizeRelativeColumn( P_list[i], dim - 1 );
+      orthogonalizeRelativeColumn( P_list[ i % pm_count ], dim - 1 );
 
-      section[i] = DAffineSection( xPrecomputed[i], xPrecomputed[i+1]-xPrecomputed[i] );
+      section[ i % pm_count ] = DAffineSection( initialGuess[ i % pm_count ], initialGuess[ (i+1) % pm_count ]-initialGuess[ i % pm_count ] );
     }
- 
-    (P_list[ pm_count - 1 ]).resize( dim, dim );
-    (P_list[ pm_count - 1 ]).setToIdentity();
-
-    for( int j = 1; j <= dim; j++ )
-      (P_list[ pm_count - 1 ])( j, dim ) = ( xPrecomputed[0]-xPrecomputed[pm_count-1] )(j);
- 
-    section[ pm_count - 1 ] = DAffineSection( xPrecomputed[pm_count - 1], xPrecomputed[0]-xPrecomputed[ pm_count - 1 ] );
-
-    orthogonalizeRelativeColumn( P_list[pm_count-1], dim - 1 );
-
   }
 
   DVector convertToVector( std::vector<DVector> list )
@@ -118,7 +99,7 @@ public:
   
       setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ x[2*i], x[2*i + 1], 0 });
 
- //     cout << "Integration to section " << i+1 << " in progress, setToIntegrate = " << setToIntegrate << " \n";
+  //    cout << "Integration to section " << i+1 << " in progress, setToIntegrate = " << setToIntegrate << " \n";
       
       DPoincareMap pm( solver, section[i+1], poincare::MinusPlus );
 
@@ -179,30 +160,35 @@ public:
   {
     double error = 1.;
   
-    DVector x1( convertToVector( xStartlist ) );
+    std::vector<DVector> x1( pm_count );
+ 
+    for( int i = 0; i < pm_count; i++ )
+    {
+      (x1[i]).resize( fast_dim );
+      
+      for( int j = 1; j <= fast_dim; j++ )
+        (x1[i])(j) = 0.;
+    }
+
 
     while( error > _tolerance )
     {
-      x1 = convertToVector( oneNewtonStep( convertToList(x1), error ) );
+      x1 = oneNewtonStep( x1, error );
       //cout << error << "\n";
     }
     
-    return convertToList( x1 );
+    for( int i = 0; i < pm_count; i++ )
+      correctedGuess[i] = section[i].getOrigin() + P_list[i] * DVector( (x1[i])(1), (x1[i])(2), 0. );
+
+    return x1;
   };
 
 
-  std::vector<DVector> returnCorrectedOrbit( double _tolerance )
+  std::vector<DVector> getCorrectedGuess()
   {
-    std::vector<DVector> xList = newtonAlgorithm( _tolerance );
-
-    std::vector<DVector> result;
-
-    for( int i = 0; i < pm_count; i++ )
-      result.push_back( (section[i]).getOrigin() + (P_list[i]) * DVector({ (xList[i])[0], (xList[i])[1], 0. }) );
-
-    return result;
+    return correctedGuess;
   }
-
+/*
   void integrateOneTime( double _tolerance ) // TO CORRECT OR REMOVE! (SAVE COMPUTATION TIME)
   {
     std::vector<DVector> vect( returnCorrectedOrbit( _tolerance ) );
@@ -217,7 +203,7 @@ public:
     cout << temp_time << "\n";
     }
   }
-
+*/
 };
 
 
