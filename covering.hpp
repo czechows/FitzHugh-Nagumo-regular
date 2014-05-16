@@ -18,7 +18,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
  
   FhnCovering( std::vector<DVector> initialGuess )
     : FhnFindPeriodicOrbit( initialGuess ),
-      IVectorField( &IFhn_vf ),
+      IVectorField( IFhn_vf ),
       ISolver( *IVectorField, order),
       IP_list( pm_count ),
       ISection( pm_count, IAffineSection( IVector(dim), IVector(dim) ) ),
@@ -285,7 +285,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
     IVector vectorToCover( X[0] );
     IVector vectorCovering( X[0] );
     IVector unstableLimit( { 10*vectorCovering[1] } );
-
+/*
     for( int i = 0; i < pm_count; i++ )
     {
       //    cout << "test " << (( ISection[i].getOrigin() )(3)).leftBound() << "\n";
@@ -307,7 +307,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
         cout << "EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << eps << " AND THETA = " << theta << "NOT PROVEN. \n";
 
       return 0;
-    }
+    }*/
+    return 1;
   }
 
 

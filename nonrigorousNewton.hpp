@@ -24,11 +24,12 @@ public:
   int dim;
   int fast_dim;
   std::vector<DVector> correctedGuess;
+ // DVector integrationTime;
 
   FhnFindPeriodicOrbit( std::vector<DVector> initialGuess )
     : pm_count ( initialGuess.size() ),
-      vectorField( &Fhn_vf ),
-      vectorFieldRev( &Fhn_vf_rev ),
+      vectorField( Fhn_vf ),
+      vectorFieldRev( Fhn_vf_rev ),
       solver(*vectorField, order),
       solverRev(*vectorFieldRev, order),
       P_list( pm_count ),

@@ -8,11 +8,12 @@
 
 
 void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing, std::vector<DVector> precomputedOrbit, 
-    double tolerance, double radius, double startIntervalSize = 1e-5, double incrementFactor = 1.05  )
+    double tolerance, double radius, double startIntervalSize = 1e-5, double incrementFactor = 1.03  )
 {
 
   std::vector<DVector> numericOrbitGuess( precomputedOrbit );
   double incrementSize( startIntervalSize );
+  bool isFirstTry(1);
 
   if( epsIncreasing )
   {
@@ -28,7 +29,6 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
       
       FhnCovering cov( numericOrbitGuess );
       bool proofResult(0);
-      bool isFirstTry(1);
       
       try
       {
@@ -44,7 +44,7 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
       while( !proofResult )
       {
         isFirstTry = 0;
-        cout << "EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << currentEpsRange << " AND THETA = " << theta << "NOT PROVEN. \n";
+        cout << "EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << currentEpsRange << " AND THETA = " << theta << "NOT PROVEN. \n Increment size: " << incrementSize << "\n";
         incrementSize = incrementSize / incrementFactor;
 
         currentEpsRangeRightBound = currentEpsRangeLeftBound + incrementSize;
@@ -65,10 +65,10 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
 
       numericOrbitGuess = cov.getCorrectedGuess();
       
-      if( isFirstTry )
-        incrementSize = incrementSize * incrementFactor;
+    // if( isFirstTry )
+       incrementSize = incrementSize * incrementFactor;
 
-      cout << "Existence of periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \n";
+      cout << "Existence of periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \n Increment size: " << incrementSize << "\n";
     }
 
     cout << "\n EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << "PROVEN !. \n";
@@ -87,7 +87,6 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
       FhnCovering cov( numericOrbitGuess );
 
       bool proofResult( 0 );
-      bool isFirstTry( 1 );
 
       try
       {
@@ -103,7 +102,7 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
       while( !proofResult )
       {
         isFirstTry = 0;
-        cout << "EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << currentEpsRange << " AND THETA = " << theta << "NOT PROVEN. \n";
+        cout << "EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << currentEpsRange << " AND THETA = " << theta << "NOT PROVEN. \n Increment size: " << incrementSize << "\n";
         incrementSize = incrementSize / incrementFactor;
 
         currentEpsRangeLeftBound = currentEpsRangeRightBound - incrementSize;
@@ -123,10 +122,10 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
 
       numericOrbitGuess = cov.getCorrectedGuess();
       
-      if( isFirstTry )
+      if( isFirstTry && incrementSize < 1e-6 )
         incrementSize = incrementSize * incrementFactor;
 
-      cout << "Existence of periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \n";
+      cout << "Existence of periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \n Increment size: " << incrementSize << "\n";
     }
 
     cout << "\n EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << "PROVEN !. \n";
