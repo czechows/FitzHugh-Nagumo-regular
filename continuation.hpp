@@ -8,7 +8,7 @@
 
 
 void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing, std::vector<DVector> precomputedOrbit, 
-    double tolerance, double radius, double startIntervalSize = 1e-5, double incrementFactor = 1.03  )
+    double tolerance, double radius, double startIntervalSize = 1e-5, double incrementFactor = 1.05  )
 {
 
   std::vector<DVector> numericOrbitGuess( precomputedOrbit );
@@ -63,7 +63,7 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
    
       }
 
-      numericOrbitGuess = cov.getCorrectedGuess( interval( 0., 3. ) );
+      numericOrbitGuess = cov.getCorrectedGuess( interval( 0., 6. ) );
       
     // if( isFirstTry )
        incrementSize = incrementSize * incrementFactor;
@@ -84,13 +84,14 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
       currentEpsRangeLeftBound = currentEpsRangeRightBound - incrementSize;
       interval currentEpsRange( currentEpsRangeLeftBound.leftBound(), currentEpsRangeRightBound.rightBound() );
       
-      FhnCovering cov( numericOrbitGuess );
+      FhnCovering *cov;
+      cov = new FhnCovering( numericOrbitGuess );
 
       bool proofResult( 0 );
 
       try
       {
-        bool covResult( cov.proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ) ); 
+        bool covResult( (*cov).proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ) ); 
         proofResult = covResult;
       }
       catch(const char* Message)
@@ -98,6 +99,12 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
         cout << Message << "\n";
         proofResult = 0;
       }
+      catch(std::domain_error)
+      {
+        cout << "DOMAIN ERROR!";
+        proofResult = 0;
+      }
+      
  
       while( !proofResult )
       {
@@ -110,22 +117,28 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
 
         try
         {
-          bool covResult( cov.proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ) ); 
+          bool covResult( (*cov).proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ) ); 
           proofResult = covResult;
         }
-        catch(const char* Message)
+ /*       catch(const char* Message)
         {
           cout << Message << "EXISTENCE OF PERIODIC ORBIT FOR PARAMETER VALUES THETA=" << theta << " AND EPS=" << currentEpsRange << " NOT PROVEN! \n";
+          proofResult = 0;
+        }*/
+        catch(std::domain_error)
+        {
           proofResult = 0;
         }
        }
 
-      numericOrbitGuess = cov.getCorrectedGuess( interval(0., 3.) );
+      numericOrbitGuess = (*cov).getCorrectedGuess( interval(0.2, 4.) );
       
       if( isFirstTry && incrementSize < 1e-6 )
         incrementSize = incrementSize * incrementFactor;
 
       cout << "Existence of periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \n Increment size: " << incrementSize << "\n";
+
+      delete cov;
     }
 
     cout << "\n EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << "PROVEN !. \n";

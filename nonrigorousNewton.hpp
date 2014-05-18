@@ -82,7 +82,8 @@ public:
 
   std::vector<DVector> oneNewtonStep( std::vector<DVector> xList, double& error )   // one Newton step for function xi - P_{i}(x_{i-1}), i in mathbbZ
   {
-    DVector x( convertToVector( xList ) );
+    DVector *x;
+    x = new DVector( convertToVector( xList ) );
  
     DVector pm_result(3);
     DVector setToIntegrate(3);
@@ -90,16 +91,17 @@ public:
     DMatrix monodromyMatrix(3,3);
     DMatrix poincareDer(3,3);
 
-    DVector x_eval( x.dimension() ); // evaluates function xi - P_{i}(x_{i-1})
+    DVector *x_eval;
+    x_eval = new DVector( (*x).dimension() ); // evaluates function xi - P_{i}(x_{i-1})
     DMatrix *derMatrix;
-    derMatrix = new DMatrix( x.dimension(), x.dimension() );
+    derMatrix = new DMatrix( (*x).dimension(), (*x).dimension() );
     (*derMatrix).setToIdentity();
 
     for( int i = 0; i < pm_count; i++ )
     {
       monodromyMatrix.setToIdentity(); // probably obsolete since it is done automatically (?) in the solver code
   
-      setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ x[2*i], x[2*i + 1], 0 });
+      setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ (*x)[2*i], (*x)[2*i + 1], 0 });
 
       //    cout << "Integration to section " << i+1 << " in progress, setToIntegrate = " << setToIntegrate << " \n";
       
@@ -118,8 +120,8 @@ public:
       pm_result = inverseMatrix( P_list[ (i+1) % pm_count ] )*( pm_result - (section[ (i+1)%pm_count ]).getOrigin() );
       poincareDer = inverseMatrix( P_list[ (i+1) % pm_count ] )*poincareDer*(P_list[i]);
 
-      x_eval[ (2*i + 2) % (fast_dim*pm_count) ] = x[ (2*i + 2) % (fast_dim*pm_count) ] - pm_result[0];
-      x_eval[ (2*i + 3) % (fast_dim*pm_count) ] = x[ (2*i + 3) % (fast_dim*pm_count) ] - pm_result[1];
+      (*x_eval)[ (2*i + 2) % (fast_dim*pm_count) ] = (*x)[ (2*i + 2) % (fast_dim*pm_count) ] - pm_result[0];
+      (*x_eval)[ (2*i + 3) % (fast_dim*pm_count) ] = (*x)[ (2*i + 3) % (fast_dim*pm_count) ] - pm_result[1];
 
       (*derMatrix)[ (2*i+2) % (fast_dim*pm_count) ][2*i] = -poincareDer[0][0];
       (*derMatrix)[ (2*i+2) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[0][1];
@@ -127,16 +129,18 @@ public:
       (*derMatrix)[ (2*i+3) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[1][1];
     }
 
-    error = sqrt( scalarProduct( x_eval, x_eval ) );
+    error = sqrt( scalarProduct( *x_eval, *x_eval ) );
 
     std::vector<DVector> result( xList.size() );
  
     for( unsigned int i = 0; i < xList.size(); i++ )
       (result[i]).resize( fast_dim );
 
-    result = convertToList( x - capd::matrixAlgorithms::gauss( *derMatrix, x_eval ) );
+    result = convertToList( *x - capd::matrixAlgorithms::gauss( *derMatrix, *x_eval ) );
 
     delete derMatrix;
+    delete x_eval;
+    delete x;
     
     return result;
   };
@@ -162,6 +166,9 @@ public:
       x1 = oneNewtonStep( x1, error );
       //cout << error << "\n";
     }
+
+    if( error > 2. )
+      throw "NEWTON ALGORITHM DIVERGENT! \n";
     
     for( int i = 0; i < pm_count; i++ )
       correctedGuess[i] = section[i].getOrigin() + P_list[i] * DVector( (x1[i])(1), (x1[i])(2), 0. );
@@ -180,12 +187,12 @@ public:
 
     for( int i = 0; i < pm_count; i++ )
     {
-      if( integrationTime[ i % pm_count ] > integrationTimeBound.rightBound() )
+      if( integrationTime[ i ] > integrationTimeBound.rightBound() )
       {
         tempCorrectedGuess[ 2*i ] = correctedGuess[i];
 
         DTaylor tempSolver( *Fhn_vf_ext, order );
-        DCoordinateSection tempSection( dim + 1, dim, (integrationTime[ i%pm_count ])/2. );
+        DCoordinateSection tempSection( dim + 1, dim, (integrationTime[ i ])/2. );
         DPoincareMap tempPM( tempSolver, tempSection );
 
         DVector extVector( dim + 1 );
