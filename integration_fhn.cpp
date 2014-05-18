@@ -10,7 +10,7 @@ DMap *Fhn_vf;
 IMap *IFhn_vf;
 
 DMap *Fhn_vf_rev;
-IMap *IFhn_vf_rev;
+DMap *Fhn_vf_ext;
   
 int order = 7;
 const int precomp_factor = 5; 
@@ -31,7 +31,7 @@ int main(){
   IFhn_vf = new IMap("par:theta,eps;var:u,w,v;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v);"); 
 
   Fhn_vf_rev = new DMap("par:theta,eps;var:u,w,v;fun:-w,(-2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(-eps/theta)*(u-v);"); 
-  IFhn_vf_rev = new IMap("par:theta,eps;var:u,w,v;fun:-w,(-2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(-eps/theta)*(u-v);"); 
+  Fhn_vf_ext = new DMap("par:theta,eps;var:u,w,v,t;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v),1;");
   // FitzHugh-Nagumo vector field is u'=w, w'=0.2*(theta*w +u*(u-1)*(u-0.1)+v, v'= eps/theta * (u-v)
  
 
@@ -44,6 +44,7 @@ int main(){
 
   xPrecomputedFill();
   IxPrecomputedFill();
+
 
  // const int pm_count = xPrecomputed.size();
   // FhnFindPeriodicOrbit FindPeriodicOrbit( pm_count );
@@ -63,12 +64,11 @@ int main(){
   }
 
 
-
   delete Fhn_vf;
   delete IFhn_vf;
 
   delete Fhn_vf_rev;
-  delete IFhn_vf_rev;
+  delete Fhn_vf_ext;
 
   return 0;
 } 

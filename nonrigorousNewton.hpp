@@ -24,7 +24,7 @@ public:
   int dim;
   int fast_dim;
   std::vector<DVector> correctedGuess;
- // DVector integrationTime;
+  DVector integrationTime;
 
   FhnFindPeriodicOrbit( std::vector<DVector> initialGuess )
     : pm_count ( initialGuess.size() ),
@@ -36,7 +36,8 @@ public:
       section( pm_count, DAffineSection( initialGuess[0], initialGuess[1]-initialGuess[0]) ),
       dim(3),
       fast_dim(dim - 1),
-      correctedGuess( initialGuess )
+      correctedGuess( initialGuess ),
+      integrationTime( pm_count )
   {
     for( int i = 0; i < pm_count; i++ )
     {
@@ -85,7 +86,6 @@ public:
  
     DVector pm_result(3);
     DVector setToIntegrate(3);
-    double time(0.);
 
     DMatrix monodromyMatrix(3,3);
     DMatrix poincareDer(3,3);
@@ -94,53 +94,37 @@ public:
     DMatrix derMatrix( x.dimension(), x.dimension() );
     derMatrix.setToIdentity();
 
-    for( int i = 0; i < pm_count-1; i++ )
+    for( int i = 0; i < pm_count; i++ )
     {
       monodromyMatrix.setToIdentity(); // probably obsolete since it is done automatically (?) in the solver code
   
       setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ x[2*i], x[2*i + 1], 0 });
 
-  //    cout << "Integration to section " << i+1 << " in progress, setToIntegrate = " << setToIntegrate << " \n";
+      //    cout << "Integration to section " << i+1 << " in progress, setToIntegrate = " << setToIntegrate << " \n";
       
-      DPoincareMap pm( solver, section[i+1], poincare::MinusPlus );
+      DPoincareMap pm( solver, section[ (i+1) % pm_count ], poincare::MinusPlus );
 
+      double time(0.);
       pm_result = pm(setToIntegrate, monodromyMatrix, time);
+
+      integrationTime[i] = time;
+ //     cout << time << " ";
+
       poincareDer = pm.computeDP(pm_result, monodromyMatrix, time);
       
- //     cout << pm_result << "\n";
+      //     cout << pm_result << "\n";
 
-      pm_result = inverseMatrix( P_list[i+1] )*( pm_result - (section[i+1]).getOrigin() );
-      poincareDer = inverseMatrix( P_list[i+1] )*poincareDer*(P_list[i]);
+      pm_result = inverseMatrix( P_list[ (i+1) % pm_count ] )*( pm_result - (section[ (i+1)%pm_count ]).getOrigin() );
+      poincareDer = inverseMatrix( P_list[ (i+1) % pm_count ] )*poincareDer*(P_list[i]);
 
-      x_eval[2*i + 2] = x[2*i + 2] - pm_result[0];
-      x_eval[2*i + 3] = x[2*i + 3] - pm_result[1];
+      x_eval[ (2*i + 2) % (fast_dim*pm_count) ] = x[ (2*i + 2) % (fast_dim*pm_count) ] - pm_result[0];
+      x_eval[ (2*i + 3) % (fast_dim*pm_count) ] = x[ (2*i + 3) % (fast_dim*pm_count) ] - pm_result[1];
 
-      derMatrix[2*i+2][2*i] = -poincareDer[0][0];
-      derMatrix[2*i+2][2*i+1] = -poincareDer[0][1];
-      derMatrix[2*i+3][2*i] = -poincareDer[1][0]; 
-      derMatrix[2*i+3][2*i+1] = -poincareDer[1][1];
+      derMatrix[ (2*i+2) % (fast_dim*pm_count) ][2*i] = -poincareDer[0][0];
+      derMatrix[ (2*i+2) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[0][1];
+      derMatrix[ (2*i+3) % (fast_dim*pm_count) ][2*i] = -poincareDer[1][0]; 
+      derMatrix[ (2*i+3) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[1][1];
     }
-
-
-    monodromyMatrix.setToIdentity();
-  
-    setToIntegrate = (section[pm_count - 1]).getOrigin() + (P_list[pm_count - 1])*DVector({ x[2*pm_count - 2], x[2*pm_count - 1], 0 });
-
-    DPoincareMap pm( solver, section[0], poincare::MinusPlus );
-
-    pm_result = pm( setToIntegrate, monodromyMatrix, time );
-    poincareDer = pm.computeDP( pm_result, monodromyMatrix, time);
- 
-    pm_result = inverseMatrix( P_list[0] )*( pm_result - (section[0]).getOrigin() );
-    poincareDer = inverseMatrix( P_list[0] )*poincareDer*(P_list[pm_count - 1]);
-
-    x_eval[0] = x[0] - pm_result[0];
-    x_eval[1] = x[1] - pm_result[1];
-
-    derMatrix[0][2*pm_count - 2] = -poincareDer[0][0];
-    derMatrix[0][2*pm_count - 1] = -poincareDer[0][1];
-    derMatrix[1][2*pm_count - 2] = -poincareDer[1][0];
-    derMatrix[1][2*pm_count - 1] = -poincareDer[1][1];
 
     error = sqrt( scalarProduct( x_eval, x_eval ) );
 
@@ -149,9 +133,7 @@ public:
     for( unsigned int i = 0; i < xList.size(); i++ )
       (result[i]).resize( fast_dim );
 
- //   cout << "AFTER INTEGRATION, BEFORE GAUSS \n";
     result = convertToList( x - capd::matrixAlgorithms::gauss( derMatrix, x_eval ) );
- //   cout << "AFTER GAUSS \n";
     
     return result;
   };
@@ -185,9 +167,59 @@ public:
   };
 
 
-  std::vector<DVector> getCorrectedGuess()
+  std::vector<DVector> getCorrectedGuess( interval integrationTimeBound )
   {
-    return correctedGuess;
+    std::vector<DVector> tempCorrectedGuess( 2*pm_count );
+    std::vector<DVector> resultCorrectedGuess;
+
+    for( int i = 0; i < 2*pm_count; i++ )
+      tempCorrectedGuess[i].resize( dim );
+
+    for( int i = 0; i < pm_count; i++ )
+    {
+      if( integrationTime[ i % pm_count ] > integrationTimeBound.rightBound() )
+      {
+        tempCorrectedGuess[ 2*i ] = correctedGuess[i];
+
+        DTaylor tempSolver( *Fhn_vf_ext, order );
+        DCoordinateSection tempSection( dim + 1, dim, (integrationTime[ i%pm_count ])/2. );
+        DPoincareMap tempPM( tempSolver, tempSection );
+
+        DVector extVector( dim + 1 );
+        for( int j = 1; j <= dim; j++ )
+          extVector(j) = (correctedGuess[i])(j);
+
+        extVector( dim + 1 ) = 0.;
+
+        tempCorrectedGuess[ 2*i + 1 ] = DVector( dim, tempPM( extVector ).begin() );
+        
+        cout << i << pm_count << "OK " << correctedGuess[i] << " " << tempCorrectedGuess[ 2*i + 1 ] <<  " " << correctedGuess[i+1] << "\n";
+      }
+      else if( integrationTime[ (i+1) % pm_count ] < integrationTimeBound.leftBound() )
+      {
+        tempCorrectedGuess[ 2*i ] = DVector({ 0., 0., 0. });
+        tempCorrectedGuess[ 2*i + 1 ] = DVector({ 0., 0., 0. });
+        cout << "WARNING! \n";
+      }
+      else
+      { 
+        tempCorrectedGuess[ 2*i ] = correctedGuess[i];
+        tempCorrectedGuess[ 2*i + 1 ] = DVector({0.,0.,0.});
+      }
+    }
+
+    for( unsigned int i = 0; i < tempCorrectedGuess.size(); i++ )
+    {
+      if( tempCorrectedGuess[i] != DVector({ 0., 0., 0. }) )
+          resultCorrectedGuess.push_back( tempCorrectedGuess[i] );
+    }
+
+    cout << pm_count << resultCorrectedGuess.size() << "\n";
+
+    if( resultCorrectedGuess.size() < 2 )
+      throw "ORBIT TOO SHORT!";
+
+    return resultCorrectedGuess;
   }
 /*
   void integrateOneTime( double _tolerance ) // TO CORRECT OR REMOVE! (SAVE COMPUTATION TIME)

@@ -279,6 +279,12 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
     (*IVectorField).setParameter( "theta", theta );
     (*IVectorField).setParameter( "eps", eps );
+
+ 
+    (*Fhn_vf_ext).setParameter( "theta", thetaD );
+    (*Fhn_vf_ext).setParameter( "eps", epsD );
+ 
+
     
     init( _tolerance, _radius );
 
@@ -358,7 +364,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
 
 
-
+/*
   std::vector<IVector> IReturnCorrectedOrbit( double _tolerance )
   {
     newtonAlgorithm( _tolerance );
@@ -400,6 +406,6 @@ class FhnCovering : public FhnFindPeriodicOrbit
       }
     }
   }
-
+*/
 
 };

@@ -63,7 +63,7 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
    
       }
 
-      numericOrbitGuess = cov.getCorrectedGuess();
+      numericOrbitGuess = cov.getCorrectedGuess( interval( 0., 3. ) );
       
     // if( isFirstTry )
        incrementSize = incrementSize * incrementFactor;
@@ -120,7 +120,7 @@ void continueOrbitWithEps( interval theta, interval epsRange, bool epsIncreasing
         }
        }
 
-      numericOrbitGuess = cov.getCorrectedGuess();
+      numericOrbitGuess = cov.getCorrectedGuess( interval(0., 3.) );
       
       if( isFirstTry && incrementSize < 1e-6 )
         incrementSize = incrementSize * incrementFactor;
