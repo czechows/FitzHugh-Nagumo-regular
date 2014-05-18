@@ -91,8 +91,9 @@ public:
     DMatrix poincareDer(3,3);
 
     DVector x_eval( x.dimension() ); // evaluates function xi - P_{i}(x_{i-1})
-    DMatrix derMatrix( x.dimension(), x.dimension() );
-    derMatrix.setToIdentity();
+    DMatrix *derMatrix;
+    derMatrix = new DMatrix( x.dimension(), x.dimension() );
+    (*derMatrix).setToIdentity();
 
     for( int i = 0; i < pm_count; i++ )
     {
@@ -120,10 +121,10 @@ public:
       x_eval[ (2*i + 2) % (fast_dim*pm_count) ] = x[ (2*i + 2) % (fast_dim*pm_count) ] - pm_result[0];
       x_eval[ (2*i + 3) % (fast_dim*pm_count) ] = x[ (2*i + 3) % (fast_dim*pm_count) ] - pm_result[1];
 
-      derMatrix[ (2*i+2) % (fast_dim*pm_count) ][2*i] = -poincareDer[0][0];
-      derMatrix[ (2*i+2) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[0][1];
-      derMatrix[ (2*i+3) % (fast_dim*pm_count) ][2*i] = -poincareDer[1][0]; 
-      derMatrix[ (2*i+3) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[1][1];
+      (*derMatrix)[ (2*i+2) % (fast_dim*pm_count) ][2*i] = -poincareDer[0][0];
+      (*derMatrix)[ (2*i+2) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[0][1];
+      (*derMatrix)[ (2*i+3) % (fast_dim*pm_count) ][2*i] = -poincareDer[1][0]; 
+      (*derMatrix)[ (2*i+3) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[1][1];
     }
 
     error = sqrt( scalarProduct( x_eval, x_eval ) );
@@ -133,7 +134,9 @@ public:
     for( unsigned int i = 0; i < xList.size(); i++ )
       (result[i]).resize( fast_dim );
 
-    result = convertToList( x - capd::matrixAlgorithms::gauss( derMatrix, x_eval ) );
+    result = convertToList( x - capd::matrixAlgorithms::gauss( *derMatrix, x_eval ) );
+
+    delete derMatrix;
     
     return result;
   };
