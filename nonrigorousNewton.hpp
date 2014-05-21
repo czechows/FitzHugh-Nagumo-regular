@@ -13,7 +13,7 @@
 
 class FhnFindPeriodicOrbit
 {
-public:
+  public:
   int pm_count;
   DMap *vectorField;
   DMap *vectorFieldRev;
@@ -101,7 +101,7 @@ public:
     {
       monodromyMatrix.setToIdentity(); // probably obsolete since it is done automatically (?) in the solver code
   
-      setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ (*x)[2*i], (*x)[2*i + 1], 0 });
+      setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ (*x)[2*i], (*x)[2*i + 1], 0. });
 
       //    cout << "Integration to section " << i+1 << " in progress, setToIntegrate = " << setToIntegrate << " \n";
       
@@ -120,13 +120,13 @@ public:
       pm_result = inverseMatrix( P_list[ (i+1) % pm_count ] )*( pm_result - (section[ (i+1)%pm_count ]).getOrigin() );
       poincareDer = inverseMatrix( P_list[ (i+1) % pm_count ] )*poincareDer*(P_list[i]);
 
-      (*x_eval)[ (2*i + 2) % (fast_dim*pm_count) ] = (*x)[ (2*i + 2) % (fast_dim*pm_count) ] - pm_result[0];
-      (*x_eval)[ (2*i + 3) % (fast_dim*pm_count) ] = (*x)[ (2*i + 3) % (fast_dim*pm_count) ] - pm_result[1];
+      (*x_eval)[ (2*i + 2) % (*x_eval).dimension() ] = (*x)[ (2*i + 2) % (*x_eval).dimension() ] - pm_result[0];
+      (*x_eval)[ (2*i + 3) % (*x_eval).dimension() ] = (*x)[ (2*i + 3) % (*x_eval).dimension() ] - pm_result[1];
 
-      (*derMatrix)[ (2*i+2) % (fast_dim*pm_count) ][2*i] = -poincareDer[0][0];
-      (*derMatrix)[ (2*i+2) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[0][1];
-      (*derMatrix)[ (2*i+3) % (fast_dim*pm_count) ][2*i] = -poincareDer[1][0]; 
-      (*derMatrix)[ (2*i+3) % (fast_dim*pm_count) ][2*i+1] = -poincareDer[1][1];
+      (*derMatrix)[ (2*i+2) % (*derMatrix).numberOfRows() ][2*i] = -poincareDer[0][0];
+      (*derMatrix)[ (2*i+2) % (*derMatrix).numberOfRows() ][2*i+1] = -poincareDer[0][1];
+      (*derMatrix)[ (2*i+3) % (*derMatrix).numberOfRows() ][2*i] = -poincareDer[1][0]; 
+      (*derMatrix)[ (2*i+3) % (*derMatrix).numberOfRows() ][2*i+1] = -poincareDer[1][1];
     }
 
     error = sqrt( scalarProduct( *x_eval, *x_eval ) );
@@ -136,7 +136,9 @@ public:
     for( unsigned int i = 0; i < xList.size(); i++ )
       (result[i]).resize( fast_dim );
 
+    cout << "Newton algorithm in progress...";
     result = convertToList( *x - capd::matrixAlgorithms::gauss( *derMatrix, *x_eval ) );
+    cout << " done!";
 
     delete derMatrix;
     delete x_eval;
@@ -164,11 +166,12 @@ public:
     while( error > _tolerance )
     {
       x1 = oneNewtonStep( x1, error );
-      //cout << error << "\n";
+      cout << error << "\n";
+
+      if( error > 2. )
+        throw "NEWTON ALGORITHM DIVERGENT! \n";
     }
 
-    if( error > 2. )
-      throw "NEWTON ALGORITHM DIVERGENT! \n";
     
     for( int i = 0; i < pm_count; i++ )
       correctedGuess[i] = section[i].getOrigin() + P_list[i] * DVector( (x1[i])(1), (x1[i])(2), 0. );
@@ -184,6 +187,7 @@ public:
 
     for( int i = 0; i < 2*pm_count; i++ )
       tempCorrectedGuess[i].resize( dim );
+    
 
     for( int i = 0; i < pm_count; i++ )
     {
@@ -201,9 +205,14 @@ public:
 
         extVector( dim + 1 ) = 0.;
 
-        tempCorrectedGuess[ 2*i + 1 ] = DVector( dim, tempPM( extVector ).begin() );
+        DVector integration_result( tempPM( extVector ) );
+
+        for( int j = 1; j <= dim; j++ )
+          (tempCorrectedGuess[ 2*i + 1 ])(j) = integration_result(j);
+
+        //tempCorrectedGuess[ 2*i + 1 ] = DVector( dim, tempPM( extVector ).begin() );
         
-        cout << i << pm_count << "OK " << correctedGuess[i] << " " << tempCorrectedGuess[ 2*i + 1 ] <<  " " << correctedGuess[i+1] << "\n";
+        cout << i << pm_count << "OK " << correctedGuess[i] << " " << tempCorrectedGuess[ 2*i + 1 ] <<  " " << correctedGuess[ (i+1) % pm_count ] << "\n";
       }
       else if( integrationTime[ (i+1) % pm_count ] < integrationTimeBound.leftBound() )
       {

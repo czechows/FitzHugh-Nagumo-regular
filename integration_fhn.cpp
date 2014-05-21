@@ -12,7 +12,7 @@ IMap *IFhn_vf;
 DMap *Fhn_vf_rev;
 DMap *Fhn_vf_ext;
   
-int order = 7;
+int order = 6;
 const int precomp_factor = 5; 
 
 #include "matcontPrecomputedOrbit.hpp"
@@ -38,8 +38,8 @@ int main(){
   cout.precision(15);
 
   interval theta = interval(61.)/100.;
-  interval eps = interval(1e-4, 1e-3); 
-  double tolerance = 1e-14;
+  interval eps = interval(1.5e-4, 1e-3); 
+  double tolerance = 1e-13;
   double radius = double(2e-8);
 
   xPrecomputedFill();
@@ -54,7 +54,11 @@ int main(){
 
   bool isEpsIncreasing( 0 );
 
-  try
+  FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius );
+  cont.continueOrbitWithEps();
+
+
+ /* try
   {
     continueOrbitWithEps( theta, eps, isEpsIncreasing, xPrecomputed, tolerance, radius, 1e-8 );
   }
@@ -62,7 +66,7 @@ int main(){
   {
     cout << Message << "EXISTENCE OF PERIODIC ORBIT FOR PARAMETER VALUES THETA=" << theta << " AND EPS=" << eps << " NOT VERIFIED! \n";
   }
-
+*/
 
   delete Fhn_vf;
   delete IFhn_vf;

@@ -213,7 +213,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
   {
     IVector _leftU( N.dimension() ); 
     _leftU = N;
-    _leftU[1] =  N[1].leftBound();
+    _leftU[1] = N[1].leftBound();
     return _leftU;
   }
 
@@ -266,7 +266,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
   };
 
 
-  bool proveExistenceOfOrbit( interval theta, interval eps, double _tolerance, double _radius, bool verbose = 0 )
+  void proveExistenceOfOrbit( interval theta, interval eps, double _tolerance, double _radius )
   {
     double thetaD = ( theta.leftBound() + theta.rightBound() )/2. ;
     double epsD = ( eps.leftBound() + eps.rightBound() )/2. ;
@@ -283,15 +283,13 @@ class FhnCovering : public FhnFindPeriodicOrbit
  
     (*Fhn_vf_ext).setParameter( "theta", thetaD );
     (*Fhn_vf_ext).setParameter( "eps", epsD );
- 
-
     
     init( _tolerance, _radius );
 
     IVector vectorToCover( X[0] );
     IVector vectorCovering( X[0] );
     IVector unstableLimit( { 10*vectorCovering[1] } );
-/*
+
     for( int i = 0; i < pm_count; i++ )
     {
       //    cout << "test " << (( ISection[i].getOrigin() )(3)).leftBound() << "\n";
@@ -300,21 +298,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
       //  cout << fi( i, X[i] ) << "\n " << fi( i, leftU(X[i]) ) << " " << fi( i, rightU(X[i]) ) << "\n \n";
     }
 
-    if( isCovering( vectorCovering, IMatrix::Identity(2), vectorToCover ) )
-    {
-      if( verbose )
-        cout << "Existence of periodic solution for parameter values eps = " << eps << " and theta = " << theta << " proven. \n";
 
-      return 1;
-    }
-    else
-    {
-      if( verbose )
-        cout << "EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << eps << " AND THETA = " << theta << "NOT PROVEN. \n";
-
-      return 0;
-    }*/
-    return 1;
+    if( !isCovering( vectorCovering, IMatrix::Identity(2), vectorToCover ) )
+      throw "COVERING ERROR! \n";
   }
 
 
