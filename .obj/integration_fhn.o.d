@@ -100,7 +100,8 @@
  /usr/include/c++/4.9.0/bits/stl_uninitialized.h \
  /usr/include/c++/4.9.0/bits/stl_vector.h \
  /usr/include/c++/4.9.0/bits/stl_bvector.h \
- /usr/include/c++/4.9.0/bits/vector.tcc /usr/local/include/capd/capdlib.h \
+ /usr/include/c++/4.9.0/bits/vector.tcc /usr/include/string.h \
+ /usr/local/include/capd/capdlib.h \
  /usr/local/include/capd/intervals/lib.h /usr/include/c++/4.9.0/cmath \
  /usr/include/math.h /usr/include/bits/huge_val.h \
  /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h \
@@ -723,6 +724,8 @@
 /usr/include/c++/4.9.0/bits/stl_bvector.h:
 
 /usr/include/c++/4.9.0/bits/vector.tcc:
+
+/usr/include/string.h:
 
 /usr/local/include/capd/capdlib.h:
 

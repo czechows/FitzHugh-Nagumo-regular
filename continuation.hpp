@@ -60,23 +60,25 @@ class FhnValidatedContinuation
 
   void tryToProveOrbit( FhnCovering *_cov )
   {
-    try
+    while(true)
     {
-      (*_cov).proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ); 
-    }
-    catch(const char* Message)
-    {
-      cout << Message << "\n";
-      isFirstTry = 0;
-      decreaseCurrentEpsRange();
-      tryToProveOrbit( _cov );
-    }
-    catch(std::domain_error)
-    {
-      cout << "DOMAIN ERROR! \n";
-      isFirstTry = 0;
-      decreaseCurrentEpsRange();
-      tryToProveOrbit( _cov );
+      try
+      {
+        (*_cov).proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ); 
+        break;
+      }
+      catch(const char* Message)
+      {
+        cout << Message << "\n";
+        isFirstTry = 0;
+        decreaseCurrentEpsRange();
+      }
+      catch(std::domain_error)
+      {
+        cout << "DOMAIN ERROR! \n";
+        isFirstTry = 0;
+        decreaseCurrentEpsRange();
+      }
     }
   }
 
@@ -90,14 +92,14 @@ class FhnValidatedContinuation
       FhnCovering *cov = new FhnCovering( numericOrbitGuess );
       tryToProveOrbit( cov );
       numericOrbitGuess = (*cov).getCorrectedGuess( integrationTimeBound );
+      delete cov;
 
       if( isFirstTry )
         increment = increment * incrementFactor;
 
-      delete cov;
 
       cout << "Existence of periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \n Increment size: " << increment.rightBound() << "\n";
-
+      cout.flush();
     }
 
     cout << "\n EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << "PROVEN !. \n";

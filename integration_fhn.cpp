@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string.h>
 #include "capd/capdlib.h"
 
 using std::cout;
@@ -10,9 +11,10 @@ DMap *Fhn_vf;
 IMap *IFhn_vf;
 
 DMap *Fhn_vf_rev;
-DMap *Fhn_vf_ext;
   
-int order = 6;
+int order = 6; // has to be low to avoid crossing sections in one step
+int rig_order = 6; // higher better?
+
 const int precomp_factor = 5; 
 
 #include "matcontPrecomputedOrbit.hpp"
@@ -31,14 +33,13 @@ int main(){
   IFhn_vf = new IMap("par:theta,eps;var:u,w,v;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v);"); 
 
   Fhn_vf_rev = new DMap("par:theta,eps;var:u,w,v;fun:-w,(-2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(-eps/theta)*(u-v);"); 
-  Fhn_vf_ext = new DMap("par:theta,eps;var:u,w,v,t;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v),1;");
   // FitzHugh-Nagumo vector field is u'=w, w'=0.2*(theta*w +u*(u-1)*(u-0.1)+v, v'= eps/theta * (u-v)
  
 
   cout.precision(15);
 
   interval theta = interval(61.)/100.;
-  interval eps = interval(1.5e-4, 1e-3); 
+  interval eps = interval(9.5e-4, 1e-3); 
   double tolerance = 1e-13;
   double radius = double(2e-8);
 
@@ -72,7 +73,6 @@ int main(){
   delete IFhn_vf;
 
   delete Fhn_vf_rev;
-  delete Fhn_vf_ext;
 
   return 0;
 } 

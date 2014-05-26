@@ -19,7 +19,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
   FhnCovering( std::vector<DVector> initialGuess )
     : FhnFindPeriodicOrbit( initialGuess ),
       IVectorField( IFhn_vf ),
-      ISolver( *IVectorField, order),
+      ISolver( *IVectorField, rig_order),
       IP_list( pm_count ),
       ISection( pm_count, IAffineSection( IVector(dim), IVector(dim) ) ),
       X( pm_count )
@@ -167,7 +167,6 @@ class FhnCovering : public FhnFindPeriodicOrbit
           (IP_list[ uSecCount ] )( j, 2 ) = unstableVect( j );
           (IP_list[ sSecCount ])( j, 1 ) = stableVect( j );
         }
-        //       cout << stableVect << " " << unstableVect << "\n" << IP_list[ uSecCount ].column(1) << "\n" << IP_list[ sSecCount ].column(0) << "\n \n";
       }
 
     }
@@ -186,7 +185,6 @@ class FhnCovering : public FhnFindPeriodicOrbit
        ( IP_list[i] )( j, dim ) =( (ISection[i]).getNormalVector() )(j);
   
       IOrthogonalizeRelativeColumn( IP_list[ i % pm_count ], dim - 1 );
-      //   cout << matrixAlgorithms::det( IP_list[ i % pm_count ] ) << "\n";
     }
   }
 
@@ -239,10 +237,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
  
     IVector image = fi( i, setCovering );
     IVector unstablePart = IVector( { interval( fi( i, leftU( setCovering ) )[1].rightBound(), fi( i, rightU( setCovering ) )[1].leftBound() ) } );
-   // cout << image << " " << unstablePart << "\n";
 
-    if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) )// this assumptions are not necessary but useful to check
-      throw "COVERING ERROR!";
+    if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) )// these assumptions are not necessary but useful to check
+      throw "COVERING ERROR! \n";
 
     unstablePart = intersection( unstableDirLimit, unstablePart );
 
@@ -280,10 +277,6 @@ class FhnCovering : public FhnFindPeriodicOrbit
     (*IVectorField).setParameter( "theta", theta );
     (*IVectorField).setParameter( "eps", eps );
 
- 
-    (*Fhn_vf_ext).setParameter( "theta", thetaD );
-    (*Fhn_vf_ext).setParameter( "eps", epsD );
-    
     init( _tolerance, _radius );
 
     IVector vectorToCover( X[0] );
@@ -303,95 +296,5 @@ class FhnCovering : public FhnFindPeriodicOrbit
       throw "COVERING ERROR! \n";
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-  std::vector<IVector> IReturnCorrectedOrbit( double _tolerance )
-  {
-    newtonAlgorithm( _tolerance );
-    std::vector<DVector> DxList( getCorrectedGuess() );
-    std::vector<IVector> xList( pm_count );
-
-    for( int i = 0; i < pm_count; i++ )
-    {
-      (xList[i]).resize( dim );
-      xList[i] = IVector(DxList[i]);
-    }
-
-    return xList;
-  }
-
-
-
-  void IintegrateOneTime( double _tolerance ) 
-  {
-    std::vector<IVector> vect( IReturnCorrectedOrbit( _tolerance ) );
-    for( int i = 0; i < pm_count-1; i++ )
-    {
-      IPoincareMap pm( ISolver, ISection[i+1], poincare::MinusPlus );
-      interval temp_time = 0.;
-
-      IMatrix monodromyMatrix(3,3);
-      IMatrix poincareDer(3,3);
-
-      C1Rect2Set setToIntegrate( vect[i] );
-
-      IVector result = pm( setToIntegrate, monodromyMatrix, temp_time );
-      poincareDer = pm.computeDP( result, monodromyMatrix, temp_time );
-      
-
-      if( ((ISection[i]).getOrigin())(3) > 0.05 && ((ISection[i]).getOrigin())(3) < 0.06 )
-      {
-        cout << (ISection[i]).getOrigin() << " " << maxDiam( result  - vect[i+1] )  << "\n";
-        cout << poincareDer << "\n";
-      }
-    }
-  }
-*/
 
 };
