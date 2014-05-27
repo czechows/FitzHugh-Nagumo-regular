@@ -29,7 +29,7 @@ class FhnValidatedContinuation
       tolerance( _tolerance ),
       radius( _radius ),
       numericOrbitGuess( _precomputedOrbit ),
-      increment( 0., 1e-9 ),
+      increment( 0., 1e-7 ),
       incrementFactor( 1.05 ),
       currentEpsRange( epsRange ),
       integrationTimeBound( 0.2, 4. )
