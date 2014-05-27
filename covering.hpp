@@ -247,9 +247,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
     IVector pm_resultExt( dim + 1 );
     ITaylor solverExt( *IVectorFieldExt, rig_order );
 
-    int disc_j = 3;
-    int disc_k = 3;
-    int disc_l = 3;
+    int disc_j = 7;
+    int disc_k = 7;
+    int disc_l = 1;
 
     if( _x0(2).leftBound() == _x0(2).rightBound() )
       disc_k = 1;

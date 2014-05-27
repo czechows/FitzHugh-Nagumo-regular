@@ -29,7 +29,7 @@ class FhnValidatedContinuation
       tolerance( _tolerance ),
       radius( _radius ),
       numericOrbitGuess( _precomputedOrbit ),
-      increment( 0., 1e-7 ),
+      increment( 0., 1e-6 ),
       incrementFactor( 1.05 ),
       currentEpsRange( epsRange ),
       integrationTimeBound( 0.2, 4. )
@@ -58,6 +58,11 @@ class FhnValidatedContinuation
       currentEpsRange = right( currentEpsRange ) - increment;
   }
 
+  void decreaseRadius()
+  {
+    radius = radius / incrementFactor;
+  }
+
   void tryToProveOrbit( FhnCovering *_cov )
   {
     while(true)
@@ -72,12 +77,15 @@ class FhnValidatedContinuation
         cout << Message << "\n";
         isFirstTry = 0;
         decreaseCurrentEpsRange();
+        decreaseRadius();
       }
       catch(std::domain_error)
       {
         cout << "DOMAIN ERROR! \n";
         isFirstTry = 0;
         decreaseCurrentEpsRange();
+        integrationTimeBound = integrationTimeBound + interval(0.1);
+        cout << "INTEGRATION TIME BOUND INCREASED!"
       }
     }
   }
@@ -87,19 +95,18 @@ class FhnValidatedContinuation
   {
     while( ( !epsIncreasing && currentEpsRange.leftBound() >= epsRange.leftBound() ) ||  ( epsIncreasing && currentEpsRange.rightBound() <= epsRange.rightBound() ) )
     {
-      moveCurrentEpsRange();
-
       FhnCovering *cov = new FhnCovering( numericOrbitGuess );
       tryToProveOrbit( cov );
       numericOrbitGuess = (*cov).getCorrectedGuess( integrationTimeBound );
       delete cov;
 
-      if( isFirstTry )
-        increment = increment * incrementFactor;
-
-
       cout << "Existence of periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \n Increment size: " << increment.rightBound() << "\n";
       cout.flush();
+
+      moveCurrentEpsRange();
+
+      if( isFirstTry )
+        increment = increment * incrementFactor;
     }
 
     cout << "\n EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << "PROVEN !. \n";
