@@ -41,9 +41,9 @@ int main(){
   cout.precision(15);
 
   interval theta = interval(61.)/100.;
-  interval eps = interval(9.5e-4, 1e-3); 
+  interval eps = interval(1.5e-4, 1e-3); 
   double tolerance = 1e-13;
-  double radius = double(2e-6);
+  double radius = double(1e-6);
 
   xPrecomputedFill();
   IxPrecomputedFill();

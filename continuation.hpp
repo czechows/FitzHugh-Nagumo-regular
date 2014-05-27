@@ -77,6 +77,7 @@ class FhnValidatedContinuation
         cout << Message << "\n";
         isFirstTry = 0;
         decreaseCurrentEpsRange();
+        decreaseCurrentEpsRange();
         decreaseRadius();
       }
       catch(std::domain_error)
@@ -85,7 +86,7 @@ class FhnValidatedContinuation
         isFirstTry = 0;
         decreaseCurrentEpsRange();
         integrationTimeBound = integrationTimeBound + interval(0.1);
-        cout << "INTEGRATION TIME BOUND INCREASED!"
+        cout << "INTEGRATION TIME BOUND INCREASED!";
       }
     }
   }
