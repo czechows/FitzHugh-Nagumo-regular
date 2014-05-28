@@ -88,6 +88,14 @@ class FhnValidatedContinuation
         integrationTimeBound = integrationTimeBound + interval(0.1);
         cout << "INTEGRATION TIME BOUND INCREASED!";
       }
+      catch( capd::poincare::PoincareException< C0Rect2Set > )
+      {
+        cout << "POINCARE EXCEPTION! \n";
+        isFirstTry = 0;
+        decreaseCurrentEpsRange();
+        decreaseCurrentEpsRange();
+        decreaseRadius();
+      }
     }
   }
 
