@@ -1,6 +1,7 @@
 *
 !*.cpp
 !*.hpp
+!makefile
 !savedEpsRange
 !README*
 !.gitignore
