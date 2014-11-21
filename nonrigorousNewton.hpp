@@ -1,5 +1,5 @@
 /* -----------------------------------------
- * This is a header file for integration_fhn.cpp
+ * This is a header file for continuation_fhn.cpp
  * implementing nonrigorous Newton method 
  * to find a good guess for the periodic orbit.
  * ------------------------------------------ */

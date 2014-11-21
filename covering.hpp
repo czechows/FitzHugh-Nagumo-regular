@@ -1,5 +1,5 @@
 /* -------------------------------------------------
- * This is a header file for integration_fhn.cpp
+ * This is a header file for continuation_fhn.cpp
  * implementing covering relations 
  * for finding periodic solutions of the FHN equations
  * ------------------------------------------------- */

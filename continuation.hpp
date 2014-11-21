@@ -1,5 +1,5 @@
 /* -----------------------------------------
- * This is a header file for integration_fhn.cpp
+ * This is a header file for continuation_fhn.cpp
  * implementing parameter continuation
  * of the computer assisted proof
  * of existence of periodic solutions

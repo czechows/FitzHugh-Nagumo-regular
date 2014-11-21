@@ -29,7 +29,7 @@ Then call
 inside the program directory.
 
 To execute the program call
-  ./integration_fhn
+  ./continuation_fhn
 
 Program was tested under GCC 4.9.2 and CAPD revision 378.
 

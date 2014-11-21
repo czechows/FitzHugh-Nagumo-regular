@@ -1,5 +1,5 @@
 /* -----------------------------------------
- * This is a header file for integration_fhn.cpp
+ * This is a header file for continuation_fhn.cpp
  * implementing auxiliaries for Newton algorithms
  * that is condensing the precomputed list of points
  * along the orbit and orthogonalizing matrices

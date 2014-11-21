@@ -1,5 +1,5 @@
 # list of all the programs in your project 
-PROGS = integration_fhn
+PROGS = continuation_fhn
 
 # a list of all your units to be linked with your programs (space separated)
 OTHERS = 
