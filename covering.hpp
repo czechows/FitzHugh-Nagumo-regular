@@ -56,8 +56,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
     // a patch to set eps to 0 for the vector field for computing coordinates around slow manifold
     DMap vectorFieldZeroEps( *vectorField );          
     vectorFieldZeroEps.setParameter("eps", 0.);
-    // WARNING: specific to the (type of) the vector field. Takes care of the problem that proof does not go for subintervals of parameter epsilon away from 0.
-   
+    // WARNING: specific to the (type of) the vector field 
+
     for(int i=0; i<vdim; i++)              
     {
       for(int j=0; j<vdim; j++)
@@ -149,14 +149,42 @@ class FhnCovering : public FhnFindPeriodicOrbit
         DVector uSetToIntegrate( correctedGuess[ uSecCount ] ),
                 sSetToIntegrate( correctedGuess[ sSecCount ] );
 
-        DPoincareMap uPM( solver, section[ (uSecCount + 1) % pm_count ] ), 
-                     sPM( solverRev, section[ ((sSecCount - 1) + pm_count) % pm_count ] );
+        DMatrix uDerivativeOfPm( fast_dim, fast_dim ),
+                sDerivativeOfPm( fast_dim, fast_dim );
 
-        DVector uResult( uPM( uSetToIntegrate, uMonodromyMatrix, uReturnTime ) ),
-                sResult( sPM( sSetToIntegrate, sMonodromyMatrix, sReturnTime ) );
+        int local_order( order );
 
-        DMatrix uDerivativeOfPm( uPM.computeDP( uResult, uMonodromyMatrix, uReturnTime ) ),
-                sDerivativeOfPm( sPM.computeDP( sResult, sMonodromyMatrix, sReturnTime ) );
+   /*     while(true)
+        {
+          try
+          {*/
+        {
+          DTaylor solver( *vectorField, local_order );
+          DTaylor solverRev( *vectorFieldRev, local_order );
+
+          DPoincareMap uPM( solver, section[ (uSecCount + 1) % pm_count ] ), 
+                       sPM( solverRev, section[ ((sSecCount - 1) + pm_count) % pm_count ] );
+
+          DVector uResult( uPM( uSetToIntegrate, uMonodromyMatrix, uReturnTime ) ),
+                  sResult( sPM( sSetToIntegrate, sMonodromyMatrix, sReturnTime ) );
+
+          uDerivativeOfPm =  uPM.computeDP( uResult, uMonodromyMatrix, uReturnTime ) ,
+          sDerivativeOfPm = sPM.computeDP( sResult, sMonodromyMatrix, sReturnTime ) ;
+        }
+
+        /*    break;
+                                    // this catch would decrease the order so nonrigorous integration would not cross a section in one step 
+                                    // (then integrator throws domain_error); for the parameter range in the paper not necessary and did not work that well
+                                    // so we disable it, however we leave it to uncomment for future purposes
+}
+          catch(std::domain_error)
+          {
+            cout << "DOMAIN ERROR! \n";
+            local_order = local_order - 1;
+            cout << "ORDER DECREASED!";
+          }
+        }*/
+ 
 
         unstableVect = uDerivativeOfPm * unstableVect;
         stableVect = sDerivativeOfPm * stableVect;
@@ -265,7 +293,6 @@ class FhnCovering : public FhnFindPeriodicOrbit
           interval tl = interval(l-1,l)/disc_l;
           
           interval time(0.);
-
          
           interval epsDiam = right(eps) - left(eps);
           interval epsRange( (-epsDiam/2.).leftBound(), (epsDiam/2.).rightBound() );
@@ -314,7 +341,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
     return _rightU;
   }
  
-  IVector shrinkAndExpand(const IVector &N, interval factor )  // shrinks a rectangle in unstable direction and expands it in stable to get a covering (for example by original rectangle)
+  IVector shrinkAndExpand(const IVector &N, interval factor )  // shrinks a rectangle in the unstable direction and expands it in stable to get a covering (for example by original rectangle)
   {
       IVector result(N);
       result[0] = N[0]*factor;
@@ -330,8 +357,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
     IVector image = fi_withParams( i, setCovering, eps );
     IVector unstablePart = IVector( { interval( fi_withParams( i, leftU( setCovering ), eps )[1].rightBound(), fi_withParams( i, rightU( setCovering ), eps )[1].leftBound() ) } );
 
-    if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) )// these assumptions are not necessary but useful to check
-      throw "COVERING ERROR (MINOR)! \n";
+    if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) ) // these checks are necessary for shrinkAndExpand
+      throw "COVERING SETS MISALIGNED \n";
 
     unstablePart = intersection( unstableDirLimit, unstablePart );
 
@@ -378,17 +405,35 @@ class FhnCovering : public FhnFindPeriodicOrbit
     IVector unstableLimit( { 10*vectorCovering[1] } );
 
     for( int i = 0; i < pm_count; i++ )
-    {
-      //    cout << "test " << (( ISection[i].getOrigin() )(3)).leftBound() << "\n";
       vectorCovering = propagateToCoverByfi( i, vectorCovering, unstableLimit, eps );
-      //  cout << isCoveringByfi( i, X[i], X[i+1] ) << "\n"; 
-      //  cout << fi( i, X[i] ) << "\n " << fi( i, leftU(X[i]) ) << " " << fi( i, rightU(X[i]) ) << "\n \n";
-    }
 
 
     if( !isCovering( vectorCovering, IMatrix::Identity(2), vectorToCover ) )
+    {
+      cout << vectorCovering << "\n" << vectorToCover << "\n";
       throw "COVERING ERROR! \n";
+    }
   }
+/*
+  void initialize( interval theta, interval eps, double _tolerance, double _radius )
+  {
+    double thetaD = ( theta.leftBound() + theta.rightBound() )/2. ;
+    double epsD = ( eps.leftBound() + eps.rightBound() )/2. ;
+
+    (*vectorField).setParameter( "theta", thetaD );
+    (*vectorField).setParameter( "eps", epsD );
+ 
+    (*vectorFieldRev).setParameter( "theta", thetaD );
+    (*vectorFieldRev).setParameter( "eps", epsD );
+
+    (*IVectorField).setParameter( "theta", theta );
+    (*IVectorField).setParameter( "eps", eps );
+
+    (*IVectorFieldExt).setParameter( "theta", theta );
+
+    init( _tolerance, _radius );
+  }
+*/
 
 
 };

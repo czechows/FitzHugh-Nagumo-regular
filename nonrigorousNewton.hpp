@@ -17,8 +17,6 @@ class FhnFindPeriodicOrbit
   int pm_count;
   DMap *vectorField;
   DMap *vectorFieldRev;
-  DTaylor solver;
-  DTaylor solverRev;
   std::vector<DMatrix> P_list;
   std::vector<DAffineSection> section;
   int dim;
@@ -30,8 +28,6 @@ class FhnFindPeriodicOrbit
     : pm_count ( initialGuess.size() ),
       vectorField( Fhn_vf ),
       vectorFieldRev( Fhn_vf_rev ),
-      solver(*vectorField, order),
-      solverRev(*vectorFieldRev, order),
       P_list( pm_count ),
       section( pm_count, DAffineSection( initialGuess[0], initialGuess[1]-initialGuess[0]) ),
       dim(3),
@@ -80,7 +76,7 @@ class FhnFindPeriodicOrbit
   };
 
 
-  std::vector<DVector> oneNewtonStep( std::vector<DVector> xList, double& error )   // one Newton step for function xi - P_{i}(x_{i-1}), i in mathbbZ
+  std::vector<DVector> oneNewtonStep( std::vector<DVector> xList, double& error )   // one Newton step for function xi - P_{i}(x_{i-1})
   {
     DVector *x;
     x = new DVector( convertToVector( xList ) );
@@ -97,21 +93,47 @@ class FhnFindPeriodicOrbit
     derMatrix = new DMatrix( (*x).dimension(), (*x).dimension() );
     (*derMatrix).setToIdentity();
 
+
+
     for( int i = 0; i < pm_count; i++ )
     {
       monodromyMatrix.setToIdentity(); // probably obsolete since it is done automatically in the solver code
   
-      setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ (*x)[2*i], (*x)[2*i + 1], 0. });
+      setToIntegrate = (section[i]).getOrigin() + (P_list[i])*DVector({ (*x)[2*i], (*x)[2*i + 1], 0. }); // actually point to integrate, we use interval integration nomenclature here
 
-      DPoincareMap pm( solver, section[ (i+1) % pm_count ], poincare::MinusPlus );
 
-      double time(0.);
-      pm_result = pm(setToIntegrate, monodromyMatrix, time);
+      int local_order( order );
+      bool isDomainError(0);
 
-      integrationTime[i] = time;
+    /*  while(true)
+      {
+        try{*/
+      {
+        DTaylor solver(*vectorField, local_order);
+        DPoincareMap pm( solver, section[ (i+1) % pm_count ], poincare::MinusPlus );
 
-      poincareDer = pm.computeDP(pm_result, monodromyMatrix, time);
-      
+        double time(0.);
+
+        pm_result = pm(setToIntegrate, monodromyMatrix, time);
+
+        if( !isDomainError )
+          integrationTime[i] = time;
+
+        poincareDer = pm.computeDP(pm_result, monodromyMatrix, time);
+      }
+       /*   break;
+        //}
+        catch(std::domain_error)  // this catch would decrease the order so nonrigorous integration would not cross a section in one step 
+                                    // (then integrator throws domain_error); for the parameter range in the paper not necessary and did not work that well
+                                    // so we disable it, however we leave it to uncomment for future purposes
+        {
+          cout << "DOMAIN ERROR! \n";
+          local_order = local_order - 1;
+          integrationTime[i] = 0.;
+          isDomainError = 1;
+          cout << "ORDER DECREASED TO " << local_order << " ! \n";
+        } 
+      }*/
 
       pm_result = inverseMatrix( P_list[ (i+1) % pm_count ] )*( pm_result - (section[ (i+1)%pm_count ]).getOrigin() );
       poincareDer = inverseMatrix( P_list[ (i+1) % pm_count ] )*poincareDer*(P_list[i]);
@@ -176,9 +198,42 @@ class FhnFindPeriodicOrbit
   };
 
 
+  void saveIntegrationTime() // we save the integration times for future reference
+  {
+    std::ofstream savedIntegrationTime;
+    savedIntegrationTime.open("savedIntegrationTime.log", std::ios::trunc);
+    savedIntegrationTime.precision(6);
+
+    double totalIntegrationTime(0.);
+
+    for( unsigned int i = 0; i < integrationTime.dimension(); i++ )
+    {
+     savedIntegrationTime << "Integration time till section given by: " << section[i].getOrigin() << " is: " << integrationTime[i] << "\n";
+     totalIntegrationTime = totalIntegrationTime + integrationTime[i];
+    }
+
+    savedIntegrationTime << "Total integration time: " << totalIntegrationTime;
+  }
+
+  void saveOrbit( std::vector<DVector> orbit )     // we store the orbit so one can resume the program later from the saved numerical guess 
+                                                   // (we do not have to store the exact copy of the guess!"
+  {
+    std::ofstream savedOrbit;
+    savedOrbit.open("savedOrbit.hpp", std::ios::trunc);
+    savedOrbit.precision(10);
+    savedOrbit << "std::vector<DVector> savedOrbit = \n { \n";
+
+    for( unsigned int i = 0; i < orbit.size() - 1; i++ )
+      savedOrbit << "DVector(" << orbit[i] << "), \n";
+
+    savedOrbit << "DVector(" << orbit[orbit.size() - 1] << ") \n };";
+  }
+
+
   std::vector<DVector> getCorrectedGuess( interval integrationTimeBound )
   {
     std::vector<DVector> resultCorrectedGuess;
+
 
     for( int i = 0; i < pm_count; i++ )
     {
@@ -189,24 +244,24 @@ class FhnFindPeriodicOrbit
         DTaylor tempSolver( *vectorField, order );
         DTimeMap timeMap( tempSolver );
         
-        resultCorrectedGuess.push_back( timeMap( (integrationTime[ i ])/2., correctedGuess[i] ) );
+        DVector pointToIntegrate( correctedGuess[i] ); // for safety as timeMap changes the argument too
+        resultCorrectedGuess.push_back( timeMap( (integrationTime[ i ])/2., pointToIntegrate ) );
 
         cout << "Long integration time. Section added. \n";
       }
       else if( integrationTime[ (i+1)%pm_count ] < integrationTimeBound.leftBound() )
-      {
         cout << "Short integration time. Section removed. \n";
-      }
       else
-      { 
         resultCorrectedGuess.push_back( correctedGuess[i] );
-      }
     }
 
     cout << "Number of sections changed from: " << pm_count << " to: " << resultCorrectedGuess.size() << ". \n";
 
     if( resultCorrectedGuess.size() < 2 )
       throw "ORBIT TOO SHORT!";
+
+    saveOrbit( resultCorrectedGuess );
+    saveIntegrationTime();
 
     return resultCorrectedGuess;
   }

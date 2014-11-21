@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include<fstream>
 #include <string.h>
 #include "capd/capdlib.h"
 
@@ -19,6 +20,7 @@ int rig_order = 10; // too low & too high are bad
 const int precomp_factor = 5; 
 
 #include "matcontPrecomputedOrbit.hpp"
+#include "savedOrbit.hpp"
 
 std::vector<DVector> xPrecomputed;
 std::vector<IVector> IxPrecomputed;
@@ -41,35 +43,42 @@ int main(){
   cout.precision(15);
 
   interval theta = interval(61.)/100.;
-  interval eps = interval(1.5e-4, 1e-3); 
+  interval eps = interval("1.5e-4", "1e-3"); 
   double tolerance = 1e-13;
   double radius = double(1e-6);
+  double startIncrementSize = 1e-6;
+  interval integrationTimeBound = interval( 0.2, 4. );
+  bool isEpsIncreasing( 0 );
+
+/*  std::ifstream readSavedEpsRange;  // uncomment and switch isEpsIncreasing if necessary to start from where the proof for a given eps range ended
+ *                                    // you need to run the program once and it has to terminate prematurely for this option to work
+  readSavedEpsRange.open("savedEpsRange", std::ios::binary );
+  interval savedEpsRange;
+  hexRead( readSavedEpsRange, savedEpsRange );
+  readSavedEpsRange.close();
+  cout << "SAVED EPS RANGE READ: " << savedEpsRange << "\n";
+  FhnValidatedContinuation cont( theta, savedEpsRange, savedOrbit, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
+  cont.continueOrbitWithEps(); */
 
   xPrecomputedFill();
   IxPrecomputedFill();
 
-
- // const int pm_count = xPrecomputed.size();
-  // FhnFindPeriodicOrbit FindPeriodicOrbit( pm_count );
- 
- // FhnCovering cov( xPrecomputed );
- // cov.proveExistenceOfOrbit( theta, eps, tolerance, radius );
-
-  bool isEpsIncreasing( 0 );
-
-  FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius );
+  FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
   cont.continueOrbitWithEps();
 
+  isEpsIncreasing = 1;
+ 
+  eps = interval("1e-3", "1.5e-3");
 
- /* try
-  {
-    continueOrbitWithEps( theta, eps, isEpsIncreasing, xPrecomputed, tolerance, radius, 1e-8 );
-  }
-  catch(const char* Message)
-  {
-    cout << Message << "EXISTENCE OF PERIODIC ORBIT FOR PARAMETER VALUES THETA=" << theta << " AND EPS=" << eps << " NOT VERIFIED! \n";
-  }
-*/
+  FhnValidatedContinuation cont2( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
+  cont2.continueOrbitWithEps();
+ 
+ /*
+  isEpsIncreasing = 0;  // speed test for interval already proven in singular range
+  eps = interval("1.5e-4", "1.1e-4");
+  FhnValidatedContinuation cont_test( theta, eps, savedOrbit, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
+  cont_test.continueOrbitWithEps();
+  */
 
   delete Fhn_vf;
   delete IFhn_vf;
