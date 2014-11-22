@@ -428,26 +428,5 @@ class FhnCovering : public FhnFindPeriodicOrbit
       throw "COVERING ERROR! \n";
     }
   }
-/*
-  void initialize( interval theta, interval eps, double _tolerance, double _radius )
-  {
-    double thetaD = ( theta.leftBound() + theta.rightBound() )/2. ;
-    double epsD = ( eps.leftBound() + eps.rightBound() )/2. ;
-
-    (*vectorField).setParameter( "theta", thetaD );
-    (*vectorField).setParameter( "eps", epsD );
- 
-    (*vectorFieldRev).setParameter( "theta", thetaD );
-    (*vectorFieldRev).setParameter( "eps", epsD );
-
-    (*IVectorField).setParameter( "theta", theta );
-    (*IVectorField).setParameter( "eps", eps );
-
-    (*IVectorFieldExt).setParameter( "theta", theta );
-
-    init( _tolerance, _radius );
-  }
-*/
-
 
 };

@@ -73,6 +73,8 @@ class FhnValidatedContinuation
     {
       try
       {
+        (*_cov).totalPeriod = 0.;
+        (*_cov).iterationPeriod = 0.;
         (*_cov).proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ); 
         break;
       }
@@ -123,7 +125,6 @@ class FhnValidatedContinuation
     while( ( !epsIncreasing && oldEpsRange.leftBound() >= epsRange.leftBound() ) ||  ( epsIncreasing && oldEpsRange.rightBound() <= epsRange.rightBound() ) )
     {
       FhnCovering *cov = new FhnCovering( numericOrbitGuess );
-     // (*cov).initialize( theta, currentEpsRange, tolerance, radius );
       tryToProveOrbit( cov );
 
       numericOrbitGuess = (*cov).getCorrectedGuess( integrationTimeBound );
@@ -133,14 +134,14 @@ class FhnValidatedContinuation
 
       cout << "Existence of a periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \nIncrement size: " << increment.rightBound() << "\n";
       cout << "Initial h-set radius: " << radius << "\n";
-      cout << "Bound for orbit period: " << totalOrbitPeriod << "\n";
+      cout << "Bound for total period: " << totalOrbitPeriod << "\n";
       cout.flush();
 
       oldEpsRange = currentEpsRange;
       moveCurrentEpsRange();
       saveNewEpsRange();
 
-      if( isFirstTry || successCount > 100 )
+      if( isFirstTry || successCount > 50 )
       {
         increment = increment * incrementFactor;
         radius = radius * sqrt( incrementFactor );
