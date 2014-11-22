@@ -1,3 +1,9 @@
+/* -------------------------------------------------
+ * This is a header file for continuation_fhn.cpp
+ * with approximation of the periodic orbit precomputed by Matcont
+ * for eps=0.001
+ * ------------------------------------------------- */
+
 std::vector<DVector> xPrecomputedBeforeCor =
 {
 DVector({ -0.126768568416608, 0.000610072527618383, 0.0320156651382415 }),

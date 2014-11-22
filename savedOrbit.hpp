@@ -1,3 +1,9 @@
+/* -------------------------------------------------
+ * This is a header file for continuation_fhn.cpp
+ * with a numerical guess for last proven orbit in the continuation
+ * so one can restart the proof where it stopped
+ * ------------------------------------------------- */
+
 std::vector<DVector> savedOrbit = 
  { 
 DVector({-0.1267685121,0.0006096151862,0.03201579748}), 
