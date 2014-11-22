@@ -198,7 +198,7 @@ class FhnFindPeriodicOrbit
   };
 
 
-  void saveIntegrationTime() // we save the integration times for future reference
+  void saveIntegrationTime() // we save approximate integration times for future reference
   {
     std::ofstream savedIntegrationTime;
     savedIntegrationTime.open("savedIntegrationTime.log", std::ios::trunc);
@@ -208,11 +208,11 @@ class FhnFindPeriodicOrbit
 
     for( unsigned int i = 0; i < integrationTime.dimension(); i++ )
     {
-     savedIntegrationTime << "Integration time till section given by: " << section[i].getOrigin() << " is: " << integrationTime[i] << "\n";
+     savedIntegrationTime << "Approximate integration time till section given by: " << section[i].getOrigin() << " is: " << integrationTime[i] << "\n";
      totalIntegrationTime = totalIntegrationTime + integrationTime[i];
     }
 
-    savedIntegrationTime << "Total integration time: " << totalIntegrationTime;
+    savedIntegrationTime << "Approximate total integration time: " << totalIntegrationTime;
   }
 
   void saveOrbit( std::vector<DVector> orbit )     // we store the orbit so one can resume the program later from the saved numerical guess 

@@ -114,12 +114,6 @@ class FhnValidatedContinuation
 
     hexWrite( savedEpsRange, savedEpsInterval );
     savedEpsRange.close();
-
-   /* savedEpsRange.precision(16);
-    if( epsIncreasing )
-      savedEpsRange << "interval savedEpsRange = interval( " << currentEpsRange.leftBound() << ", " << epsRange.rightBound() << ");";
-    else
-      savedEpsRange << "interval savedEpsRange = interval( " << epsRange.leftBound() << ", " << currentEpsRange.rightBound() << ");";*/
   }
 
   void continueOrbitWithEps()
@@ -133,10 +127,13 @@ class FhnValidatedContinuation
       tryToProveOrbit( cov );
 
       numericOrbitGuess = (*cov).getCorrectedGuess( integrationTimeBound );
+      interval totalOrbitPeriod = (*cov).totalPeriod;
 
       delete cov;
 
       cout << "Existence of a periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \nIncrement size: " << increment.rightBound() << "\n";
+      cout << "Initial h-set radius: " << radius << "\n";
+      cout << "Bound for orbit period: " << totalOrbitPeriod << "\n";
       cout.flush();
 
       oldEpsRange = currentEpsRange;

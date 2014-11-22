@@ -15,6 +15,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
   std::vector<IMatrix> IP_list;
   std::vector<IAffineSection> ISection;
   std::vector<IVector> X;
+  interval iterationPeriod;
+  interval totalPeriod;
   DEuclNorm vectorNorm;
  
   FhnCovering( std::vector<DVector> initialGuess )
@@ -24,7 +26,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
       ISolver( *IVectorField, rig_order),
       IP_list( pm_count ),
       ISection( pm_count, IAffineSection( IVector(dim), IVector(dim) ) ),
-      X( pm_count )
+      X( pm_count ),
+      iterationPeriod(0.),
+      totalPeriod(0.)
   {
     for( int i = 0; i < pm_count; i++ )
     {
@@ -217,7 +221,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
       IOrthogonalizeRelativeColumn( IP_list[ i % pm_count ], dim - 1 );
     }
   }
-
+/*  //DEPRECATED?
   IVector fi( int i, IVector _x0, interval eps )
   {
     IVector pm_result( dim );
@@ -236,7 +240,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
     return fi_eval;
   }
-
+*/
   IAffineSection extendAffineSection( IAffineSection _section, interval eps )
   {
     IVector newOrigin( dim + 1 );
@@ -292,7 +296,6 @@ class FhnCovering : public FhnFindPeriodicOrbit
           interval tk = interval(k-1,k)/disc_k;
           interval tl = interval(l-1,l)/disc_l;
           
-          interval time(0.);
          
           interval epsDiam = right(eps) - left(eps);
           interval epsRange( (-epsDiam/2.).leftBound(), (epsDiam/2.).rightBound() );
@@ -310,9 +313,17 @@ class FhnCovering : public FhnFindPeriodicOrbit
           IPoincareMap pm( solverExt, sectionExt, poincare::MinusPlus );
 
           if( j + k + l == 3 )
+          {
+            interval time(0.);
             pm_resultExt = pm( setToIntegrate, sectionExt.getOrigin(), inverseMatrix( extendP( IP_list[ (i+1) % pm_count ] ) ), time );
+            iterationPeriod = time;
+          }
           else
+          {
+            interval time(0.);
             pm_resultExt = intervalHull( pm( setToIntegrate, sectionExt.getOrigin(), inverseMatrix( extendP( IP_list[ (i+1) % pm_count ] ) ), time ), pm_resultExt ); 
+            iterationPeriod = intervalHull( iterationPeriod, time ); 
+          }
         }
       }  
     }
@@ -354,7 +365,10 @@ class FhnCovering : public FhnFindPeriodicOrbit
   {
     const interval EPS = interval(1./1e15);
  
+    iterationPeriod = 0.;
     IVector image = fi_withParams( i, setCovering, eps );
+    totalPeriod = totalPeriod + iterationPeriod;
+
     IVector unstablePart = IVector( { interval( fi_withParams( i, leftU( setCovering ), eps )[1].rightBound(), fi_withParams( i, rightU( setCovering ), eps )[1].leftBound() ) } );
 
     if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) ) // these checks are necessary for shrinkAndExpand
