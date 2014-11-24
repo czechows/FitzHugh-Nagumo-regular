@@ -153,8 +153,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
         DVector uSetToIntegrate( correctedGuess[ uSecCount ] ),
                 sSetToIntegrate( correctedGuess[ sSecCount ] );
 
-        DMatrix uDerivativeOfPm( fast_dim, fast_dim ),
-                sDerivativeOfPm( fast_dim, fast_dim );
+        DMatrix uDerivativeOfPm( dim, dim ),
+                sDerivativeOfPm( dim, dim );
 
         int local_order( order );
 
