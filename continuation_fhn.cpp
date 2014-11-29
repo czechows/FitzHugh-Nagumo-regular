@@ -28,6 +28,7 @@ std::vector<IVector> IxPrecomputed;
 #include "auxiliaries.hpp"
 #include "nonrigorousNewton.hpp"
 #include "covering.hpp"
+#include "krawczyk.hpp"
 #include "continuation.hpp"
 
 int main(){
@@ -46,7 +47,7 @@ int main(){
   interval eps = interval("1.5e-4", "1e-3"); 
   double tolerance = 1e-13;
   double radius = double(1e-6);
-  double startIncrementSize = 1e-6;
+  double startIncrementSize = 5e-8;
   interval integrationTimeBound = interval( 0.2, 4. );
   bool isEpsIncreasing( 0 );
 
@@ -63,12 +64,12 @@ int main(){
   xPrecomputedFill();
   IxPrecomputedFill();
 
-  FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
-  cont.continueOrbitWithEps();
+ // FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
+ // cont.continueOrbitWithEps();
 
   isEpsIncreasing = 1;
  
-  eps = interval("1e-3", "1.5e-3");
+  eps = interval("1e-3", "1e-2");
 
   FhnValidatedContinuation cont2( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
   cont2.continueOrbitWithEps();

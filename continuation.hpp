@@ -73,8 +73,6 @@ class FhnValidatedContinuation
     {
       try
       {
-        (*_cov).totalPeriod = 0.;
-        (*_cov).iterationPeriod = 0.;
         (*_cov).proveExistenceOfOrbit( theta, currentEpsRange, tolerance, radius ); 
         break;
       }
@@ -100,7 +98,48 @@ class FhnValidatedContinuation
     }
     successCount = successCount + int( isFirstTryForCurrentEps );
   }
-
+ 
+  void tryToProveOrbit( FhnKrawczyk *_kraw )
+  {
+    bool isFirstTryForCurrentEps(1);
+    while(true)
+    {
+      try
+      {
+        (*_kraw).proveExistenceOfOrbitWithKrawczyk( theta, currentEpsRange, tolerance, radius ); 
+        break;
+      }
+      catch(const char* Message) // if the proof fails we try to decrease the epsilon range and h-sets size
+      {
+        cout << Message << "\n";
+        isFirstTry = 0;
+        isFirstTryForCurrentEps = 0;
+        successCount = 0;
+        decreaseCurrentEpsRange();
+        decreaseCurrentEpsRange();
+        decreaseRadius();
+      }
+      catch( capd::poincare::PoincareException< C0Rect2Set > )
+      {
+        cout << "POINCARE EXCEPTION! \n";
+        isFirstTry = 0;
+        isFirstTryForCurrentEps = 0;
+        decreaseCurrentEpsRange();
+        decreaseCurrentEpsRange();
+        decreaseRadius();
+      }
+      catch( capd::poincare::PoincareException< C1Rect2Set > )
+      {
+        cout << "POINCARE EXCEPTION! \n";
+        isFirstTry = 0;
+        isFirstTryForCurrentEps = 0;
+        decreaseCurrentEpsRange();
+        decreaseCurrentEpsRange();
+        decreaseRadius();
+      }
+    }
+    successCount = successCount + int( isFirstTryForCurrentEps );
+  }
 
   void saveNewEpsRange() // we save the Eps range in binary (! exact value) so we can resume the program later for the saved range
   {
@@ -124,33 +163,38 @@ class FhnValidatedContinuation
 
     while( ( !epsIncreasing && oldEpsRange.leftBound() >= epsRange.leftBound() ) ||  ( epsIncreasing && oldEpsRange.rightBound() <= epsRange.rightBound() ) )
     {
-      FhnCovering *cov = new FhnCovering( numericOrbitGuess );
-      tryToProveOrbit( cov );
-
-      numericOrbitGuess = (*cov).getCorrectedGuess( integrationTimeBound );
-      interval totalOrbitPeriod = (*cov).totalPeriod;
-
-      delete cov;
+      //FhnCovering *cov = new FhnCovering( numericOrbitGuess );
+   //   tryToProveOrbit( cov );
+    //  numericOrbitGuess = (*cov).getCorrectedGuess( integrationTimeBound );
+    //  interval totalOrbitPeriod = (*cov).totalPeriod;
+   //   delete cov;
+    
+      FhnKrawczyk *kraw = new FhnKrawczyk( numericOrbitGuess );
+      tryToProveOrbit( kraw );
+      numericOrbitGuess = (*kraw).getCorrectedGuess( integrationTimeBound );
+      interval totalOrbitPeriod = (*kraw).totalPeriod;
+      delete kraw;
 
       cout << "Existence of a periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \nIncrement size: " << increment.rightBound() << "\n";
-      cout << "Initial h-set radius: " << radius << "\n";
+      cout << "Radius: " << radius << "\n";
       cout << "Bound for total period: " << totalOrbitPeriod << "\n";
+
       cout.flush();
 
       oldEpsRange = currentEpsRange;
       moveCurrentEpsRange();
       saveNewEpsRange();
 
-      if( isFirstTry || successCount > 50 )
-      {
-        increment = increment * incrementFactor;
-        radius = radius * sqrt( incrementFactor );
-        successCount = 0;
-      }
+     if( isFirstTry || successCount > 10 )
+     {
+      increment = increment * incrementFactor;
+      radius = radius * sqrt( incrementFactor );
+      successCount = 0;
+     }
     }
 
-    cout << "\n EXISTENCE OF PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << "PROVEN !. \n";
-    
+    cout << "\nEXISTENCE OF A PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << " PROVEN!. \n";
+    cout << "CURRENT EPS RANGE = " << epsRange << "\n";
   }
 
 };

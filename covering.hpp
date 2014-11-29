@@ -12,12 +12,10 @@ class FhnCovering : public FhnFindPeriodicOrbit
   IMap *IVectorField;
   IMap *IVectorFieldExt;
   ITaylor ISolver;
-  std::vector<IMatrix> IP_list;
+  std::vector<IMatrix> IP_list;        // stores coordinates for sections for rigorous integration
   std::vector<IAffineSection> ISection;
   std::vector<IVector> X;
-  interval iterationPeriod;
   interval totalPeriod;
-  DEuclNorm vectorNorm;
  
   FhnCovering( std::vector<DVector> initialGuess )
     : FhnFindPeriodicOrbit( initialGuess ),
@@ -27,14 +25,13 @@ class FhnCovering : public FhnFindPeriodicOrbit
       IP_list( pm_count ),
       ISection( pm_count, IAffineSection( IVector(dim), IVector(dim) ) ),
       X( pm_count ),
-      iterationPeriod(0.),
       totalPeriod(0.)
   {
     for( int i = 0; i < pm_count; i++ )
     {
       (IP_list[ i % pm_count ]).resize( dim, dim );
       (IP_list[i % pm_count ]).setToIdentity();
-      X[ i % pm_count ].resize( fast_dim );
+      X[ i % pm_count ].resize( dim-1 );
 
       IVector IsectionCenter( dim );
       IVector IsectionNormal( dim );
@@ -158,13 +155,18 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
         int local_order( order );
 
-   /*     while(true)
+        double maxStep(0.2);
+
+      /*  while(true)
         {
           try
           {*/
         {
           DTaylor solver( *vectorField, local_order );
+          solver.setMaxStep( maxStep );
+
           DTaylor solverRev( *vectorFieldRev, local_order );
+          solverRev.setMaxStep( maxStep );
 
           DPoincareMap uPM( solver, section[ (uSecCount + 1) % pm_count ] ), 
                        sPM( solverRev, section[ ((sSecCount - 1) + pm_count) % pm_count ] );
@@ -176,33 +178,33 @@ class FhnCovering : public FhnFindPeriodicOrbit
           sDerivativeOfPm = sPM.computeDP( sResult, sMonodromyMatrix, sReturnTime ) ;
         }
 
-        /*    break;
+        /*   break;
                                     // this catch would decrease the order so nonrigorous integration would not cross a section in one step 
                                     // (then integrator throws domain_error); for the parameter range in the paper not necessary and did not work that well
                                     // so we disable it, however we leave it to uncomment for future purposes
-}
+        }
           catch(std::domain_error)
           {
             cout << "DOMAIN ERROR! \n";
-            local_order = local_order - 1;
-            cout << "ORDER DECREASED!";
+         //   local_order = local_order - 1;
+            maxStep = maxStep / 2.;
+         //   cout << "ORDER DECREASED!";
+            cout << "MAX STEP DECREASED;";
           }
         }*/
  
-
         unstableVect = uDerivativeOfPm * unstableVect;
         stableVect = sDerivativeOfPm * stableVect;
 
         unstableVect = unstableVect / vectorNorm( unstableVect );
-        stableVect = stableVect / vectorNorm( stableVect );
-        
+        stableVect = stableVect / vectorNorm( stableVect );       
+
         for( int j = 1; j <= dim; j++ )
         {
           (IP_list[ uSecCount ] )( j, 2 ) = unstableVect( j );
           (IP_list[ sSecCount ])( j, 1 ) = stableVect( j );
         }
       }
-
     }
  
     for( int i = 0; i < pm_count; i++)
@@ -221,26 +223,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
       IOrthogonalizeRelativeColumn( IP_list[ i % pm_count ], dim - 1 );
     }
   }
-/*  //DEPRECATED?
-  IVector fi( int i, IVector _x0, interval eps )
-  {
-    IVector pm_result( dim );
-    interval time(0.);
 
-    IVector fi_eval( fast_dim ); 
-   
-    C0Rect2Set setToIntegrate( (ISection[ i % pm_count ]).getOrigin(), IP_list[ i % pm_count ], IVector({ _x0(1), _x0(2), 0. }) );
-
-    IPoincareMap pm( ISolver, ISection[ (i+1) % pm_count ], poincare::MinusPlus );
-
-    pm_result = pm( setToIntegrate, (ISection[ (i+1) % pm_count ]).getOrigin(), inverseMatrix(IP_list[ (i+1) % pm_count ]), time ); 
-
-    for( int j = 0; j < fast_dim; j++ )
-      fi_eval[j] = pm_result[j];
-
-    return fi_eval;
-  }
-*/
   IAffineSection extendAffineSection( IAffineSection _section, interval eps )
   {
     IVector newOrigin( dim + 1 );
@@ -274,14 +257,10 @@ class FhnCovering : public FhnFindPeriodicOrbit
     return newP;
   }
  
-  IVector fi_withParams( int i, IVector _x0, interval eps )
+  IVector fi_withParams( int i, IVector _x0, interval eps, int disc_j=5, int disc_k=5, int disc_l=1, interval iterationTime = interval(0.) )
   {
     IVector pm_resultExt( dim + 1 );
     ITaylor solverExt( *IVectorFieldExt, rig_order );
-
-    int disc_j = 5;
-    int disc_k = 5;
-    int disc_l = 1;
 
     if( _x0(2).leftBound() == _x0(2).rightBound() )
       disc_k = 1;
@@ -316,21 +295,21 @@ class FhnCovering : public FhnFindPeriodicOrbit
           {
             interval time(0.);
             pm_resultExt = pm( setToIntegrate, sectionExt.getOrigin(), inverseMatrix( extendP( IP_list[ (i+1) % pm_count ] ) ), time );
-            iterationPeriod = time;
+            iterationTime = time + iterationTime;
           }
           else
           {
             interval time(0.);
             pm_resultExt = intervalHull( pm( setToIntegrate, sectionExt.getOrigin(), inverseMatrix( extendP( IP_list[ (i+1) % pm_count ] ) ), time ), pm_resultExt ); 
-            iterationPeriod = intervalHull( iterationPeriod, time ); 
+            iterationTime = intervalHull( iterationTime, time ); 
           }
         }
       }  
     }
 
-    IVector fi_eval( fast_dim ); 
+    IVector fi_eval( dim-1 ); 
 
-    for( int j = 0; j < fast_dim; j++ )
+    for( int j = 0; j < dim-1; j++ )
       fi_eval[j] = pm_resultExt[j];
 
     return fi_eval;
@@ -365,9 +344,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
   {
     const interval EPS = interval(1./1e15);
  
-    iterationPeriod = 0.;
-    IVector image = fi_withParams( i, setCovering, eps );
-    totalPeriod = totalPeriod + iterationPeriod;
+    interval _iterationTime( 0. );
+    IVector image = fi_withParams( i, setCovering, eps, 5, 5, 1, _iterationTime );
+    totalPeriod = totalPeriod + _iterationTime;
 
     IVector unstablePart = IVector( { interval( fi_withParams( i, leftU( setCovering ), eps )[1].rightBound(), fi_withParams( i, rightU( setCovering ), eps )[1].leftBound() ) } );
 
@@ -418,14 +397,18 @@ class FhnCovering : public FhnFindPeriodicOrbit
     IVector vectorCovering( X[0] );
     IVector unstableLimit( { 10*vectorCovering[1] } );
 
+    totalPeriod = 0.;
     for( int i = 0; i < pm_count; i++ )
       vectorCovering = propagateToCoverByfi( i, vectorCovering, unstableLimit, eps );
-
 
     if( !isCovering( vectorCovering, IMatrix::Identity(2), vectorToCover ) )
     {
       cout << vectorCovering << "\n" << vectorToCover << "\n";
       throw "COVERING ERROR! \n";
+    }
+    else
+    {
+      cout << "Covering relations method succeeds! \n";
     }
   }
 
