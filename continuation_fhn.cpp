@@ -18,6 +18,7 @@ int order = 6; // has to be low to avoid crossing sections in one step
 int rig_order = 10; // too low & too high are bad 
 
 const int precomp_factor = 5; 
+bool wasKrawczykNeeded = 0;
 
 #include "matcontPrecomputedOrbit.hpp"
 #include "savedOrbit.hpp"
@@ -80,7 +81,7 @@ int main(){
   FhnValidatedContinuation cont_test( theta, eps, savedOrbit, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
   cont_test.continueOrbitWithEps();
   */
-
+  cout << wasKrawczykNeeded << "\n";
   delete Fhn_vf;
   delete IFhn_vf;
 

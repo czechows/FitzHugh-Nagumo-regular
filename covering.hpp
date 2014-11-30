@@ -155,7 +155,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
         int local_order( order );
 
-     //   double maxStep(0.2);
+      //  double maxStep(4.);
 
       /*  while(true)
         {

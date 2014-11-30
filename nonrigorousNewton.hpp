@@ -154,7 +154,7 @@ class FhnFindPeriodicOrbit
 
         int local_order( order );
 
-        double maxStep(0.2);
+        double maxStep(4.);
 
         while(true)
         {
@@ -265,7 +265,7 @@ class FhnFindPeriodicOrbit
 
       int local_order( order );
       bool isDomainError(0);
-      double maxStep(0.2);
+      double maxStep(4.);
 
     while(true)
       {

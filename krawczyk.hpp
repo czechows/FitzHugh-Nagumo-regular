@@ -226,6 +226,7 @@ class FhnKrawczyk : public FhnCovering
       {
           cout << "Interval Krawczyk method succeeds! The periodic orbit is locally unique! \n";      
           cout << "norm(K) = " << vectorNorm(K) << " norm(X) = " << vectorNorm(X_vector) << " \n \n"; 
+          wasKrawczykNeeded = 1;
       }
       else
       {
