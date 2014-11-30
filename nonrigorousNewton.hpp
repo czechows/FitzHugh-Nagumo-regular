@@ -333,9 +333,9 @@ class FhnFindPeriodicOrbit
 
   std::vector<DVector> newtonAlgorithm( double _tolerance )
   {
-    //initD( _tolerance );
-    for( int i = 0; i < pm_count; i++ )
-     orthogonalizeRelativeColumn( P_list[ i % pm_count ], dim - 1 );
+    //initD( _tolerance );  // setting good coordinates for nonrigorous Newton - does that help?
+    //for( int i = 0; i < pm_count; i++ )
+    // orthogonalizeRelativeColumn( P_list[ i % pm_count ], dim - 1 );
 
     double error = 1.;
   
@@ -433,6 +433,18 @@ class FhnFindPeriodicOrbit
     saveIntegrationTime();
 
     return resultCorrectedGuess;
+  }
+
+  void setDParameters( interval theta, interval eps )
+  {
+    double thetaD = ( theta.leftBound() + theta.rightBound() )/2. ;
+    double epsD = ( eps.leftBound() + eps.rightBound() )/2. ;
+
+    (*vectorField).setParameter( "theta", thetaD );
+    (*vectorField).setParameter( "eps", epsD );
+ 
+    (*vectorFieldRev).setParameter( "theta", thetaD );
+    (*vectorFieldRev).setParameter( "eps", epsD );
   }
 
 };

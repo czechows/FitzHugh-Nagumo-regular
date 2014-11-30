@@ -155,7 +155,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
         int local_order( order );
 
-        double maxStep(0.2);
+     //   double maxStep(0.2);
 
       /*  while(true)
         {
@@ -163,10 +163,10 @@ class FhnCovering : public FhnFindPeriodicOrbit
           {*/
         {
           DTaylor solver( *vectorField, local_order );
-          solver.setMaxStep( maxStep );
+       //   solver.setMaxStep( maxStep );
 
           DTaylor solverRev( *vectorFieldRev, local_order );
-          solverRev.setMaxStep( maxStep );
+       //   solverRev.setMaxStep( maxStep );
 
           DPoincareMap uPM( solver, section[ (uSecCount + 1) % pm_count ] ), 
                        sPM( solverRev, section[ ((sSecCount - 1) + pm_count) % pm_count ] );
@@ -206,7 +206,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
         }
       }
     }
- 
+    
     for( int i = 0; i < pm_count; i++)
     {
       DVector origin = DVector( section[i].getOrigin() + P_list[i] * DVector( (x0_double[i])(1), (x0_double[i])(2), 0. ) );
@@ -257,8 +257,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
     return newP;
   }
  
-  IVector fi_withParams( int i, IVector _x0, interval eps, int disc_j=5, int disc_k=5, int disc_l=1, interval iterationTime = interval(0.) )
+  IVector fi_withParams( int i, IVector _x0, interval eps, interval &iterationTime, int disc_j=5, int disc_k=5, int disc_l=1 ) // rigorous bound on iteration time gets updated
   {
+    iterationTime = 0.;
     IVector pm_resultExt( dim + 1 );
     ITaylor solverExt( *IVectorFieldExt, rig_order );
 
@@ -295,7 +296,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
           {
             interval time(0.);
             pm_resultExt = pm( setToIntegrate, sectionExt.getOrigin(), inverseMatrix( extendP( IP_list[ (i+1) % pm_count ] ) ), time );
-            iterationTime = time + iterationTime;
+            iterationTime = time;
           }
           else
           {
@@ -344,11 +345,13 @@ class FhnCovering : public FhnFindPeriodicOrbit
   {
     const interval EPS = interval(1./1e15);
  
-    interval _iterationTime( 0. );
-    IVector image = fi_withParams( i, setCovering, eps, 5, 5, 1, _iterationTime );
-    totalPeriod = totalPeriod + _iterationTime;
+    interval iterationTime( 0. );
+    IVector image = fi_withParams( i, setCovering, eps, iterationTime, 5, 5, 1 );
+    totalPeriod = totalPeriod + iterationTime;
 
-    IVector unstablePart = IVector( { interval( fi_withParams( i, leftU( setCovering ), eps )[1].rightBound(), fi_withParams( i, rightU( setCovering ), eps )[1].leftBound() ) } );
+    interval tempIterationTime(0.);
+    IVector unstablePart = IVector( { interval( fi_withParams( i, leftU( setCovering ), tempIterationTime, eps )[1].rightBound(), 
+                                                fi_withParams( i, rightU( setCovering ), tempIterationTime, eps )[1].leftBound() ) } );
 
     if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) ) // these checks are necessary for shrinkAndExpand
       throw "COVERING SETS MISALIGNED \n";
@@ -377,14 +380,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
 
   void proveExistenceOfOrbit( interval theta, interval eps, double _tolerance, double _radius )
   {
-    double thetaD = ( theta.leftBound() + theta.rightBound() )/2. ;
-    double epsD = ( eps.leftBound() + eps.rightBound() )/2. ;
-
-    (*vectorField).setParameter( "theta", thetaD );
-    (*vectorField).setParameter( "eps", epsD );
- 
-    (*vectorFieldRev).setParameter( "theta", thetaD );
-    (*vectorFieldRev).setParameter( "eps", epsD );
+    setDParameters( theta, eps );
 
     (*IVectorField).setParameter( "theta", theta );
     (*IVectorField).setParameter( "eps", eps );

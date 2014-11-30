@@ -46,8 +46,8 @@ int main(){
   interval theta = interval(61.)/100.;
   interval eps = interval("1.5e-4", "1e-3"); 
   double tolerance = 1e-13;
-  double radius = double(1e-6);
-  double startIncrementSize = 5e-8;
+  double radius = double(5e-5);
+  double startIncrementSize = 1e-6;
   interval integrationTimeBound = interval( 0.2, 4. );
   bool isEpsIncreasing( 0 );
 
@@ -64,12 +64,12 @@ int main(){
   xPrecomputedFill();
   IxPrecomputedFill();
 
- // FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
- // cont.continueOrbitWithEps();
+  FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
+  cont.continueOrbitWithEps();
 
   isEpsIncreasing = 1;
  
-  eps = interval("1e-3", "1e-2");
+  eps = interval("1e-3", "1.5e-3");
 
   FhnValidatedContinuation cont2( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
   cont2.continueOrbitWithEps();

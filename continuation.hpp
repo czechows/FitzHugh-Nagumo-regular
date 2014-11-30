@@ -159,6 +159,12 @@ class FhnValidatedContinuation
 
   void continueOrbitWithEps()
   {
+    FhnFindPeriodicOrbit *num = new FhnFindPeriodicOrbit( numericOrbitGuess );   // one extra nonrigorous run before the continuation to adjust the number of sections
+    (*num).setDParameters( theta, currentEpsRange );
+    (*num).newtonAlgorithm( tolerance );
+    numericOrbitGuess = (*num).getCorrectedGuess( integrationTimeBound );
+    delete num; 
+
     interval oldEpsRange( currentEpsRange );
 
     while( ( !epsIncreasing && oldEpsRange.leftBound() >= epsRange.leftBound() ) ||  ( epsIncreasing && oldEpsRange.rightBound() <= epsRange.rightBound() ) )

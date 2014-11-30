@@ -35,8 +35,9 @@ class FhnKrawczyk : public FhnCovering
     return result;
   };
  
-  IMatrix fiDer_withParams( int i, IVector _x0, interval eps, int disc_j=5, int disc_k=5, int disc_l=1, interval iterationPeriod = interval(0.) )
+  IMatrix fiDer_withParams( int i, IVector _x0, interval eps, interval &iterationTime, int disc_j=5, int disc_k=5, int disc_l=1 )
   {
+    iterationTime = 0.;
     IVector pm_resultExt( dim + 1 );
     ITaylor solverExt( *IVectorFieldExt, rig_order );
 
@@ -77,10 +78,12 @@ class FhnKrawczyk : public FhnCovering
           {
             poincareDer = pm.computeDP( pm_resultExt, monodromyMatrix, time );
             poincareDer = inverseMatrix( extendP( IP_list[ (i+1)%pm_count] ) )*poincareDer*( extendP( IP_list[i] ) );          
+            iterationTime = time;
           }
           else
           {
             poincareDer = intervalHull(  inverseMatrix( extendP( IP_list[(i+1)%pm_count] ) )*(pm.computeDP( pm_resultExt, monodromyMatrix, time ))*( extendP( IP_list[i] ) ), poincareDer );
+            iterationTime = intervalHull( iterationTime, time );
           }
         }
       }  
@@ -108,17 +111,19 @@ class FhnKrawczyk : public FhnCovering
 
     for( int i = 0; i < pm_count-1; i++ )
     {
-      IMatrix pDer = fiDer_withParams( i, x_list[i], eps, 5, 5, 1 );
-     // totalPeriod = totalPeriod + iterationPeriod;
+      interval iterationTime(0.);
+      IMatrix pDer = fiDer_withParams( i, x_list[i], eps, iterationTime, 5, 5, 1 );
+      totalPeriod = totalPeriod + iterationTime;
 
       derMatrix[2*i+2][2*i] = -pDer[0][0];
       derMatrix[2*i+2][2*i+1] = -pDer[0][1];
       derMatrix[2*i+3][2*i] = -pDer[1][0]; 
       derMatrix[2*i+3][2*i+1] = -pDer[1][1];
     }
-
-    IMatrix pDer = fiDer_withParams( pm_count-1, x_list[pm_count-1], eps, 5, 5, 1 );
-   // totalPeriod = totalPeriod + iterationPeriod;
+ 
+    interval iterationTime(0.);
+    IMatrix pDer = fiDer_withParams( pm_count-1, x_list[pm_count-1], eps, iterationTime, 5, 5, 1 );
+    totalPeriod = totalPeriod + iterationTime;
 
     derMatrix[0][2*pm_count - 2] = -pDer[0][0];
     derMatrix[0][2*pm_count - 1] = -pDer[0][1];
@@ -152,7 +157,8 @@ class FhnKrawczyk : public FhnCovering
     IVector x_eval( x.dimension() ); 
     for( int i = 0; i < pm_count-1; i++ )
     {
-      IVector pm_result = fi_withParams( i, x_list[i], eps, 1, 1, 1 ); 
+      interval tempIterationTime(0.);
+      IVector pm_result = fi_withParams( i, x_list[i], eps, tempIterationTime, 1, 1, 1 ); 
       
       x_eval[ (2*i + 2) % (2*pm_count) ] = x[ (2*i + 2) % (2*pm_count) ] - pm_result[0];
       x_eval[ (2*i + 3) % (2*pm_count) ] = x[ (2*i + 3) % (2*pm_count) ] - pm_result[1]; 
@@ -165,14 +171,7 @@ class FhnKrawczyk : public FhnCovering
 
   void proveExistenceOfOrbitWithKrawczyk( interval theta, interval eps, double _tolerance, double _radius )
   {
-    double thetaD = ( theta.leftBound() + theta.rightBound() )/2. ;
-    double epsD = ( eps.leftBound() + eps.rightBound() )/2. ;
-
-    (*vectorField).setParameter( "theta", thetaD );
-    (*vectorField).setParameter( "eps", epsD );
- 
-    (*vectorFieldRev).setParameter( "theta", thetaD );
-    (*vectorFieldRev).setParameter( "eps", epsD );
+    setDParameters( theta, eps );
 
     (*IVectorField).setParameter( "theta", theta );
     (*IVectorField).setParameter( "eps", eps );
@@ -200,7 +199,7 @@ class FhnKrawczyk : public FhnCovering
 
       if( subsetInterior( N, X_vector ) )
       {
-        cout << "\nInterval Newton method succeeds! \n";
+        cout << "\nInterval Newton method succeeds! The periodic orbit is locally unique! \n";
         cout << "norm(N) = " << vectorNorm(N) << " norm(X) = " << vectorNorm(X_vector) << " \n \n"; 
       }
       else
@@ -225,7 +224,7 @@ class FhnKrawczyk : public FhnCovering
 
       if( subsetInterior( K, X_vector ) )
       {
-          cout << "Interval Krawczyk method succeeds! \n";      
+          cout << "Interval Krawczyk method succeeds! The periodic orbit is locally unique! \n";      
           cout << "norm(K) = " << vectorNorm(K) << " norm(X) = " << vectorNorm(X_vector) << " \n \n"; 
       }
       else
