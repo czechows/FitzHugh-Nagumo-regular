@@ -194,6 +194,7 @@ class FhnKrawczyk : public FhnCovering
     IVector K( 2*pm_count );
 
     try{
+      cout.flush();
       IMatrix DFinverse = capd::matrixAlgorithms::gaussInverseMatrix( DF );
       N = -DFinverse * Fx0 + x0_vector;
 
@@ -204,7 +205,7 @@ class FhnKrawczyk : public FhnCovering
       }
       else
       {
-        cout << "\nExistence of periodic orbit using interval Newton not proven\n"; 
+        cout << "\nExistence of periodic orbit using interval Newton not proved\n"; 
         cout << "norm(N) = " << vectorNorm(N) << " norm(X) = " << vectorNorm(X_vector) << " \n"; 
         cout << "norm(invDFXFx0) = " << vectorNorm( DFinverse * Fx0 ) << " \n \n"; 
         throw std::runtime_error("INTERVAL NEWTON METHOD FAILURE");
@@ -221,8 +222,7 @@ class FhnKrawczyk : public FhnCovering
       Id.setToIdentity();
 
       K = x0_vector- approxDFInverse*Fx0 + (Id - approxDFInverse*DF)*( X_vector - x0_vector ); 
-
-      if( subsetInterior( K, X_vector ) )
+      if( subsetInterior( K, X_vector ) && !containsZero( IVector( { capd::matrixAlgorithms::det(approxDFInverse) } ) ) )
       {
           cout << "Interval Krawczyk method succeeds! The periodic orbit is locally unique! \n";      
           cout << "norm(K) = " << vectorNorm(K) << " norm(X) = " << vectorNorm(X_vector) << " \n \n"; 
@@ -230,7 +230,7 @@ class FhnKrawczyk : public FhnCovering
       }
       else
       {
-        cout << "Existence of periodic orbit using interval Krawczyk not proven\n"; 
+        cout << "Existence of periodic orbit using interval Krawczyk not proved\n"; 
         cout << "norm(K) = " << vectorNorm(K) << " norm(X) = " << vectorNorm(X_vector) << " \n"; 
         cout << "norm(Fx0) = " << vectorNorm( Fx0 ) << "\n";
         cout << "norm(Id-CdFX)" << vectorNorm(Id - approxDFInverse*DF) << "\n \n";

@@ -181,7 +181,7 @@ class FhnValidatedContinuation
       interval totalOrbitPeriod = (*kraw).totalPeriod;
       delete kraw;
 
-      cout << "Existence of a periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proven. \nIncrement size: " << increment.rightBound() << "\n";
+      cout << "Existence of a periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proved. \nIncrement size: " << increment.rightBound() << "\n";
       cout << "Radius: " << radius << "\n";
       cout << "Bound for total period: " << totalOrbitPeriod << "\n";
 
@@ -199,7 +199,7 @@ class FhnValidatedContinuation
      }
     }
 
-    cout << "\nEXISTENCE OF A PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << " PROVEN!. \n";
+    cout << "\nEXISTENCE OF A PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << " PROVED!. \n";
     cout << "CURRENT EPS RANGE = " << epsRange << "\n";
   }
 

@@ -45,7 +45,7 @@ int main(){
   cout.precision(15);
 
   interval theta = interval(61.)/100.;
-  interval eps = interval("1.5e-4", "1e-3"); 
+  interval eps = interval("0.7e-4", "1e-3"); 
   double tolerance = 1e-13;
   double radius = double(5e-5);
   double startIncrementSize = 1e-6;
@@ -65,8 +65,8 @@ int main(){
   xPrecomputedFill();
   IxPrecomputedFill();
 
-  FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
-  cont.continueOrbitWithEps();
+ // FhnValidatedContinuation cont( theta, eps, xPrecomputed, isEpsIncreasing, tolerance, radius, startIncrementSize, integrationTimeBound );
+ // cont.continueOrbitWithEps();
 
   isEpsIncreasing = 1;
  
