@@ -72,7 +72,7 @@ int main(){
   cont_down.continueOrbitWithEps();
  
   
-   // speed test for interval already proven in singular range
+   // speed test for interval already proved in the singular range
   time_t start_test,end_test;
   time( &start_test );
 
@@ -105,7 +105,7 @@ int main(){
   FhnIntervalNewton newton( cont_up.numericOrbitGuess, 1 ); // no extra discretizations for integration
  
   newton.proveExistenceOfOrbitWithNewton( theta, eps, tolerance, radius );
-  cout << "EXISTENCE OF THE PERIODIC ORBIT FOR EPSILON = " << eps << " PROVEN!\n";
+  cout << "EXISTENCE OF THE PERIODIC ORBIT FOR EPSILON = " << eps << " PROVED!\n";
   cout << "\nWas Krawczyk operator necessary? (0 no, 1 yes): " << wasKrawczykNeeded << "\n";
 
   time(&end_newt);
