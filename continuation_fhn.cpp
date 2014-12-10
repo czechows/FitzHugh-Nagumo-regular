@@ -72,7 +72,7 @@ int main(){
   cont_down.continueOrbitWithEps();
  
   
-   // speed test for interval already proved in the singular range
+ /*  // speed test for interval already proved in the singular range
   time_t start_test,end_test;
   time( &start_test );
 
@@ -85,7 +85,7 @@ int main(){
   time( &end_test );
   double dif_test = difftime( end_test, start_test );
   cout << "Elapsed time for the validated continuation in parameter range epsilon= " << eps << " is " << dif_test << " seconds. \n";
- 
+ */
 
   isEpsIncreasing = 1;
   eps = interval("1e-3", "1.5e-3");

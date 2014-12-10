@@ -208,7 +208,7 @@ class FhnValidatedContinuation
      }
     }
     while( ( !epsIncreasing && currentEpsRange.rightBound() >= epsRange.leftBound() ) ||  ( epsIncreasing && currentEpsRange.leftBound() <= epsRange.rightBound() ) );
-    
+
     cout << "\nEXISTENCE OF A PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << " PROVED!. \n \n";
   }
 
