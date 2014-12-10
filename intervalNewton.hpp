@@ -1,11 +1,15 @@
-//
+/* -------------------------------------------------
+ * This is a header file for continuation_fhn.cpp
+ * implementing interval C1 methods 
+ * for finding periodic solutions of the FHN equations
+ * ------------------------------------------------- */
 
 
-class FhnKrawczyk : public FhnCovering
+class FhnIntervalNewton : public FhnCovering
 {
   public:
-  FhnKrawczyk( std::vector<DVector> initialGuess )
-    : FhnCovering( initialGuess )
+  FhnIntervalNewton( std::vector<DVector> initialGuess, int _disc = 5 )
+    : FhnCovering( initialGuess, _disc )
   {
   }
 
@@ -112,7 +116,7 @@ class FhnKrawczyk : public FhnCovering
     for( int i = 0; i < pm_count-1; i++ )
     {
       interval iterationTime(0.);
-      IMatrix pDer = fiDer_withParams( i, x_list[i], eps, iterationTime, 5, 5, 1 );
+      IMatrix pDer = fiDer_withParams( i, x_list[i], eps, iterationTime, disc, disc, 1 );
       totalPeriod = totalPeriod + iterationTime;
 
       derMatrix[2*i+2][2*i] = -pDer[0][0];
@@ -122,7 +126,7 @@ class FhnKrawczyk : public FhnCovering
     }
  
     interval iterationTime(0.);
-    IMatrix pDer = fiDer_withParams( pm_count-1, x_list[pm_count-1], eps, iterationTime, 5, 5, 1 );
+    IMatrix pDer = fiDer_withParams( pm_count-1, x_list[pm_count-1], eps, iterationTime, disc, disc, 1 );
     totalPeriod = totalPeriod + iterationTime;
 
     derMatrix[0][2*pm_count - 2] = -pDer[0][0];
@@ -169,7 +173,7 @@ class FhnKrawczyk : public FhnCovering
 
 
 
-  void proveExistenceOfOrbitWithKrawczyk( interval theta, interval eps, double _tolerance, double _radius )
+  void proveExistenceOfOrbitWithNewton( interval theta, interval eps, double _tolerance, double _radius )
   {
     setDParameters( theta, eps );
 
@@ -186,7 +190,7 @@ class FhnKrawczyk : public FhnCovering
     totalPeriod = 0.;
     IMatrix DF( computeDerMatrix( X_vector, eps ) ); 
 
-    IMaxNorm vectorNorm;
+    IMaxNorm vectorMaxNorm;
 
     IVector Fx0 = computeF( x0_vector, eps );
 
@@ -201,13 +205,13 @@ class FhnKrawczyk : public FhnCovering
       if( subsetInterior( N, X_vector ) )
       {
         cout << "\nInterval Newton method succeeds! The periodic orbit is locally unique! \n";
-        cout << "norm(N) = " << vectorNorm(N) << " norm(X) = " << vectorNorm(X_vector) << " \n \n"; 
+        cout << "norm(N) = " << vectorMaxNorm(N) << " norm(X) = " << vectorMaxNorm(X_vector) << " \n \n"; 
       }
       else
       {
         cout << "\nExistence of periodic orbit using interval Newton not proved\n"; 
-        cout << "norm(N) = " << vectorNorm(N) << " norm(X) = " << vectorNorm(X_vector) << " \n"; 
-        cout << "norm(invDFXFx0) = " << vectorNorm( DFinverse * Fx0 ) << " \n \n"; 
+        cout << "norm(N) = " << vectorMaxNorm(N) << " norm(X) = " << vectorMaxNorm(X_vector) << " \n"; 
+        cout << "norm(invDFXFx0) = " << vectorMaxNorm( DFinverse * Fx0 ) << " \n \n"; 
         throw std::runtime_error("INTERVAL NEWTON METHOD FAILURE");
       }
     }
@@ -225,15 +229,15 @@ class FhnKrawczyk : public FhnCovering
       if( subsetInterior( K, X_vector ) && !containsZero( IVector( { capd::matrixAlgorithms::det(approxDFInverse) } ) ) )
       {
           cout << "Interval Krawczyk method succeeds! The periodic orbit is locally unique! \n";      
-          cout << "norm(K) = " << vectorNorm(K) << " norm(X) = " << vectorNorm(X_vector) << " \n \n"; 
+          cout << "norm(K) = " << vectorMaxNorm(K) << " norm(X) = " << vectorMaxNorm(X_vector) << " \n \n"; 
           wasKrawczykNeeded = 1;
       }
       else
       {
         cout << "Existence of periodic orbit using interval Krawczyk not proved\n"; 
-        cout << "norm(K) = " << vectorNorm(K) << " norm(X) = " << vectorNorm(X_vector) << " \n"; 
-        cout << "norm(Fx0) = " << vectorNorm( Fx0 ) << "\n";
-        cout << "norm(Id-CdFX)" << vectorNorm(Id - approxDFInverse*DF) << "\n \n";
+        cout << "norm(K) = " << vectorMaxNorm(K) << " norm(X) = " << vectorMaxNorm(X_vector) << " \n"; 
+        cout << "norm(Fx0) = " << vectorMaxNorm( Fx0 ) << "\n";
+        cout << "norm(Id-CdFX)" << vectorMaxNorm(Id - approxDFInverse*DF) << "\n \n";
 
         throw "INTERVAL KRAWCZYK METHOD FAILURE \n";
       }

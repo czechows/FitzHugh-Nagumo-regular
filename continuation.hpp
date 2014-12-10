@@ -21,9 +21,10 @@ class FhnValidatedContinuation
   interval currentEpsRange;
   interval integrationTimeBound;
   int successCount;
+  bool usingNewton;
 
   FhnValidatedContinuation( interval _theta, interval _eps, std::vector<DVector> _precomputedOrbit, bool _epsIncreasing, double _tolerance, double _radius, 
-      double _startIncrementSize, interval _integrationTimeBound )
+      double _startIncrementSize, interval _integrationTimeBound, bool _usingNewton=0 )
     : theta( _theta ),
       epsRange( _eps ),
       isFirstTry( 1 ),
@@ -35,7 +36,8 @@ class FhnValidatedContinuation
       incrementFactor( 1.05 ),
       currentEpsRange( epsRange ),
       integrationTimeBound( _integrationTimeBound ),
-      successCount(0)
+      successCount(0),
+      usingNewton( _usingNewton )
   {
     if( epsIncreasing )
       currentEpsRange = left( epsRange ) + increment;
@@ -99,14 +101,14 @@ class FhnValidatedContinuation
     successCount = successCount + int( isFirstTryForCurrentEps );
   }
  
-  void tryToProveOrbit( FhnKrawczyk *_kraw )
+  void tryToProveOrbit( FhnIntervalNewton *_newt )
   {
     bool isFirstTryForCurrentEps(1);
     while(true)
     {
       try
       {
-        (*_kraw).proveExistenceOfOrbitWithKrawczyk( theta, currentEpsRange, tolerance, radius ); 
+        (*_newt).proveExistenceOfOrbitWithNewton( theta, currentEpsRange, tolerance, radius ); 
         break;
       }
       catch(const char* Message) // if the proof fails we try to decrease the epsilon range and h-sets size
@@ -159,35 +161,42 @@ class FhnValidatedContinuation
 
   void continueOrbitWithEps()
   {
-    FhnFindPeriodicOrbit *num = new FhnFindPeriodicOrbit( numericOrbitGuess );   // one extra nonrigorous run before the continuation to adjust the number of sections
-    (*num).setDParameters( theta, currentEpsRange );
-    (*num).newtonAlgorithm( tolerance );
-    numericOrbitGuess = (*num).getCorrectedGuess( integrationTimeBound );
-    delete num; 
-
-    interval oldEpsRange( currentEpsRange );
-
-    while( ( !epsIncreasing && oldEpsRange.leftBound() >= epsRange.leftBound() ) ||  ( epsIncreasing && oldEpsRange.rightBound() <= epsRange.rightBound() ) )
+    if( usingNewton )
     {
-      //FhnCovering *cov = new FhnCovering( numericOrbitGuess );
-   //   tryToProveOrbit( cov );
-    //  numericOrbitGuess = (*cov).getCorrectedGuess( integrationTimeBound );
-    //  interval totalOrbitPeriod = (*cov).totalPeriod;
-   //   delete cov;
-    
-      FhnKrawczyk *kraw = new FhnKrawczyk( numericOrbitGuess );
-      tryToProveOrbit( kraw );
-      numericOrbitGuess = (*kraw).getCorrectedGuess( integrationTimeBound );
-      interval totalOrbitPeriod = (*kraw).totalPeriod;
-      delete kraw;
+      FhnFindPeriodicOrbit *num = new FhnFindPeriodicOrbit( numericOrbitGuess );   // one extra nonrigorous run before the continuation to adjust the number of sections
+      (*num).setDParameters( theta, currentEpsRange );
+      (*num).newtonAlgorithm( tolerance );
+      numericOrbitGuess = (*num).getCorrectedGuess( integrationTimeBound );
+      delete num; 
+    }
 
+    do
+    {
+      interval totalOrbitPeriod;
+
+      if( usingNewton )
+      {
+        FhnIntervalNewton *method = new FhnIntervalNewton( numericOrbitGuess );
+        tryToProveOrbit( method );
+        numericOrbitGuess = (*method).getCorrectedGuess( integrationTimeBound );
+        totalOrbitPeriod = (*method).totalPeriod;
+        delete method;
+      }
+      else
+      {
+        FhnCovering *method = new FhnCovering( numericOrbitGuess );
+        tryToProveOrbit( method );
+        numericOrbitGuess = (*method).getCorrectedGuess( integrationTimeBound );
+        totalOrbitPeriod = (*method).totalPeriod;
+        delete method;
+      }
+    
       cout << "Existence of a periodic solution for parameter values eps = " << currentEpsRange << " and theta = " << theta << " proved. \nIncrement size: " << increment.rightBound() << "\n";
       cout << "Radius: " << radius << "\n";
       cout << "Bound for total period: " << totalOrbitPeriod << "\n";
 
       cout.flush();
 
-      oldEpsRange = currentEpsRange;
       moveCurrentEpsRange();
       saveNewEpsRange();
 
@@ -198,9 +207,9 @@ class FhnValidatedContinuation
       successCount = 0;
      }
     }
-
-    cout << "\nEXISTENCE OF A PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << " PROVED!. \n";
-    cout << "CURRENT EPS RANGE = " << epsRange << "\n";
+    while( ( !epsIncreasing && currentEpsRange.rightBound() >= epsRange.leftBound() ) ||  ( epsIncreasing && currentEpsRange.leftBound() <= epsRange.rightBound() ) );
+    
+    cout << "\nEXISTENCE OF A PERIODIC SOLUTION FOR PARAMETER VALUES EPS = " << epsRange << " AND THETA = " << theta << " PROVED!. \n \n";
   }
 
 };

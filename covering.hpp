@@ -16,8 +16,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
   std::vector<IAffineSection> ISection;
   std::vector<IVector> X;
   interval totalPeriod;
+  int disc;
  
-  FhnCovering( std::vector<DVector> initialGuess )
+  FhnCovering( std::vector<DVector> initialGuess, int _disc = 5 )
     : FhnFindPeriodicOrbit( initialGuess ),
       IVectorField( IFhn_vf ),
       IVectorFieldExt( IFhn_vf_withEps ),
@@ -25,7 +26,8 @@ class FhnCovering : public FhnFindPeriodicOrbit
       IP_list( pm_count ),
       ISection( pm_count, IAffineSection( IVector(dim), IVector(dim) ) ),
       X( pm_count ),
-      totalPeriod(0.)
+      totalPeriod(0.),
+      disc( _disc )
   {
     for( int i = 0; i < pm_count; i++ )
     {
@@ -179,7 +181,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
         }
 
         /*   break;
-                                    // this catch would decrease the order so nonrigorous integration would not cross a section in one step 
+                                    // this catch would decrease the order or maxStep so nonrigorous integration would not cross a section in one step 
                                     // (then integrator throws domain_error); for the parameter range in the paper not necessary and did not work that well
                                     // so we disable it, however we leave it to uncomment for future purposes
         }
@@ -346,12 +348,14 @@ class FhnCovering : public FhnFindPeriodicOrbit
     const interval EPS = interval(1./1e15);
  
     interval iterationTime( 0. );
-    IVector image = fi_withParams( i, setCovering, eps, iterationTime, 5, 5, 1 );
+    IVector image = fi_withParams( i, setCovering, eps, iterationTime, disc, disc, 1 );
     totalPeriod = totalPeriod + iterationTime;
 
-    interval tempIterationTime(0.);
-    IVector unstablePart = IVector( { interval( fi_withParams( i, leftU( setCovering ), tempIterationTime, eps )[1].rightBound(), 
-                                                fi_withParams( i, rightU( setCovering ), tempIterationTime, eps )[1].leftBound() ) } );
+    interval tempIterationTimeL(0.);
+    interval tempIterationTimeR(0.);
+
+    IVector unstablePart = IVector( { interval( fi_withParams( i, leftU( setCovering ), eps, tempIterationTimeL )[1].rightBound(), 
+                                                fi_withParams( i, rightU( setCovering ), eps, tempIterationTimeR )[1].leftBound() ) } );
 
     if( !( vectalg::containsZero( image ) && unstablePart[0].leftBound() < 0. && unstablePart[0].rightBound() > 0. ) ) // these checks are necessary for shrinkAndExpand
       throw "COVERING SETS MISALIGNED \n";
@@ -368,12 +372,12 @@ class FhnCovering : public FhnFindPeriodicOrbit
                                                         // verifies covering between image of setCovering by a matrix setCoveringCoord over setToCover 
                                                         // first variable stable second unstable
   {
-   bool leftCheck( (setCoveringCoord*( leftU(setCovering) ))[1] < setToCover[1].leftBound() );
-   bool rightCheck( (setCoveringCoord*( rightU(setCovering) ))[1] > setToCover[1].rightBound() );
+    bool leftCheck( (setCoveringCoord*( leftU(setCovering) ))[1] < setToCover[1].leftBound() );
+    bool rightCheck( (setCoveringCoord*( rightU(setCovering) ))[1] > setToCover[1].rightBound() );
 
-   if( leftCheck && rightCheck && subsetInterior( (setCoveringCoord*setCovering)[0], setToCover[0] ) ) 
-    return 1;
-   else
+    if( leftCheck && rightCheck && subsetInterior( (setCoveringCoord*setCovering)[0], setToCover[0] ) ) 
+     return 1;
+    else
      return 0;
   };
 
