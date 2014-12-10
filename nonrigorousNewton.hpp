@@ -177,7 +177,7 @@ class FhnFindPeriodicOrbit
 
   std::vector<DVector> newtonAlgorithm( double _tolerance )
   {
-    //initD( _tolerance );  // setting good coordinates for nonrigorous Newton - does that help?
+    //initD( _tolerance );  // these three lines apply setting diagonalized coordinates for nonrigorous Newton - commented because they don't help much
     //for( int i = 0; i < pm_count; i++ )
     // orthogonalizeRelativeColumn( P_list[ i % pm_count ], dim - 1 );
 
