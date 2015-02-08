@@ -16,9 +16,9 @@ class FhnCovering : public FhnFindPeriodicOrbit
   std::vector<IAffineSection> ISection;
   std::vector<IVector> X;
   interval totalPeriod;
-  int disc;
+  int div;
  
-  FhnCovering( std::vector<DVector> initialGuess, int _disc = 5 )
+  FhnCovering( std::vector<DVector> initialGuess, int _div = 5 )
     : FhnFindPeriodicOrbit( initialGuess ),
       IVectorField( IFhn_vf ),
       IVectorFieldExt( IFhn_vf_withEps ),
@@ -27,7 +27,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
       ISection( pm_count, IAffineSection( IVector(dim), IVector(dim) ) ),
       X( pm_count ),
       totalPeriod(0.),
-      disc( _disc )
+      div( _div )
   {
     for( int i = 0; i < pm_count; i++ )
     {
@@ -259,24 +259,24 @@ class FhnCovering : public FhnFindPeriodicOrbit
     return newP;
   }
  
-  IVector fi_withParams( int i, IVector _x0, interval eps, interval &iterationTime, int disc_j=5, int disc_k=5, int disc_l=1 ) // rigorous bound on iteration time gets updated
+  IVector fi_withParams( int i, IVector _x0, interval eps, interval &iterationTime, int div_j=5, int div_k=5, int div_l=1 ) // rigorous bound on iteration time gets updated
   {
     iterationTime = 0.;
     IVector pm_resultExt( dim + 1 );
     ITaylor solverExt( *IVectorFieldExt, rig_order );
 
     if( _x0(2).leftBound() == _x0(2).rightBound() )
-      disc_k = 1;
+      div_k = 1;
 
-    for( int j = 1; j <= disc_j; j++ )
+    for( int j = 1; j <= div_j; j++ )
     {
-      for( int k = 1; k <= disc_k; k++ )
+      for( int k = 1; k <= div_k; k++ )
       {
-        for( int l = 1; l <= disc_l; l++ )
+        for( int l = 1; l <= div_l; l++ )
         {
-          interval tj = interval(j-1,j)/disc_j;
-          interval tk = interval(k-1,k)/disc_k;
-          interval tl = interval(l-1,l)/disc_l;
+          interval tj = interval(j-1,j)/div_j;
+          interval tk = interval(k-1,k)/div_k;
+          interval tl = interval(l-1,l)/div_l;
           
          
           interval epsDiam = right(eps) - left(eps);
@@ -348,7 +348,7 @@ class FhnCovering : public FhnFindPeriodicOrbit
     const interval EPS = interval(1./1e15);
  
     interval iterationTime( 0. );
-    IVector image = fi_withParams( i, setCovering, eps, iterationTime, disc, disc, 1 );
+    IVector image = fi_withParams( i, setCovering, eps, iterationTime, div, div, 1 );
     totalPeriod = totalPeriod + iterationTime;
 
     interval tempIterationTimeL(0.);

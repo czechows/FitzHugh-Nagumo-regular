@@ -8,8 +8,8 @@
 class FhnIntervalNewton : public FhnCovering
 {
   public:
-  FhnIntervalNewton( std::vector<DVector> initialGuess, int _disc = 5 )
-    : FhnCovering( initialGuess, _disc )
+  FhnIntervalNewton( std::vector<DVector> initialGuess, int _div = 5 )
+    : FhnCovering( initialGuess, _div )
   {
   }
 
@@ -39,7 +39,7 @@ class FhnIntervalNewton : public FhnCovering
     return result;
   };
  
-  IMatrix fiDer_withParams( int i, IVector _x0, interval eps, interval &iterationTime, int disc_j=5, int disc_k=5, int disc_l=1 )
+  IMatrix fiDer_withParams( int i, IVector _x0, interval eps, interval &iterationTime, int div_j=5, int div_k=5, int div_l=1 )
   {
     iterationTime = 0.;
     IVector pm_resultExt( dim + 1 );
@@ -48,15 +48,15 @@ class FhnIntervalNewton : public FhnCovering
     IMatrix monodromyMatrix(4,4);
     IMatrix poincareDer(4,4);
 
-    for( int j = 1; j <= disc_j; j++ )
+    for( int j = 1; j <= div_j; j++ )
     {
-      for( int k = 1; k <= disc_k; k++ )
+      for( int k = 1; k <= div_k; k++ )
       {
-        for( int l = 1; l <= disc_l; l++ )
+        for( int l = 1; l <= div_l; l++ )
         {
-          interval tj = interval(j-1,j)/disc_j;
-          interval tk = interval(k-1,k)/disc_k;
-          interval tl = interval(l-1,l)/disc_l;
+          interval tj = interval(j-1,j)/div_j;
+          interval tk = interval(k-1,k)/div_k;
+          interval tl = interval(l-1,l)/div_l;
  
           interval epsDiam = right(eps) - left(eps);
           interval epsRange( (-epsDiam/2.).leftBound(), (epsDiam/2.).rightBound() );
@@ -116,7 +116,7 @@ class FhnIntervalNewton : public FhnCovering
     for( int i = 0; i < pm_count-1; i++ )
     {
       interval iterationTime(0.);
-      IMatrix pDer = fiDer_withParams( i, x_list[i], eps, iterationTime, disc, disc, 1 );
+      IMatrix pDer = fiDer_withParams( i, x_list[i], eps, iterationTime, div, div, 1 );
       totalPeriod = totalPeriod + iterationTime;
 
       derMatrix[2*i+2][2*i] = -pDer[0][0];
@@ -126,7 +126,7 @@ class FhnIntervalNewton : public FhnCovering
     }
  
     interval iterationTime(0.);
-    IMatrix pDer = fiDer_withParams( pm_count-1, x_list[pm_count-1], eps, iterationTime, disc, disc, 1 );
+    IMatrix pDer = fiDer_withParams( pm_count-1, x_list[pm_count-1], eps, iterationTime, div, div, 1 );
     totalPeriod = totalPeriod + iterationTime;
 
     derMatrix[0][2*pm_count - 2] = -pDer[0][0];

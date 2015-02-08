@@ -102,7 +102,7 @@ int main(){
   time (&start_newt);
 
   eps = interval(15./10000.);
-  FhnIntervalNewton newton( cont_up.numericOrbitGuess, 1 ); // no extra discretizations for integration
+  FhnIntervalNewton newton( cont_up.numericOrbitGuess, 1 ); // no extra subdivisions for integration
  
   newton.proveExistenceOfOrbitWithNewton( theta, eps, tolerance, radius );
   cout << "EXISTENCE OF THE PERIODIC ORBIT FOR EPSILON = " << eps << " PROVED!\n";
