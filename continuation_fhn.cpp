@@ -37,17 +37,18 @@ int main(){
   time_t start_cont,end_cont;
   time (&start_cont);
 
-  Fhn_vf = new DMap("par:theta,eps;var:u,w,v;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v);"); 
-  IFhn_vf = new IMap("par:theta,eps;var:u,w,v;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v);"); 
+  Fhn_vf = new DMap("par:theta,eps;var:u,v,w;fun:v,(2/10)*(theta*v+u*(u-1)*(u-(1/10))+w),(eps/theta)*(u-w);"); 
+  IFhn_vf = new IMap("par:theta,eps;var:u,v,w;fun:v,(2/10)*(theta*v+u*(u-1)*(u-(1/10))+w),(eps/theta)*(u-w);"); 
 
-  Fhn_vf_rev = new DMap("par:theta,eps;var:u,w,v;fun:-w,(-2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(-eps/theta)*(u-v);"); 
-  IFhn_vf_withEps = new IMap("par:theta;var:u,w,v,eps;fun:w,(2/10)*(theta*w+u*(u-1)*(u-(1/10))+v),(eps/theta)*(u-v),0;");
-  // FitzHugh-Nagumo vector field is u'=w, w'=0.2*(theta*w +u*(u-1)*(u-0.1)+v, v'= eps/theta * (u-v)
+  Fhn_vf_rev = new DMap("par:theta,eps;var:u,v,w;fun:-v,(-2/10)*(theta*v+u*(u-1)*(u-(1/10))+w),(-eps/theta)*(u-w);"); 
+  IFhn_vf_withEps = new IMap("par:theta;var:u,v,w,eps;fun:v,(2/10)*(theta*v+u*(u-1)*(u-(1/10))+w),(eps/theta)*(u-w),0;");
+  // FitzHugh-Nagumo vector field is u'=v, v'=0.2*(theta*v +u*(u-1)*(u-0.1)+w, v'= eps/theta * (u-w)
 
   cout.precision(15);
 
   interval theta = interval(61.)/100.;
   interval eps = interval("1.5e-4", "1e-3"); 
+
   double tolerance = 1e-13;
   double radius = 1e-6;
   double startIncrementSize = 1e-6;
